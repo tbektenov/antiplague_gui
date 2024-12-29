@@ -1,4 +1,4 @@
-package Model.countries;
+package Model;
 
 import java.util.concurrent.ThreadLocalRandom;
 

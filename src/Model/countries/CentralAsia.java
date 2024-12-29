@@ -1,7 +1,9 @@
 package Model.countries;
 
+import Model.Country;
+
 public class CentralAsia
-        extends Country{
+        extends Country {
 
     private static CentralAsia instance;
 

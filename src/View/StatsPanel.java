@@ -1,6 +1,6 @@
 package View;
 
-import Model.countries.Country;
+import Model.Country;
 
 import javax.swing.*;
 import java.awt.*;

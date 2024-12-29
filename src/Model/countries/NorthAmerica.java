@@ -1,5 +1,7 @@
 package Model.countries;
 
+import Model.Country;
+
 public class NorthAmerica
         extends Country{
 
