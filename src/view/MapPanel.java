@@ -1,6 +1,6 @@
-package View;
+package view;
 
-import Model.countries.*;
+import model.countries.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,7 @@ public class MapPanel extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         try {
-            worldMap = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resources/images/World_map.png")));
+            worldMap = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resources/World_map.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,6 @@
-package Model.countries;
+package model.countries;
 
-import Model.Country;
+import model.Country;
 
 public class NorthAmerica
         extends Country{
