@@ -4,6 +4,7 @@ import model.Country;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.NumberFormat;
 
 public class StatsPanel extends JPanel {
     private JLabel header;
@@ -40,10 +41,13 @@ public class StatsPanel extends JPanel {
     }
 
     public void updateStats(Country country) {
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        String formattedPopulation = numberFormat.format(country.getPopulation());
+
         statsLabel.setText(String.format("<html>Region: %s" +
-                "<br>Population: %d " +
-                "<br>Infection spread: %.2f </html>",
-                country.getName(), country.getPopulation(), country.getInfectionLevel()));
+                "<br>Population: %s " +
+                "<br>Infection spread: %.2f%% </html>",
+                country.getName(), formattedPopulation, country.getInfectionLevel()));
 
         resizeFont();
     }

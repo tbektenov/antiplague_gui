@@ -1,7 +1,8 @@
 package view;
 
+import controller.CountryController;
 import model.Country;
-import model.countries.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,20 +10,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MapPanel extends JPanel {
     private BufferedImage worldMap;
-    private StatsPanel statsPanel;
-    private Map<Color, Country> countryMap;
-    private ExecutorService executorService;
+    private final CountryController countryController;
 
     public MapPanel(StatsPanel statsPanel) {
-        this.statsPanel = statsPanel;
+        this.countryController = CountryController.getInstance();
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -32,11 +27,7 @@ public class MapPanel extends JPanel {
             e.printStackTrace();
         }
 
-        initializeCountries();
-        executorService = Executors.newFixedThreadPool(countryMap.size());
-        for (Country country : countryMap.values()) {
-            executorService.submit(country);
-        }
+        countryController.startInfections();
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -46,8 +37,8 @@ public class MapPanel extends JPanel {
                     Point screenPoint = e.getLocationOnScreen();
                     Color pixelColor = robot.getPixelColor(screenPoint.x, screenPoint.y);
 
-                    if (countryMap.containsKey(pixelColor)) {
-                        Country country = countryMap.get(pixelColor);
+                    if (countryController.containsColor(pixelColor)) {
+                        Country country = countryController.getCountryByColor(pixelColor);
                         if (country != null) {
                             statsPanel.updateStats(country);
                         } else {
@@ -73,24 +64,7 @@ public class MapPanel extends JPanel {
         }
     }
 
-    private void initializeCountries() {
-        countryMap = new HashMap<>();
-
-        countryMap.put(new Color(0, 255, 155), Africa.getInstance());
-        countryMap.put(new Color(0, 133, 255), Oceania.getInstance());
-        countryMap.put(new Color(244, 255, 0), CentralAsia.getInstance());
-        countryMap.put(new Color(255, 122, 213), EastAsia.getInstance());
-        countryMap.put(new Color(200, 0, 255), Europe.getInstance());
-        countryMap.put(new Color(255, 133, 0), MiddleEast.getInstance());
-        countryMap.put(new Color(0, 0, 255), NorthAmerica.getInstance());
-        countryMap.put(new Color(255, 0, 0), NorthAsia.getInstance());
-        countryMap.put(new Color(0, 255, 0), SouthAmerica.getInstance());
-        countryMap.put(new Color(0, 244, 255), SouthAsia.getInstance());
-        countryMap.put(new Color(200, 255, 0), SouthEastAsia.getInstance());
-    }
-
     public void stopThreads() {
-        executorService.shutdownNow();
-        countryMap.values().forEach(Country::stop);
+        countryController.stopInfections();
     }
 }

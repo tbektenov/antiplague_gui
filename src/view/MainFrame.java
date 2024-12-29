@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
     public MainFrame() {
@@ -24,13 +25,20 @@ public class MainFrame extends JFrame {
 
         setSize(1200, 800);
         setLocationRelativeTo(null);
+        setResizable(true);
 
         addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
+            public void windowClosing(WindowEvent e) {
                 mapPanel.stopThreads();
                 System.exit(0);
             }
         });
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(MainFrame::new);
     }
 }
