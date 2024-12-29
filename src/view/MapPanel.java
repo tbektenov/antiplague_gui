@@ -1,5 +1,6 @@
 package view;
 
+import model.Country;
 import model.countries.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
