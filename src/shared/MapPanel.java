@@ -1,7 +1,8 @@
-package view;
+package shared;
 
 import controller.CountryController;
-import model.Country;
+import model.country.Country;
+import model.country.CountryPoint;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 
 public class MapPanel extends JPanel {
@@ -61,6 +63,18 @@ public class MapPanel extends JPanel {
 
         if (worldMap != null) {
             g.drawImage(worldMap, 0, 0, getWidth(), getHeight(), null);
+        }
+
+        for (Map.Entry<Color, Country> entry : Country.getCountryExtent().entrySet()) {
+            Color countryColor = entry.getKey();
+            Country country = entry.getValue();
+            CountryPoint point = country.getCountryPoint();
+
+            int x = point.getAbsoluteX(getWidth());
+            int y = point.getAbsoluteY(getHeight());
+
+            g.setColor(Color.BLACK);
+            g.fillOval(x - 5, y - 5, 10, 10);
         }
     }
 

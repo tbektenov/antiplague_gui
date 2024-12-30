@@ -1,4 +1,4 @@
-package view;
+package shared;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,4 +14,3 @@ public class ShopPanel extends JPanel {
         add(label);
     }
 }
-

@@ -1,6 +1,6 @@
-package view;
+package shared;
 
-import model.Country;
+import model.country.Country;
 
 import javax.swing.*;
 import java.awt.*;

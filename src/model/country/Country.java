@@ -1,5 +1,6 @@
-package model;
+package model.country;
 
+import model.Virus;
 import model.transport.TransportType;
 
 import java.awt.*;
@@ -14,12 +15,19 @@ public class Country {
     private final String name;
     private int population;
     private final Virus virus;
+    private CountryPoint countryPoint;
     private Set<TransportType> supportedTransportTypes = new HashSet<TransportType>();
 
-    public Country(String name, Color color, int population) {
+    private static double tempX = 0;
+    private static double tempY = 0;
+
+    public Country(String name,
+                   Color color,
+                   int population) {
         this.name = name;
         this.population = population;
         this.virus = new Virus(name);
+        this.countryPoint = new CountryPoint(tempX += 0.07, tempY += 0.07);
 
         if (countryExtent.containsKey(color)) {
             throw new IllegalArgumentException("Country associated with this color already exists");
@@ -28,7 +36,26 @@ public class Country {
         countryExtent.put(color, this);
     }
 
-    public Country(String name, Color color, int population, Set<TransportType> supportedTransportTypes) {
+    public Country(String name,
+                   Color color,
+                   int population,
+                   CountryPoint countryPoint) {
+        this.name = name;
+        this.population = population;
+        this.virus = new Virus(name);
+        this.countryPoint = countryPoint;
+
+        if (countryExtent.containsKey(color)) {
+            throw new IllegalArgumentException("Country associated with this color already exists");
+        }
+
+        countryExtent.put(color, this);
+    }
+
+    public Country(String name,
+                   Color color,
+                   int population,
+                   Set<TransportType> supportedTransportTypes) {
         this.name = name;
         this.population = population;
         this.virus = new Virus(name);
@@ -78,6 +105,10 @@ public class Country {
 
     public int getPopulation() {
         return population;
+    }
+
+    public CountryPoint getCountryPoint() {
+        return countryPoint;
     }
 
     public float getInfectionLevel() {
