@@ -17,16 +17,16 @@ public class CountryController {
 
     private void initializeCountries() {
         new Country("Africa", new Color(0, 255, 155), 1_300_000_000);
-        new Country("Oceania", new Color(0, 133, 255), 43_000_000);
-        new Country("Central Asia", new Color(244, 255, 0), 74_000_000);
-        new Country("East Asia", new Color(255, 122, 213), 1_600_000_000);
-        new Country("Europe", new Color(200, 0, 255), 750_000_000);
-        new Country("Middle East", new Color(255, 133, 0), 460_000_000);
-        new Country("North America", new Color(0, 0, 255), 590_000_000);
-        new Country("North Asia", new Color(255, 0, 0), 230_000_000);
-        new Country("South America", new Color(0, 255, 0), 430_000_000);
-        new Country("South Asia", new Color(0, 244, 255), 1_800_000_000);
-        new Country("South East Asia", new Color(200, 255, 0), 680_000_000);
+        new Country("Oceania", new Color(0, 133, 255), 46_344_000);
+        new Country("Central Asia", new Color(244, 255, 0), 82_893_000);
+        new Country("East Asia", new Color(255, 122, 213), 1_654_000_000);
+        new Country("Europe", new Color(200, 0, 255), 742_300_000);
+        new Country("Middle East", new Color(255, 133, 0), 381_000_000);
+        new Country("North America", new Color(0, 0, 255), 592_000_000);
+        new Country("North Asia", new Color(255, 0, 0), 36_800_000);
+        new Country("South America", new Color(0, 255, 0), 442_000_000);
+        new Country("South Asia", new Color(0, 244, 255), 2_040_000_000);
+        new Country("South East Asia", new Color(200, 255, 0), 697_548_000);
     }
 
     public void startInfections() {
