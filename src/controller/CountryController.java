@@ -1,55 +1,53 @@
 package controller;
 
 import model.Country;
-import model.countries.*;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CountryController {
     private static CountryController instance;
-    private final Map<Color, Country> countryMap = new HashMap<>();
     private final ExecutorService executorService;
 
     private CountryController() {
         initializeCountries();
-        executorService = Executors.newFixedThreadPool(countryMap.size());
+        executorService = Executors.newFixedThreadPool(Country.getCountryExtent().size());
     }
 
     private void initializeCountries() {
-        countryMap.put(new Color(0, 255, 155), Africa.getInstance());
-        countryMap.put(new Color(0, 133, 255), Oceania.getInstance());
-        countryMap.put(new Color(244, 255, 0), CentralAsia.getInstance());
-        countryMap.put(new Color(255, 122, 213), EastAsia.getInstance());
-        countryMap.put(new Color(200, 0, 255), Europe.getInstance());
-        countryMap.put(new Color(255, 133, 0), MiddleEast.getInstance());
-        countryMap.put(new Color(0, 0, 255), NorthAmerica.getInstance());
-        countryMap.put(new Color(255, 0, 0), NorthAsia.getInstance());
-        countryMap.put(new Color(0, 255, 0), SouthAmerica.getInstance());
-        countryMap.put(new Color(0, 244, 255), SouthAsia.getInstance());
-        countryMap.put(new Color(200, 255, 0), SouthEastAsia.getInstance());
+        new Country("Africa", new Color(0, 255, 155), 1_300_000_000);
+        new Country("Oceania", new Color(0, 133, 255), 43_000_000);
+        new Country("Central Asia", new Color(244, 255, 0), 74_000_000);
+        new Country("East Asia", new Color(255, 122, 213), 1_600_000_000);
+        new Country("Europe", new Color(200, 0, 255), 750_000_000);
+        new Country("Middle East", new Color(255, 133, 0), 460_000_000);
+        new Country("North America", new Color(0, 0, 255), 590_000_000);
+        new Country("North Asia", new Color(255, 0, 0), 230_000_000);
+        new Country("South America", new Color(0, 255, 0), 430_000_000);
+        new Country("South Asia", new Color(0, 244, 255), 1_800_000_000);
+        new Country("South East Asia", new Color(200, 255, 0), 680_000_000);
     }
 
     public void startInfections() {
-        for (Country country : countryMap.values()) {
-            executorService.submit(country::startInfection);
-        }
+        Country.getCountryExtent().values().forEach(Country::startInfection);
     }
 
     public void stopInfections() {
         executorService.shutdownNow();
-        countryMap.values().forEach(Country::stopInfection);
+        Country.getCountryExtent().values().forEach(Country::stopInfection);
     }
 
     public boolean containsColor(Color color) {
-        return countryMap.containsKey(color);
+        return Country.containsColor(color);
     }
 
     public Country getCountryByColor(Color color) {
-        return countryMap.get(color);
+        return Country.getCountryByColor(color);
+    }
+
+    public void decreaseCountryPopulation(Country country, int subtrahend) {
+        country.decreasePopulation(subtrahend);
     }
 
     public static CountryController getInstance() {
