@@ -1,8 +1,10 @@
 package shared;
 
 import controller.CountryController;
+import controller.TransportController;
 import model.country.Country;
 import model.country.CountryPoint;
+import model.transport.TransportManager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,18 +19,17 @@ import java.util.Objects;
 public class MapPanel extends JPanel {
     private BufferedImage worldMap;
     private final CountryController countryController;
+    private final TransportManager transportManager;
+    private final TransportController transportController;
 
     public MapPanel(StatsPanel statsPanel) {
         this.countryController = CountryController.getInstance();
+        this.transportManager = new TransportManager(this);
+        this.transportController = new TransportController(transportManager); // TransportController initialized
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        try {
-            worldMap = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resources/World_map.png")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        loadWorldMap();
         countryController.startInfections();
 
         addMouseListener(new MouseAdapter() {
@@ -41,13 +42,10 @@ public class MapPanel extends JPanel {
 
                     if (countryController.containsColor(pixelColor)) {
                         Country country = countryController.getCountryByColor(pixelColor);
-                        if (country != null) {
-                            statsPanel.updateStats(country);
-                        } else {
-                            statsPanel.updateStats(null);
-                        }
+                        statsPanel.updateStats(country);
+                    } else {
+                        statsPanel.updateStats(null);
                     }
-
                 } catch (AWTException ex) {
                     ex.printStackTrace();
                 }
@@ -55,21 +53,35 @@ public class MapPanel extends JPanel {
         });
     }
 
+    private void loadWorldMap() {
+        try {
+            worldMap = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resources/World_map.png")));
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        drawBackground(g);
+        drawCountryPoints(g);
+        drawActiveTransports(g);
+    }
+
+    private void drawBackground(Graphics g) {
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(0, 0, getWidth(), getHeight());
 
         if (worldMap != null) {
             g.drawImage(worldMap, 0, 0, getWidth(), getHeight(), null);
         }
+    }
 
+    private void drawCountryPoints(Graphics g) {
         for (Map.Entry<Color, Country> entry : Country.getCountryExtent().entrySet()) {
-            Color countryColor = entry.getKey();
             Country country = entry.getValue();
             CountryPoint point = country.getCountryPoint();
-
             int x = point.getAbsoluteX(getWidth());
             int y = point.getAbsoluteY(getHeight());
 
@@ -78,7 +90,15 @@ public class MapPanel extends JPanel {
         }
     }
 
+    private void drawActiveTransports(Graphics g) {
+        for (var thread : transportManager.getActiveTransports()) {
+            thread.drawTransport(g, getWidth(), getHeight());
+        }
+    }
+
     public void stopThreads() {
         countryController.stopInfections();
+        transportManager.stopAll();
+        transportController.stopTransportSpawning();
     }
 }
