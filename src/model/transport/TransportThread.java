@@ -1,6 +1,6 @@
 package model.transport;
 
-import model.country.CountryPoint;
+import model.country.RegionPoint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,9 @@ public class TransportThread
     private final TransportManager manager;
     private boolean running = true;
 
-    public TransportThread(Transport transport, JPanel panel, TransportManager manager) {
+    public TransportThread(Transport transport,
+                           JPanel panel,
+                           TransportManager manager) {
         this.transport = transport;
         this.panel = panel;
         this.manager = manager;
@@ -35,8 +37,8 @@ public class TransportThread
     }
 
     public Point getCurrentPosition(int panelWidth, int panelHeight) {
-        CountryPoint start = transport.getRoute().getStartCountry();
-        CountryPoint end = transport.getRoute().getEndCountry();
+        RegionPoint start = transport.getRoute().getStartPoint();
+        RegionPoint end = transport.getRoute().getEndPoint();
 
         int startX = start.getAbsoluteX(panelWidth);
         int startY = start.getAbsoluteY(panelHeight);
@@ -51,8 +53,18 @@ public class TransportThread
 
     public void drawTransport(Graphics g, int panelWidth, int panelHeight) {
         Point position = getCurrentPosition(panelWidth, panelHeight);
-        g.setColor(getColorByType());
-        g.fillRect(position.x - 3, position.y - 3, 6, 6);
+
+        int iconWidth = 30;
+        int iconHeight = 30;
+
+        Image icon = transport.getIcon();
+
+        if (icon != null) {
+            g.drawImage(icon, position.x - (iconWidth / 2), position.y - (iconHeight / 2), iconWidth, iconHeight, null);
+        } else {
+            g.setColor(new Color(0xFF0095));
+            g.fillOval(position.x - 3, position.y - 3, 6, 6);
+        }
     }
 
     private Color getColorByType() {

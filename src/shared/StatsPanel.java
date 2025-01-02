@@ -1,15 +1,17 @@
 package shared;
 
-import model.country.Country;
+import model.country.Region;
 
 import javax.swing.*;
 import java.awt.*;
 import java.text.NumberFormat;
 
-public class StatsPanel extends JPanel {
-    private JLabel header;
-    private JLabel statsLabel;
-    private JPanel contentPanel;
+public class StatsPanel
+        extends JPanel {
+    private final JLabel header;
+    private final JLabel statsLabel;
+    private final JPanel contentPanel;
+    private Region selectedRegion;
 
     public StatsPanel() {
         setBackground(Color.WHITE);
@@ -32,37 +34,37 @@ public class StatsPanel extends JPanel {
         contentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         add(contentPanel, BorderLayout.CENTER);
-
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent e) {
-                resizeFont();
-            }
-        });
     }
 
-    public void updateStats(Country country) {
+
+    public void setSelectedCountry(Region region) {
+        this.selectedRegion = region;
+        refreshStats();
+    }
+
+
+    public void updateInfection(Region region) {
+        if (selectedRegion == region) {
+            refreshStats();
+        }
+    }
+
+    private void refreshStats() {
+        if (selectedRegion == null) {
+            statsLabel.setText("Choose region");
+            return;
+        }
+
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        String formattedPopulation = numberFormat.format(country.getPopulation());
+        String formattedPopulation = numberFormat.format(selectedRegion.getPopulation());
 
         statsLabel.setText(String.format("<html>Region: %s" +
-                "<br>Population: %s " +
-                "<br>Infection spread: %.2f%% </html>",
-                country.getName(), formattedPopulation, country.getInfectionLevel()));
+                        "<br>Population: %s " +
+                        "<br>Infection spread: %.2f%% </html>",
+                selectedRegion.getName(), formattedPopulation, selectedRegion.getInfectionLevel()));
 
-        resizeFont();
-    }
-
-    private void resizeFont() {
-        int panelWidth = getWidth();
-        int panelHeight = getHeight();
-
-        if (panelWidth > 0 && panelHeight > 0) {
-            int headerSize = Math.min(panelWidth / 12, 48);
-            int statsSize = Math.min(panelWidth / 10, panelHeight / 8);
-
-            header.setFont(new Font("Arial", Font.BOLD, headerSize));
-            statsLabel.setFont(new Font("Arial", Font.BOLD, statsSize));
-        }
+        revalidate();
+        repaint();
     }
 
     @Override

@@ -1,6 +1,7 @@
-package model;
+package model.country;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 
 public class Virus
     implements Runnable{
@@ -8,10 +9,12 @@ public class Virus
     private float infectionLevel;
     private final String countryName;
     private boolean running = true;
+    private final Consumer<Float> infectionCallback;
 
-    public Virus(String countryName) {
+    public Virus(String countryName, Consumer<Float> infectionCallback) {
         this.countryName = countryName;
         this.infectionLevel = ThreadLocalRandom.current().nextFloat(0, 10);
+        this.infectionCallback = infectionCallback;
     }
 
     public synchronized float getInfectionLevel() {
@@ -21,6 +24,8 @@ public class Virus
     public synchronized void increaseInfection() {
         float increase = ThreadLocalRandom.current().nextFloat(1, 3);
         infectionLevel = Math.min(infectionLevel + increase, 100);
+
+        infectionCallback.accept(infectionLevel);
     }
 
     public synchronized void decreaseInfection(float subtrahend) {

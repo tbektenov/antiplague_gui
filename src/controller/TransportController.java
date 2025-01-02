@@ -1,7 +1,7 @@
 package controller;
 
-import model.country.Country;
-import model.country.CountryPoint;
+import model.country.Region;
+import model.country.RegionPoint;
 import model.transport.TransportManager;
 import model.transport.TransportType;
 
@@ -27,7 +27,7 @@ public class TransportController {
     }
 
     private void spawnRandomTransport() {
-        List<Country> countries = new ArrayList<>(Country.getCountryExtent().values());
+        List<Region> countries = new ArrayList<>(Region.getRegionExtent().values());
 
         if (countries.size() < 2) {
             System.out.println("Not enough countries to spawn transport.");
@@ -35,15 +35,15 @@ public class TransportController {
         }
 
         Collections.shuffle(countries);
-        Country startCountry = countries.get(0);
-        Country endCountry = countries.get(1);
+        Region startRegion = countries.get(0);
+        Region endRegion = countries.get(1);
 
-        spawnTransportBetween(startCountry, endCountry);
+        spawnTransportBetween(startRegion, endRegion);
     }
 
-    private void spawnTransportBetween(Country start, Country end) {
-        CountryPoint startPoint = start.getCountryPoint();
-        CountryPoint endPoint = end.getCountryPoint();
+    private void spawnTransportBetween(Region start, Region end) {
+        RegionPoint startPoint = start.getCountryPoint();
+        RegionPoint endPoint = end.getCountryPoint();
 
         TransportType randomType = getRandomTransportType();
         transportManager.spawnTransport(randomType, startPoint, endPoint);

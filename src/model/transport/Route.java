@@ -1,21 +1,23 @@
 package model.transport;
 
-import model.country.CountryPoint;
+import model.country.RegionPoint;
 
 public class Route {
-    private final CountryPoint startCountry;
-    private final CountryPoint endCountry;
+    private final RegionPoint startCountry;
+    private final RegionPoint endCountry;
 
-    public Route(CountryPoint startCountry, CountryPoint endCountry) {
+    public Route(RegionPoint startCountry,
+                 RegionPoint endCountry)
+    {
         this.startCountry = startCountry;
         this.endCountry = endCountry;
     }
 
-    public CountryPoint getStartCountry() {
+    public RegionPoint getStartPoint() {
         return startCountry;
     }
 
-    public CountryPoint getEndCountry() {
+    public RegionPoint getEndPoint() {
         return endCountry;
     }
 }

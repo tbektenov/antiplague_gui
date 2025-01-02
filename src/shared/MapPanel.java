@@ -2,8 +2,8 @@ package shared;
 
 import controller.CountryController;
 import controller.TransportController;
-import model.country.Country;
-import model.country.CountryPoint;
+import model.country.Region;
+import model.country.RegionPoint;
 import model.transport.TransportManager;
 
 import javax.imageio.ImageIO;
@@ -23,7 +23,7 @@ public class MapPanel extends JPanel {
     private final TransportController transportController;
 
     public MapPanel(StatsPanel statsPanel) {
-        this.countryController = CountryController.getInstance();
+        this.countryController = CountryController.getInstance(statsPanel);
         this.transportManager = new TransportManager(this);
         this.transportController = new TransportController(transportManager); // TransportController initialized
         setBackground(Color.LIGHT_GRAY);
@@ -41,10 +41,10 @@ public class MapPanel extends JPanel {
                     Color pixelColor = robot.getPixelColor(screenPoint.x, screenPoint.y);
 
                     if (countryController.containsColor(pixelColor)) {
-                        Country country = countryController.getCountryByColor(pixelColor);
-                        statsPanel.updateStats(country);
+                        Region region = countryController.getCountryByColor(pixelColor);
+                        statsPanel.setSelectedCountry(region);
                     } else {
-                        statsPanel.updateStats(null);
+                        statsPanel.setSelectedCountry(null);
                     }
                 } catch (AWTException ex) {
                     ex.printStackTrace();
@@ -79,9 +79,9 @@ public class MapPanel extends JPanel {
     }
 
     private void drawCountryPoints(Graphics g) {
-        for (Map.Entry<Color, Country> entry : Country.getCountryExtent().entrySet()) {
-            Country country = entry.getValue();
-            CountryPoint point = country.getCountryPoint();
+        for (Map.Entry<Color, Region> entry : Region.getRegionExtent().entrySet()) {
+            Region region = entry.getValue();
+            RegionPoint point = region.getCountryPoint();
             int x = point.getAbsoluteX(getWidth());
             int y = point.getAbsoluteY(getHeight());
 

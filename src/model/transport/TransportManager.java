@@ -1,6 +1,6 @@
 package model.transport;
 
-import model.country.CountryPoint;
+import model.country.RegionPoint;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class TransportManager {
         this.panel = panel;
     }
 
-    public void spawnTransport(TransportType type, CountryPoint start, CountryPoint end) {
+    public void spawnTransport(TransportType type, RegionPoint start, RegionPoint end) {
         Route route = new Route(start, end);
         Transport transport = new Transport(type, route);
         TransportThread thread = new TransportThread(transport, panel, this);
