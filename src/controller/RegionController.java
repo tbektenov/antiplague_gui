@@ -2,19 +2,21 @@ package controller;
 
 import model.country.Region;
 import model.country.RegionPoint;
+import model.transport.TransportType;
 import shared.StatsPanel;
 
 import java.awt.*;
+import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CountryController {
-    private static CountryController instance;
+public class RegionController {
+    private static RegionController instance;
     private final ExecutorService executorService;
 
     private final StatsPanel statsPanel;
 
-    private CountryController(StatsPanel statsPanel) {
+    private RegionController(StatsPanel statsPanel) {
         this.statsPanel = statsPanel;
         initializeCountries();
         executorService = Executors.newFixedThreadPool(Region.getRegionExtent().size());
@@ -23,7 +25,23 @@ public class CountryController {
     private void initializeCountries() {
         new Region("Africa", new Color(0, 255, 155), 1_300_000_000, new RegionPoint(0.4, 0.7), statsPanel::updateInfection);
         new Region("Oceania", new Color(0, 133, 255), 46_344_000, new RegionPoint(0.9, 0.9), statsPanel::updateInfection);
-        new Region("Central Asia", new Color(244, 255, 0), 82_893_000, new RegionPoint(0.67, 0.45), statsPanel::updateInfection);
+
+        new Region("Central Asia",
+                new Color(244, 255, 0),
+                82_893_000,
+                new RegionPoint(0.67, 0.45),
+                statsPanel::updateInfection,
+                new HashSet<>() {{
+                    add(TransportType.PLANE);
+                    add(TransportType.CAR);
+                    add(TransportType.TRAIN);
+                }},
+                new HashSet<>() {{
+                    add(TransportType.PLANE);
+                    add(TransportType.CAR);
+                    add(TransportType.TRAIN);
+                }});
+
         new Region("East Asia", new Color(255, 122, 213), 1_654_000_000, new RegionPoint(0.85, 0.45), statsPanel::updateInfection);
         new Region("Europe", new Color(200, 0, 255), 742_300_000, new RegionPoint(0.43, 0.3), statsPanel::updateInfection);
         new Region("Middle East", new Color(255, 133, 0), 381_000_000, new RegionPoint(0.5, 0.4), statsPanel::updateInfection);
@@ -55,9 +73,9 @@ public class CountryController {
         region.decreasePopulation(subtrahend);
     }
 
-    public static CountryController getInstance(StatsPanel statsPanel) {
+    public static RegionController getInstance(StatsPanel statsPanel) {
         if (instance == null) {
-            instance = new CountryController(statsPanel);
+            instance = new RegionController(statsPanel);
         }
         return instance;
     }

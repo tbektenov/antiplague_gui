@@ -1,6 +1,6 @@
 package shared;
 
-import controller.CountryController;
+import controller.RegionController;
 import controller.TransportController;
 import model.country.Region;
 import model.country.RegionPoint;
@@ -18,19 +18,19 @@ import java.util.Objects;
 
 public class MapPanel extends JPanel {
     private BufferedImage worldMap;
-    private final CountryController countryController;
+    private final RegionController regionController;
     private final TransportManager transportManager;
     private final TransportController transportController;
 
     public MapPanel(StatsPanel statsPanel) {
-        this.countryController = CountryController.getInstance(statsPanel);
+        this.regionController = RegionController.getInstance(statsPanel);
         this.transportManager = new TransportManager(this);
         this.transportController = new TransportController(transportManager); // TransportController initialized
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         loadWorldMap();
-        countryController.startInfections();
+        regionController.startInfections();
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -40,8 +40,8 @@ public class MapPanel extends JPanel {
                     Point screenPoint = e.getLocationOnScreen();
                     Color pixelColor = robot.getPixelColor(screenPoint.x, screenPoint.y);
 
-                    if (countryController.containsColor(pixelColor)) {
-                        Region region = countryController.getCountryByColor(pixelColor);
+                    if (regionController.containsColor(pixelColor)) {
+                        Region region = regionController.getCountryByColor(pixelColor);
                         statsPanel.setSelectedCountry(region);
                     } else {
                         statsPanel.setSelectedCountry(null);
@@ -97,7 +97,7 @@ public class MapPanel extends JPanel {
     }
 
     public void stopThreads() {
-        countryController.stopInfections();
+        regionController.stopInfections();
         transportManager.stopAll();
         transportController.stopTransportSpawning();
     }

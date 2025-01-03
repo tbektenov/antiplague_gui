@@ -26,19 +26,37 @@ public class TransportController {
         scheduler.scheduleAtFixedRate(this::spawnRandomTransport, 2, 5, TimeUnit.SECONDS);
     }
 
-    private void spawnRandomTransport() {
-        List<Region> countries = new ArrayList<>(Region.getRegionExtent().values());
+    public void spawnRandomTransport() {
+        List<Region> regions = new ArrayList<>(Region.getRegionExtent().values());
 
-        if (countries.size() < 2) {
-            System.out.println("Not enough countries to spawn transport.");
-            return;
+        if (regions.size() < 2) return;
+
+        Collections.shuffle(regions);
+        Region startRegion = regions.get(0);
+        Region endRegion = regions.get(1);
+
+        TransportType selectedType = getValidTransportType(startRegion, endRegion);
+
+        if (selectedType != null) {
+            transportManager.spawnTransport(selectedType, startRegion.getRegionPoint(), endRegion.getRegionPoint());
+            System.out.printf("Transport (%s) spawned between %s and %s%n",
+                    selectedType, startRegion.getName(), endRegion.getName());
+        } else {
+            System.out.printf("No valid transport types available between %s and %s%n",
+                    startRegion.getName(), endRegion.getName());
         }
+    }
 
-        Collections.shuffle(countries);
-        Region startRegion = countries.get(0);
-        Region endRegion = countries.get(1);
+    private TransportType getValidTransportType(Region startRegion, Region endRegion) {
+        List<TransportType> types = new ArrayList<>(List.of(TransportType.values()));
+        Collections.shuffle(types);
 
-        spawnTransportBetween(startRegion, endRegion);
+        for (TransportType type : types) {
+            if (startRegion.supportsTransport(type) && endRegion.acceptsTransport(type)) {
+                return type;
+            }
+        }
+        return null;
     }
 
     private void spawnTransportBetween(Region start, Region end) {

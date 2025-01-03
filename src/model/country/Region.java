@@ -3,20 +3,18 @@ package model.country;
 import model.transport.TransportType;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class Region {
-    private static Map<Color, Region> regionExtent = new HashMap<Color, Region>();
+    private static final Map<Color, Region> regionExtent = new HashMap<Color, Region>();
 
     private final String name;
     private int population;
     private final Virus virus;
-    private RegionPoint regionPoint;
-    private Set<TransportType> supportedTransportTypes = new HashSet<TransportType>();
+    private final RegionPoint regionPoint;
+    private Set<TransportType> acceptedTransportTypes;
+    private Set<TransportType> supportedTransportTypes;
 
     public Region(String name,
                   Color color,
@@ -26,7 +24,10 @@ public class Region {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus(name, infectionLevel -> callback.accept(this));
+        this.virus = new Virus(name, _ -> callback.accept(this));
+
+        this.acceptedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
+        this.supportedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
 
         if (regionExtent.containsKey(color)) {
             throw new IllegalArgumentException("Region associated with this color already exists");
@@ -40,12 +41,22 @@ public class Region {
                   int population,
                   RegionPoint regionPoint,
                   Consumer<Region> callback,
+                  Set<TransportType> acceptedTransportTypes,
                   Set<TransportType> supportedTransportTypes) {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
         this.virus = new Virus(name, _ -> callback.accept(this));
-        this.supportedTransportTypes = supportedTransportTypes;
+
+        if (acceptedTransportTypes == null) this.acceptedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
+        else {
+            this.acceptedTransportTypes = new HashSet<>(acceptedTransportTypes);
+        }
+
+        if (supportedTransportTypes == null) this.supportedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
+        else {
+            this.supportedTransportTypes = new HashSet<>(supportedTransportTypes);
+        }
 
         if (regionExtent.containsKey(color)) {
             throw new IllegalArgumentException("Region associated with this color already exists");
@@ -71,12 +82,28 @@ public class Region {
         return regionExtent.get(color);
     }
 
+    public void addAcceptedTransportType(TransportType type) {
+        this.acceptedTransportTypes.add(type);
+    }
+
+    public void removeAcceptedTransportType(TransportType type) {
+        this.acceptedTransportTypes.remove(type);
+    }
+
+    public boolean acceptsTransport(TransportType transportType) {
+        return this.acceptedTransportTypes.contains(transportType);
+    }
+
     public void addSupportedTransportType(TransportType type) {
         this.supportedTransportTypes.add(type);
     }
 
     public void removeSupportedTransportType(TransportType type) {
         this.supportedTransportTypes.remove(type);
+    }
+
+    public boolean supportsTransport(TransportType transportType) {
+        return this.supportedTransportTypes.contains(transportType);
     }
 
     public void decreasePopulation(int subtrahend) {
@@ -108,5 +135,9 @@ public class Region {
 
     public void stopInfection() {
         virus.stop();
+    }
+
+    public RegionPoint getRegionPoint() {
+        return this.regionPoint;
     }
 }
