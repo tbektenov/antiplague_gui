@@ -40,7 +40,7 @@ public class Transport {
     }
 
     public boolean hasReachedDestination() {
-        return progress >= 1.0;
+        return progress == 1.0;
     }
 
     private double getSpeedMultiplier() {

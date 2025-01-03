@@ -1,9 +1,12 @@
 package shared;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class MainFrame extends JFrame {
     public MainFrame() {
@@ -26,6 +29,12 @@ public class MainFrame extends JFrame {
         setSize(1200, 800);
         setLocationRelativeTo(null);
         setResizable(true);
+
+        try {
+            setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/resources/omicron.png")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         addWindowListener(new WindowAdapter() {
             @Override

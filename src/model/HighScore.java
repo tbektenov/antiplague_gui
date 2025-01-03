@@ -1,6 +1,10 @@
 package model;
 
-public class HighScore {
+import java.io.Serializable;
+
+public class HighScore
+    implements Serializable {
+
     private String playerName;
     private int score;
 

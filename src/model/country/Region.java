@@ -44,7 +44,7 @@ public class Region {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus(name, infectionLevel -> callback.accept(this));
+        this.virus = new Virus(name, _ -> callback.accept(this));
         this.supportedTransportTypes = supportedTransportTypes;
 
         if (regionExtent.containsKey(color)) {
