@@ -24,7 +24,10 @@ public class Region {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus(name, _ -> callback.accept(this));
+        this.virus = new Virus(name, infectionLevel -> {
+            callback.accept(this);
+            updateTransportRestrictions(infectionLevel);
+        });
 
         this.acceptedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
         this.supportedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
@@ -46,7 +49,10 @@ public class Region {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus(name, _ -> callback.accept(this));
+        this.virus = new Virus(name, infectionLevel -> {
+            callback.accept(this);
+            updateTransportRestrictions(infectionLevel);
+        });
 
         if (acceptedTransportTypes == null) this.acceptedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
         else {
@@ -139,5 +145,17 @@ public class Region {
 
     public RegionPoint getRegionPoint() {
         return this.regionPoint;
+    }
+
+    private void updateTransportRestrictions(float infectionLevel) {
+        if (infectionLevel >= 75) {
+            acceptedTransportTypes.remove(TransportType.PLANE);
+        } else if (infectionLevel >= 50) {
+            acceptedTransportTypes.remove(TransportType.BOAT);
+        } else if (infectionLevel >= 30) {
+            acceptedTransportTypes.remove(TransportType.TRAIN);
+        } else if (infectionLevel >= 25) {
+            acceptedTransportTypes.remove(TransportType.CAR);
+        }
     }
 }

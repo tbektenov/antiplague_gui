@@ -42,9 +42,9 @@ public class MapPanel extends JPanel {
 
                     if (regionController.containsColor(pixelColor)) {
                         Region region = regionController.getCountryByColor(pixelColor);
-                        statsPanel.setSelectedCountry(region);
+                        statsPanel.setSelectedRegion(region);
                     } else {
-                        statsPanel.setSelectedCountry(null);
+                        statsPanel.setSelectedRegion(null);
                     }
                 } catch (AWTException ex) {
                     ex.printStackTrace();

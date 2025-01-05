@@ -1,7 +1,6 @@
 package controller;
 
 import model.country.Region;
-import model.country.RegionPoint;
 import model.transport.TransportManager;
 import model.transport.TransportType;
 
@@ -26,14 +25,19 @@ public class TransportController {
         scheduler.scheduleAtFixedRate(this::spawnRandomTransport, 2, 5, TimeUnit.SECONDS);
     }
 
-    public void spawnRandomTransport() {
+    public Region[] getRandomRegions() {
         List<Region> regions = new ArrayList<>(Region.getRegionExtent().values());
-
-        if (regions.size() < 2) return;
-
         Collections.shuffle(regions);
         Region startRegion = regions.get(0);
         Region endRegion = regions.get(1);
+
+        return new Region[] { startRegion, endRegion };
+    }
+
+    public void spawnRandomTransport() {
+        Region[] randomRegions = getRandomRegions();
+        Region startRegion = randomRegions[0];
+        Region endRegion = randomRegions[1];
 
         TransportType selectedType = getValidTransportType(startRegion, endRegion);
 
@@ -41,9 +45,6 @@ public class TransportController {
             transportManager.spawnTransport(selectedType, startRegion.getRegionPoint(), endRegion.getRegionPoint());
             System.out.printf("Transport (%s) spawned between %s and %s%n",
                     selectedType, startRegion.getName(), endRegion.getName());
-        } else {
-            System.out.printf("No valid transport types available between %s and %s%n",
-                    startRegion.getName(), endRegion.getName());
         }
     }
 
@@ -57,22 +58,6 @@ public class TransportController {
             }
         }
         return null;
-    }
-
-    private void spawnTransportBetween(Region start, Region end) {
-        RegionPoint startPoint = start.getCountryPoint();
-        RegionPoint endPoint = end.getCountryPoint();
-
-        TransportType randomType = getRandomTransportType();
-        transportManager.spawnTransport(randomType, startPoint, endPoint);
-
-        System.out.printf("Transport (%s) spawned between %s and %s%n",
-                randomType, start.getName(), end.getName());
-    }
-
-    private TransportType getRandomTransportType() {
-        TransportType[] types = TransportType.values();
-        return types[(int) (Math.random() * types.length)];
     }
 
     public void stopTransportSpawning() {

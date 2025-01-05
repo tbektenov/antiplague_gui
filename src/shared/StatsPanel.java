@@ -1,16 +1,17 @@
 package shared;
 
 import model.country.Region;
+import view.TimerView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.text.NumberFormat;
 
-public class StatsPanel
-        extends JPanel {
+public class StatsPanel extends JPanel {
     private final JLabel header;
     private final JLabel statsLabel;
     private final JPanel contentPanel;
+    private final TimerView timerView;  // TimerView instance
     private Region selectedRegion;
 
     public StatsPanel() {
@@ -34,14 +35,19 @@ public class StatsPanel
         contentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         add(contentPanel, BorderLayout.CENTER);
+
+        timerView = new TimerView();
+        add(timerView, BorderLayout.SOUTH);
     }
 
+    public TimerView getTimerView() {
+        return timerView;
+    }
 
-    public void setSelectedCountry(Region region) {
+    public void setSelectedRegion(Region region) {
         this.selectedRegion = region;
         refreshStats();
     }
-
 
     public void updateInfection(Region region) {
         if (selectedRegion == region) {

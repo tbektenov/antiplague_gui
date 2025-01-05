@@ -1,11 +1,15 @@
 package shared;
 
+import controller.TimerController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
+    private TimerController timerController;
+
     public MainFrame() {
         super("AntiPlague Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -13,6 +17,9 @@ public class MainFrame extends JFrame {
 
         StatsPanel statsPanel = new StatsPanel();
         MapPanel mapPanel = new MapPanel(statsPanel);
+
+        // Initialize TimerController with StatsPanel
+        timerController = new TimerController(statsPanel);
 
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(mapPanel, BorderLayout.CENTER);
@@ -27,16 +34,11 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(true);
 
-        try {
-            setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/resources/omicron.png")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 mapPanel.stopThreads();
+                timerController.stopTimer();
                 System.exit(0);
             }
         });
