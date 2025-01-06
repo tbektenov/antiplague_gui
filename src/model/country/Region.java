@@ -72,7 +72,7 @@ public class Region {
     }
 
     public static Map<Color, Region> getRegionExtent() {
-        return regionExtent;
+        return Collections.unmodifiableMap(regionExtent);
     }
 
     public int getGlobalPopulation() {

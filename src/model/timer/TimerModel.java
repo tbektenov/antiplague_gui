@@ -6,12 +6,12 @@ import java.util.function.Consumer;
 
 public class TimerModel {
     private final Timer timer;
-    private int timeRemaining;
+    private int seconds;
     private final Consumer<Integer> onTick;
     private final Runnable onFinish;
 
-    public TimerModel(int durationInSeconds, Consumer<Integer> onTick, Runnable onFinish) {
-        this.timeRemaining = durationInSeconds;
+    public TimerModel(int seconds, Consumer<Integer> onTick, Runnable onFinish) {
+        this.seconds = seconds;
         this.timer = new Timer(true);
         this.onTick = onTick;
         this.onFinish = onFinish;
@@ -21,9 +21,9 @@ public class TimerModel {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (timeRemaining > 0) {
-                    timeRemaining--;
-                    onTick.accept(timeRemaining);
+                if (seconds > 0) {
+                    seconds--;
+                    onTick.accept(seconds);
                 } else {
                     stop();
                     onFinish.run();
