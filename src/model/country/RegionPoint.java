@@ -17,12 +17,11 @@ public class RegionPoint {
         return y;
     }
 
-    public int getAbsoluteX(int panelWidth) {
+    public int getTrueX(int panelWidth) {
         return (int) (x * panelWidth);
     }
 
-    public int getAbsoluteY(int panelHeight) {
+    public int getTrueY(int panelHeight) {
         return (int) (y * panelHeight);
     }
-
 }

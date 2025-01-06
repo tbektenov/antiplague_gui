@@ -18,11 +18,11 @@ public class RegionController {
 
     private RegionController(StatsPanel statsPanel) {
         this.statsPanel = statsPanel;
-        initializeCountries();
+        initializeRegions();
         executorService = Executors.newFixedThreadPool(Region.getRegionExtent().size());
     }
 
-    private void initializeCountries() {
+    private void initializeRegions() {
         new Region("Africa", new Color(0, 255, 155), 1_300_000_000, new RegionPoint(0.4, 0.7), statsPanel::updateInfection);
         new Region("Oceania", new Color(0, 133, 255), 46_344_000, new RegionPoint(0.9, 0.9), statsPanel::updateInfection);
 
@@ -65,8 +65,8 @@ public class RegionController {
         return Region.containsColor(color);
     }
 
-    public Region getCountryByColor(Color color) {
-        return Region.getCountryByColor(color);
+    public Region getRegionByColor(Color color) {
+        return Region.getRegionByColor(color);
     }
 
     public void decreaseCountryPopulation(Region region, int subtrahend) {

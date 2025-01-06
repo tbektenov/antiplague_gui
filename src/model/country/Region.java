@@ -84,7 +84,7 @@ public class Region {
         return regionExtent.containsKey(color);
     }
 
-    public static Region getCountryByColor(Color color) {
+    public static Region getRegionByColor(Color color) {
         return regionExtent.get(color);
     }
 
@@ -124,10 +124,6 @@ public class Region {
 
     public int getPopulation() {
         return population;
-    }
-
-    public RegionPoint getCountryPoint() {
-        return regionPoint;
     }
 
     public float getInfectionLevel() {

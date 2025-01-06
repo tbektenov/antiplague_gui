@@ -13,7 +13,6 @@ public class TimerView extends JPanel {
         timerLabel = new JLabel("00:00", SwingConstants.CENTER);
         timerLabel.setForeground(Color.WHITE);
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        timerLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         add(timerLabel, BorderLayout.CENTER);
     }
 

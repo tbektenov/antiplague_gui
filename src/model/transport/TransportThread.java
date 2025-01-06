@@ -40,10 +40,10 @@ public class TransportThread
         RegionPoint start = transport.getRoute().getStartPoint();
         RegionPoint end = transport.getRoute().getEndPoint();
 
-        int startX = start.getAbsoluteX(panelWidth);
-        int startY = start.getAbsoluteY(panelHeight);
-        int endX = end.getAbsoluteX(panelWidth);
-        int endY = end.getAbsoluteY(panelHeight);
+        int startX = start.getTrueX(panelWidth);
+        int startY = start.getTrueY(panelHeight);
+        int endX = end.getTrueX(panelWidth);
+        int endY = end.getTrueY(panelHeight);
 
         int currentX = (int) (startX + (endX - startX) * transport.getProgress());
         int currentY = (int) (startY + (endY - startY) * transport.getProgress());

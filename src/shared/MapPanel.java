@@ -41,7 +41,7 @@ public class MapPanel extends JPanel {
                     Color pixelColor = robot.getPixelColor(screenPoint.x, screenPoint.y);
 
                     if (regionController.containsColor(pixelColor)) {
-                        Region region = regionController.getCountryByColor(pixelColor);
+                        Region region = regionController.getRegionByColor(pixelColor);
                         statsPanel.setSelectedRegion(region);
                     } else {
                         statsPanel.setSelectedRegion(null);
@@ -81,9 +81,9 @@ public class MapPanel extends JPanel {
     private void drawCountryPoints(Graphics g) {
         for (Map.Entry<Color, Region> entry : Region.getRegionExtent().entrySet()) {
             Region region = entry.getValue();
-            RegionPoint point = region.getCountryPoint();
-            int x = point.getAbsoluteX(getWidth());
-            int y = point.getAbsoluteY(getHeight());
+            RegionPoint point = region.getRegionPoint();
+            int x = point.getTrueX(getWidth());
+            int y = point.getTrueY(getHeight());
 
             g.setColor(Color.BLACK);
             g.fillOval(x - 5, y - 5, 10, 10);
