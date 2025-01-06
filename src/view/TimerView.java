@@ -3,7 +3,9 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-public class TimerView extends JPanel {
+public class TimerView
+        extends JPanel {
+
     private final JLabel timerLabel;
 
     public TimerView() {

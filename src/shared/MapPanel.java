@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
-public class MapPanel extends JPanel {
+public class MapPanel
+        extends JPanel {
+
     private BufferedImage worldMap;
     private final RegionController regionController;
     private final TransportManager transportManager;
@@ -25,7 +27,7 @@ public class MapPanel extends JPanel {
     public MapPanel(StatsPanel statsPanel) {
         this.regionController = RegionController.getInstance(statsPanel);
         this.transportManager = new TransportManager(this);
-        this.transportController = new TransportController(transportManager); // TransportController initialized
+        this.transportController = new TransportController(transportManager);
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 

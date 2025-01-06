@@ -7,11 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.NumberFormat;
 
-public class StatsPanel extends JPanel {
+public class StatsPanel
+        extends JPanel {
+
     private final JLabel header;
     private final JLabel statsLabel;
     private final JPanel contentPanel;
-    private final TimerView timerView;  // TimerView instance
+    private final TimerView timerView;
     private Region selectedRegion;
 
     public StatsPanel() {

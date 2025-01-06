@@ -1,16 +1,32 @@
 package shared;
 
+import view.PointsView;
+import view.UpgradePanel;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ShopPanel extends JPanel {
 
+    private PointsView pointsView;
+    private UpgradePanel upgradePanel;
+
     public ShopPanel() {
         setBackground(Color.WHITE);
-        JLabel label = new JLabel("Shop Panel");
-        label.setFont(new Font("Arial", Font.BOLD, 48));
-        setBorder(BorderFactory.createLineBorder(Color.black));
+        setLayout(new BorderLayout());
 
-        add(label);
+        pointsView = new PointsView();
+        upgradePanel = new UpgradePanel();
+
+        add(pointsView, BorderLayout.NORTH);
+        add(upgradePanel, BorderLayout.SOUTH);
+    }
+
+    public PointsView getPointsView() {
+        return this.pointsView;
+    }
+
+    public UpgradePanel getUpgradePanel() {
+        return this.upgradePanel;
     }
 }

@@ -5,22 +5,34 @@ import shared.StatsPanel;
 import view.TimerView;
 
 import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TimerController {
     private final TimerModel timerModel;
     private final TimerView timerView;
+    private final Timer controllerTimer;
 
     public TimerController(StatsPanel statsPanel) {
         this.timerView = statsPanel.getTimerView();
+        this.timerModel = new TimerModel(20);
+        this.controllerTimer = new Timer(true);
 
-        this.timerModel = new TimerModel(120,
-                this::updateTimerView,
-                this::gameOver);
-
-        timerModel.start();
+        timerModel.start(this::gameOver);
+        startControllerTimer();
     }
 
-    private void updateTimerView(int timeRemaining) {
+    private void startControllerTimer() {
+        controllerTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                updateTimerView();
+            }
+        }, 0, 1000);
+    }
+
+    private void updateTimerView() {
+        int timeRemaining = timerModel.getTimeRemaining();
         int minutes = timeRemaining / 60;
         int seconds = timeRemaining % 60;
 
@@ -28,6 +40,7 @@ public class TimerController {
     }
 
     private void gameOver() {
+        controllerTimer.cancel();
         SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(null,
                     "Game Over! Time's up!",
@@ -40,5 +53,6 @@ public class TimerController {
 
     public void stopTimer() {
         timerModel.stop();
+        controllerTimer.cancel();
     }
 }

@@ -1,5 +1,6 @@
 package shared;
 
+import controller.PointsController;
 import controller.TimerController;
 
 import javax.swing.*;
@@ -7,8 +8,11 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class MainFrame extends JFrame {
+public class MainFrame
+        extends JFrame {
+
     private TimerController timerController;
+    private PointsController pointsController;
 
     public MainFrame() {
         super("AntiPlague Game");
@@ -18,14 +22,14 @@ public class MainFrame extends JFrame {
         StatsPanel statsPanel = new StatsPanel();
         MapPanel mapPanel = new MapPanel(statsPanel);
 
-        // Initialize TimerController with StatsPanel
-        timerController = new TimerController(statsPanel);
-
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(mapPanel, BorderLayout.CENTER);
         topPanel.add(statsPanel, BorderLayout.EAST);
 
         ShopPanel shopPanel = new ShopPanel();
+
+        timerController = new TimerController(statsPanel);
+        pointsController = new PointsController(shopPanel);
 
         add(topPanel, BorderLayout.CENTER);
         add(shopPanel, BorderLayout.SOUTH);
