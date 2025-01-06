@@ -32,7 +32,6 @@ public class PointsController {
 
     public void updatePointsView() {
         int points = model.getAmount();
-
         view.updatePoints(points);
     }
 }

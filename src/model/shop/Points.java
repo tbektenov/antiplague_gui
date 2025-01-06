@@ -15,12 +15,22 @@ public class Points {
         this.timer = new Timer(true);
     }
 
-    public int getAmount() {
+    public synchronized int getAmount() {
+        System.out.println("Current Points: " + this.amount);
         return this.amount;
     }
 
     public void increasePoints() {
         this.amount += ThreadLocalRandom.current().nextInt(1, 15);
+    }
+
+    public synchronized void decreasePoints(int subtrahend) {
+        if (subtrahend <= amount) {
+            this.amount -= subtrahend;
+            System.out.println("Points Deducted: " + subtrahend + " | Remaining: " + this.amount);
+        } else {
+            System.out.println("Insufficient Points. Needed: " + subtrahend + " | Available: " + this.amount);
+        }
     }
 
     public void start() {

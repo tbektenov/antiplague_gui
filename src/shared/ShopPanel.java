@@ -1,5 +1,6 @@
 package shared;
 
+import model.shop.Points;
 import view.PointsView;
 import view.UpgradePanel;
 
@@ -7,9 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ShopPanel extends JPanel {
-
-    private PointsView pointsView;
-    private UpgradePanel upgradePanel;
+    private final PointsView pointsView;
+    private final UpgradePanel upgradePanel;
+    private final Points pointsModel;
 
     public ShopPanel() {
         setBackground(Color.WHITE);
@@ -17,9 +18,10 @@ public class ShopPanel extends JPanel {
 
         pointsView = new PointsView();
         upgradePanel = new UpgradePanel();
+        pointsModel = new Points();
 
         add(pointsView, BorderLayout.NORTH);
-        add(upgradePanel, BorderLayout.SOUTH);
+        add(upgradePanel, BorderLayout.CENTER);
     }
 
     public PointsView getPointsView() {
@@ -28,5 +30,9 @@ public class ShopPanel extends JPanel {
 
     public UpgradePanel getUpgradePanel() {
         return this.upgradePanel;
+    }
+
+    public Points getPointsModel() {
+        return this.pointsModel;
     }
 }

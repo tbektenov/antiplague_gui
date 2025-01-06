@@ -2,6 +2,7 @@ package shared;
 
 import controller.PointsController;
 import controller.TimerController;
+import controller.UpgradeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ public class MainFrame
 
     private TimerController timerController;
     private PointsController pointsController;
+    private UpgradeController upgradeController;
 
     public MainFrame() {
         super("AntiPlague Game");
@@ -30,6 +32,8 @@ public class MainFrame
 
         timerController = new TimerController(statsPanel);
         pointsController = new PointsController(shopPanel);
+        upgradeController = UpgradeController.getInstance();
+        upgradeController.initializeUpgrades(shopPanel.getUpgradePanel(), shopPanel.getPointsModel());
 
         add(topPanel, BorderLayout.CENTER);
         add(shopPanel, BorderLayout.SOUTH);
