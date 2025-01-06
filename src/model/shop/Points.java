@@ -25,7 +25,7 @@ public class Points {
     }
 
     public synchronized void decreasePoints(int subtrahend) {
-        if (subtrahend <= amount) {
+        if (amount - subtrahend < 0) {
             this.amount -= subtrahend;
             System.out.println("Points Deducted: " + subtrahend + " | Remaining: " + this.amount);
         } else {

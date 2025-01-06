@@ -38,7 +38,7 @@ public class UpgradeController {
 
     private void acquireUpgrade(String upgradeName, int cost) {
         int currentPoints = pointsModel.getAmount();
-        if (currentPoints >= cost) {
+        if ((currentPoints - cost) > 0) {
             pointsModel.decreasePoints(cost);
 
             JOptionPane.showMessageDialog(null,

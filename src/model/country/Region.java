@@ -75,7 +75,7 @@ public class Region {
         return Collections.unmodifiableMap(regionExtent);
     }
 
-    public int getGlobalPopulation() {
+    public synchronized int getGlobalPopulation() {
         int globalPopulation = regionExtent.values().stream().mapToInt(Region::getPopulation).sum();
         return globalPopulation;
     }
@@ -88,31 +88,31 @@ public class Region {
         return regionExtent.get(color);
     }
 
-    public void addAcceptedTransportType(TransportType type) {
+    public synchronized void addAcceptedTransportType(TransportType type) {
         this.acceptedTransportTypes.add(type);
     }
 
-    public void removeAcceptedTransportType(TransportType type) {
-        this.acceptedTransportTypes.remove(type);
+    public synchronized void removeAcceptedTransportType(TransportType type) {
+        if (this.acceptedTransportTypes.contains(type)) acceptedTransportTypes.remove(type);
     }
 
-    public boolean acceptsTransport(TransportType transportType) {
+    public synchronized boolean acceptsTransport(TransportType transportType) {
         return this.acceptedTransportTypes.contains(transportType);
     }
 
-    public void addSupportedTransportType(TransportType type) {
+    public synchronized void addSupportedTransportType(TransportType type) {
         this.supportedTransportTypes.add(type);
     }
 
-    public void removeSupportedTransportType(TransportType type) {
-        this.supportedTransportTypes.remove(type);
+    public synchronized void removeSupportedTransportType(TransportType type) {
+        if (this.supportedTransportTypes.contains(type)) supportedTransportTypes.remove(type);
     }
 
     public boolean supportsTransport(TransportType transportType) {
         return this.supportedTransportTypes.contains(transportType);
     }
 
-    public void decreasePopulation(int subtrahend) {
+    public synchronized void decreasePopulation(int subtrahend) {
         if (subtrahend > 0) {
             this.population -= subtrahend;
         }
@@ -143,15 +143,15 @@ public class Region {
         return this.regionPoint;
     }
 
-    private void updateTransportRestrictions(float infectionLevel) {
+    private synchronized void updateTransportRestrictions(float infectionLevel) {
         if (infectionLevel >= 75) {
-            acceptedTransportTypes.remove(TransportType.PLANE);
+            removeAcceptedTransportType(TransportType.PLANE);
         } else if (infectionLevel >= 50) {
-            acceptedTransportTypes.remove(TransportType.BOAT);
+            removeAcceptedTransportType(TransportType.BOAT);
         } else if (infectionLevel >= 30) {
-            acceptedTransportTypes.remove(TransportType.TRAIN);
+            removeAcceptedTransportType(TransportType.TRAIN);
         } else if (infectionLevel >= 25) {
-            acceptedTransportTypes.remove(TransportType.CAR);
+            removeAcceptedTransportType(TransportType.CAR);
         }
     }
 }
