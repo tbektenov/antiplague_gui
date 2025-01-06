@@ -13,7 +13,7 @@ public class PointsController {
     private final Timer controllerTimer;
 
     public PointsController(ShopPanel shopPanel) {
-        this.model = new Points();
+        this.model = shopPanel.getPointsModel();
         this.view = shopPanel.getPointsView();
         this.controllerTimer = new Timer(true);
 

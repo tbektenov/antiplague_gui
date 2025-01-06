@@ -2,7 +2,7 @@ package controller;
 
 import model.shop.Points;
 import model.shop.Upgrade;
-import view.UpgradePanel;
+import shared.ShopPanel;
 
 import javax.swing.*;
 
@@ -20,8 +20,8 @@ public class UpgradeController {
         return instance;
     }
 
-    public void initializeUpgrades(UpgradePanel upgradePanel, Points pointsModel) {
-        this.pointsModel = pointsModel;
+    public void initializeUpgrades(ShopPanel shopPanel) {
+        this.pointsModel = shopPanel.getPointsModel();
 
         for (int i = 1; i <= 9; i++) {
             String upgradeName = "Upgrade " + i;
@@ -32,13 +32,13 @@ public class UpgradeController {
                     cost,
                     () -> acquireUpgrade(upgradeName, cost));
 
-            upgradePanel.addUpgrade(upgrade);
+            shopPanel.getUpgradePanel().addUpgrade(upgrade);
         }
     }
 
     private void acquireUpgrade(String upgradeName, int cost) {
         int currentPoints = pointsModel.getAmount();
-        if ((currentPoints - cost) > 0) {
+        if ((currentPoints - cost) >= 0) {
             pointsModel.decreasePoints(cost);
 
             JOptionPane.showMessageDialog(null,

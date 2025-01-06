@@ -33,7 +33,7 @@ public class MainFrame
         timerController = new TimerController(statsPanel);
         pointsController = new PointsController(shopPanel);
         upgradeController = UpgradeController.getInstance();
-        upgradeController.initializeUpgrades(shopPanel.getUpgradePanel(), shopPanel.getPointsModel());
+        upgradeController.initializeUpgrades(shopPanel);
 
         add(topPanel, BorderLayout.CENTER);
         add(shopPanel, BorderLayout.SOUTH);
