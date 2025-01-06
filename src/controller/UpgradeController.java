@@ -3,25 +3,28 @@ package controller;
 import model.shop.Points;
 import model.shop.Upgrade;
 import shared.ShopPanel;
+import view.UpgradePanel;
 
 import javax.swing.*;
 
 public class UpgradeController {
     private static UpgradeController instance;
-    private Points pointsModel;
+    private final Points pointsModel;
+    private final UpgradePanel upgradePanel;
 
-    private UpgradeController() {
+    private UpgradeController(ShopPanel shopPanel) {
+        this.pointsModel = shopPanel.getPointsModel();
+        this.upgradePanel = shopPanel.getUpgradePanel();
     }
 
-    public static UpgradeController getInstance() {
+    public static UpgradeController getInstance(ShopPanel shopPanel) {
         if (instance == null) {
-            instance = new UpgradeController();
+            instance = new UpgradeController(shopPanel);
         }
         return instance;
     }
 
-    public void initializeUpgrades(ShopPanel shopPanel) {
-        this.pointsModel = shopPanel.getPointsModel();
+    public void initializeUpgrades() {
 
         for (int i = 1; i <= 9; i++) {
             String upgradeName = "Upgrade " + i;
@@ -32,7 +35,7 @@ public class UpgradeController {
                     cost,
                     () -> acquireUpgrade(upgradeName, cost));
 
-            shopPanel.getUpgradePanel().addUpgrade(upgrade);
+            upgradePanel.addUpgrade(upgrade);
         }
     }
 

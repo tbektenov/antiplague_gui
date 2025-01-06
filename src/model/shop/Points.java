@@ -16,20 +16,16 @@ public class Points {
     }
 
     public synchronized int getAmount() {
-        System.out.println("Current Points: " + this.amount);
         return this.amount;
     }
 
-    public void increasePoints() {
+    public synchronized void increasePoints() {
         this.amount += ThreadLocalRandom.current().nextInt(1, 15);
     }
 
     public synchronized void decreasePoints(int subtrahend) {
-        if (amount - subtrahend < 0) {
+        if ((amount - subtrahend) >= 0) {
             this.amount -= subtrahend;
-            System.out.println("Points Deducted: " + subtrahend + " | Remaining: " + this.amount);
-        } else {
-            System.out.println("Insufficient Points. Needed: " + subtrahend + " | Available: " + this.amount);
         }
     }
 
