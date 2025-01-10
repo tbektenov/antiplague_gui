@@ -1,10 +1,13 @@
 package controller;
 
+import model.HighScore;
 import model.timer.TimerModel;
 import shared.StatsPanel;
 import view.TimerView;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,7 +18,7 @@ public class TimerController {
 
     public TimerController(StatsPanel statsPanel) {
         this.timerView = statsPanel.getTimerView();
-        this.timerModel = new TimerModel(300);
+        this.timerModel = new TimerModel(20);
         this.controllerTimer = new Timer(true);
 
         timerModel.start(this::gameOver);
@@ -42,12 +45,32 @@ public class TimerController {
     private void gameOver() {
         controllerTimer.cancel();
         SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(null,
-                    "Game Over! Time's up!",
-                    "Game Over",
-                    JOptionPane.INFORMATION_MESSAGE);
+            Random random = new Random();
+            int randomScore = random.nextInt(1000) + 1;
 
-            System.exit(0);
+            String playerName = JOptionPane.showInputDialog(null,
+                    "Game Over! Your score: " + randomScore + "\nEnter your name:",
+                    "Game Over",
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (playerName != null && !playerName.trim().isEmpty()) {
+                HighScore highScore = new HighScore(playerName, randomScore);
+                try {
+                    HighScore.saveHighScoreToFile(highScore, "highscores.txt");
+                    JOptionPane.showMessageDialog(null,
+                            "High score saved successfully!",
+                            "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null,
+                            "Failed to save high score!",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
+                }
+            }
+
+            System.exit(0); // Exit the game
         });
     }
 
