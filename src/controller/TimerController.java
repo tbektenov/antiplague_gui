@@ -3,6 +3,7 @@ package controller;
 import model.HighScore;
 import model.timer.TimerModel;
 import shared.StatsPanel;
+import shared.MainMenuView;
 import view.TimerView;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class TimerController {
 
     public TimerController(StatsPanel statsPanel) {
         this.timerView = statsPanel.getTimerView();
-        this.timerModel = new TimerModel(20);
+        this.timerModel = new TimerModel(10);
         this.controllerTimer = new Timer(true);
 
         timerModel.start(this::gameOver);
@@ -70,8 +71,18 @@ public class TimerController {
                 }
             }
 
-            System.exit(0); // Exit the game
+            SwingUtilities.invokeLater(() -> {
+                new MainMenuView();
+                closeGameFrame();
+            });
         });
+    }
+
+    private void closeGameFrame() {
+        JFrame gameFrame = (JFrame) SwingUtilities.getWindowAncestor(timerView);
+        if (gameFrame != null) {
+            gameFrame.dispose();
+        }
     }
 
     public void stopTimer() {

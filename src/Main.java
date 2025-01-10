@@ -1,12 +1,12 @@
-import shared.MainFrame;
+import shared.MainMenuView;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            MainFrame frame = new MainFrame();
-            frame.setVisible(true);
+            MainMenuView mainMenuView = new MainMenuView();
+            mainMenuView.setVisible(true);
         });
     }
 }
