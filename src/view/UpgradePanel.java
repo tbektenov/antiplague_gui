@@ -5,10 +5,12 @@ import model.shop.Upgrade;
 import javax.swing.*;
 import java.awt.*;
 
-public class UpgradePanel extends JPanel {
+public class UpgradePanel
+        extends JPanel {
+
     public UpgradePanel() {
         setBackground(Color.WHITE);
-        setLayout(new GridLayout(3, 3, 10, 10));
+        setLayout(new GridLayout(1, 9, 10, 10));
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 

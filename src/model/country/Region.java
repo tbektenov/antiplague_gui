@@ -24,7 +24,7 @@ public class Region {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus(name, infectionLevel -> {
+        this.virus = new Virus(infectionLevel -> {
             callback.accept(this);
             updateTransportRestrictions(infectionLevel);
         });
@@ -49,7 +49,7 @@ public class Region {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus(name, infectionLevel -> {
+        this.virus = new Virus(infectionLevel -> {
             callback.accept(this);
             updateTransportRestrictions(infectionLevel);
         });
@@ -88,6 +88,14 @@ public class Region {
         return regionExtent.get(color);
     }
 
+    public Set<TransportType> getAcceptedTransportTypes() {
+        return acceptedTransportTypes;
+    }
+
+    public void setAcceptedTransportTypes(Set<TransportType> acceptedTransportTypes) {
+        this.acceptedTransportTypes = acceptedTransportTypes;
+    }
+
     public synchronized void addAcceptedTransportType(TransportType type) {
         this.acceptedTransportTypes.add(type);
     }
@@ -98,6 +106,14 @@ public class Region {
 
     public synchronized boolean acceptsTransport(TransportType transportType) {
         return this.acceptedTransportTypes.contains(transportType);
+    }
+
+    public Set<TransportType> getSupportedTransportTypes() {
+        return supportedTransportTypes;
+    }
+
+    public void setSupportedTransportTypes(Set<TransportType> supportedTransportTypes) {
+        this.supportedTransportTypes = supportedTransportTypes;
     }
 
     public synchronized void addSupportedTransportType(TransportType type) {
@@ -124,6 +140,10 @@ public class Region {
 
     public int getPopulation() {
         return population;
+    }
+
+    public Virus getVirus() {
+        return this.virus;
     }
 
     public float getInfectionLevel() {
@@ -153,5 +173,10 @@ public class Region {
         } else if (infectionLevel >= 25) {
             removeAcceptedTransportType(TransportType.CAR);
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
     }
 }

@@ -6,13 +6,22 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Points {
 
+    private static Points instance;
+
     private int amount;
     private boolean running = true;
     private final Timer timer;
 
-    public Points() {
+    private Points() {
         this.amount = 0;
         this.timer = new Timer(true);
+    }
+
+    public static Points getInstance() {
+        if (instance == null) {
+            instance = new Points();
+        }
+        return instance;
     }
 
     public synchronized int getAmount() {

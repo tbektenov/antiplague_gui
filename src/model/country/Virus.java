@@ -7,12 +7,10 @@ public class Virus
     implements Runnable{
 
     private float infectionLevel;
-    private final String countryName;
     private boolean running = true;
     private final Consumer<Float> infectionCallback;
 
-    public Virus(String countryName, Consumer<Float> infectionCallback) {
-        this.countryName = countryName;
+    public Virus(Consumer<Float> infectionCallback) {
         this.infectionLevel = ThreadLocalRandom.current().nextFloat(0, 10);
         this.infectionCallback = infectionCallback;
     }
@@ -36,7 +34,6 @@ public class Virus
     public void run() {
         while (running) {
             increaseInfection();
-            System.out.printf("%s infection level: %.2f%%\n", countryName, infectionLevel);
 
             try {
                 Thread.sleep((long) (infectionLevel + ThreadLocalRandom.current().nextInt(2000, 10_000)));

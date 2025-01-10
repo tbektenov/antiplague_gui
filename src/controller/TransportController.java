@@ -43,8 +43,6 @@ public class TransportController {
 
         if (selectedType != null) {
             transportManager.spawnTransport(selectedType, startRegion.getRegionPoint(), endRegion.getRegionPoint());
-            System.out.printf("Transport (%s) spawned between %s and %s%n",
-                    selectedType, startRegion.getName(), endRegion.getName());
         }
     }
 

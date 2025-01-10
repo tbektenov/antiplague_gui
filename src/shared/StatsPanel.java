@@ -46,6 +46,10 @@ public class StatsPanel
         return timerView;
     }
 
+    public Region getSelectedRegion() {
+        return this.selectedRegion;
+    }
+
     public void setSelectedRegion(Region region) {
         this.selectedRegion = region;
         refreshStats();
