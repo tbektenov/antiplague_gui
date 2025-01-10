@@ -52,8 +52,4 @@ public class MainFrame
 
         setVisible(true);
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(MainFrame::new);
-    }
 }
