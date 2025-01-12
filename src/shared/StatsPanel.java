@@ -1,6 +1,6 @@
 package shared;
 
-import model.region.Region;
+import model.region.regions.Region;
 import view.TimerView;
 
 import javax.swing.*;

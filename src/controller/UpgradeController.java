@@ -1,6 +1,6 @@
 package controller;
 
-import model.region.Region;
+import model.region.regions.Region;
 import model.shop.Points;
 import model.shop.Upgrade;
 import model.transport.TransportType;

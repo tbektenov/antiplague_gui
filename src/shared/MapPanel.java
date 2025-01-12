@@ -2,8 +2,8 @@ package shared;
 
 import controller.RegionController;
 import controller.TransportController;
-import model.region.Region;
-import model.region.RegionPoint;
+import model.region.regions.Region;
+import model.region.common.RegionPoint;
 import model.transport.TransportManager;
 
 import javax.imageio.ImageIO;

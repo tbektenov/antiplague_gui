@@ -1,6 +1,6 @@
 package model.transport;
 
-import model.region.RegionPoint;
+import model.region.common.RegionPoint;
 
 import javax.swing.*;
 import java.awt.*;

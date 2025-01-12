@@ -1,6 +1,6 @@
 package controller;
 
-import model.region.Region;
+import model.region.regions.Region;
 import model.transport.TransportManager;
 import model.transport.TransportType;
 

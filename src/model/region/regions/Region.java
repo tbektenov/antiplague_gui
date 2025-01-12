@@ -1,5 +1,7 @@
-package model.region;
+package model.region.regions;
 
+import model.region.common.RegionPoint;
+import model.region.common.Virus;
 import model.transport.TransportType;
 
 import java.awt.*;

@@ -1,4 +1,4 @@
-package model.region;
+package model.region.common;
 
 public class RegionPoint {
     private double x;

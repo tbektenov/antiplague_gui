@@ -1,6 +1,6 @@
 package model.transport;
 
-import model.region.RegionPoint;
+import model.region.common.RegionPoint;
 
 public class Route {
     private final RegionPoint startCountry;
