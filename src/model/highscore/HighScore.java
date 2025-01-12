@@ -1,4 +1,4 @@
-package model;
+package model.highscore;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -40,6 +40,6 @@ public class HighScore
 
     @Override
     public String toString() {
-        return playerName + " " + score;
+        return playerName + " - " + score;
     }
 }

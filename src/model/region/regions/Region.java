@@ -9,15 +9,19 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public abstract
-class Region {
-    private static final Map<Color, Region> regionExtent = new HashMap<Color, Region>();
+    class Region {
+
+    private static final Map<Color, Region> regionExtent = new HashMap<>();
 
     private final String name;
     private int population;
     private final Virus virus;
     private final RegionPoint regionPoint;
+
+    // transport
     private Set<TransportType> acceptedTransportTypes;
     private Set<TransportType> supportedTransportTypes;
+    private Map<TransportType, Set<Class<? extends Region>>> transportRules = new HashMap<>();
 
     public Region(String name,
                   Color color,
@@ -27,10 +31,7 @@ class Region {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus(infectionLevel -> {
-            callback.accept(this);
-            updateTransportRestrictions(infectionLevel);
-        });
+        this.virus = new Virus( _ -> callback.accept(this));
 
         this.acceptedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
         this.supportedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
@@ -52,10 +53,7 @@ class Region {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus(infectionLevel -> {
-            callback.accept(this);
-            updateTransportRestrictions(infectionLevel);
-        });
+        this.virus = new Virus( _ -> callback.accept(this));
 
         if (acceptedTransportTypes == null) this.acceptedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
         else {
@@ -164,18 +162,6 @@ class Region {
 
     public RegionPoint getRegionPoint() {
         return this.regionPoint;
-    }
-
-    private synchronized void updateTransportRestrictions(float infectionLevel) {
-        if (infectionLevel >= 75) {
-            removeAcceptedTransportType(TransportType.PLANE);
-        } else if (infectionLevel >= 50) {
-            removeAcceptedTransportType(TransportType.BOAT);
-        } else if (infectionLevel >= 30) {
-            removeAcceptedTransportType(TransportType.TRAIN);
-        } else if (infectionLevel >= 25) {
-            removeAcceptedTransportType(TransportType.CAR);
-        }
     }
 
     @Override

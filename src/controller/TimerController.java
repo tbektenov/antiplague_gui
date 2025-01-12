@@ -1,6 +1,6 @@
 package controller;
 
-import model.HighScore;
+import model.highscore.HighScore;
 import model.timer.TimerModel;
 import shared.StatsPanel;
 import shared.MainMenuFrame;
@@ -57,7 +57,7 @@ public class TimerController {
             if (playerName != null && !playerName.trim().isEmpty()) {
                 HighScore highScore = new HighScore(playerName, randomScore);
                 try {
-                    HighScore.saveHighScoreToFile(highScore, "highscores.txt");
+                    HighScore.saveHighScoreToFile(highScore, "./src/data/highscores.txt");
                     JOptionPane.showMessageDialog(null,
                             "High score saved successfully!",
                             "Success",

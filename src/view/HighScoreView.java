@@ -11,7 +11,7 @@ public class HighScoreView
 
     public HighScoreView() {
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("highscores.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("./src/data/highscores.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 listModel.addElement(line);

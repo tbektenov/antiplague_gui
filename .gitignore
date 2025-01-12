@@ -28,4 +28,4 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-highscores.txt
+src/data/highscores.txt
