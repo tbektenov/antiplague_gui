@@ -3,7 +3,7 @@ package controller;
 import model.HighScore;
 import model.timer.TimerModel;
 import shared.StatsPanel;
-import shared.MainMenuView;
+import shared.MainMenuFrame;
 import view.TimerView;
 
 import javax.swing.*;
@@ -72,7 +72,7 @@ public class TimerController {
             }
 
             SwingUtilities.invokeLater(() -> {
-                new MainMenuView();
+                new MainMenuFrame();
                 closeGameFrame();
             });
         });

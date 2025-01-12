@@ -9,14 +9,14 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class MainFrame
+public class GameFrame
         extends JFrame {
 
     private TimerController timerController;
     private PointsController pointsController;
     private UpgradeController upgradeController;
 
-    public MainFrame() {
+    public GameFrame() {
         super("AntiPlague Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());

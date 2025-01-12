@@ -1,6 +1,6 @@
 package model.transport;
 
-import model.country.RegionPoint;
+import model.region.RegionPoint;
 
 import javax.swing.*;
 import java.util.ArrayList;

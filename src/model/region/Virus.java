@@ -1,4 +1,4 @@
-package model.country;
+package model.region;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;

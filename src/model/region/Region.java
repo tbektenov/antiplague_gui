@@ -1,4 +1,4 @@
-package model.country;
+package model.region;
 
 import model.transport.TransportType;
 
@@ -6,7 +6,8 @@ import java.awt.*;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class Region {
+public abstract
+class Region {
     private static final Map<Color, Region> regionExtent = new HashMap<Color, Region>();
 
     private final String name;

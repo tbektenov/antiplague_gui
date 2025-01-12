@@ -5,8 +5,10 @@ import view.HighScoreView;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainMenuView extends JFrame {
-    public MainMenuView() {
+public class MainMenuFrame
+        extends JFrame {
+
+    public MainMenuFrame() {
         super("AntiPlague Game - Main Menu");
 
         JPanel mainPanel = new JPanel();
@@ -23,7 +25,7 @@ public class MainMenuView extends JFrame {
         mainPanel.add(exitButton);
 
         newGameButton.addActionListener( _ -> {
-            new MainFrame();
+            new GameFrame();
             dispose();
         });
 
@@ -42,6 +44,6 @@ public class MainMenuView extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(MainMenuView::new);
+        SwingUtilities.invokeLater(MainMenuFrame::new);
     }
 }
