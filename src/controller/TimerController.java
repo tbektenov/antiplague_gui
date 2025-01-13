@@ -19,7 +19,7 @@ public class TimerController {
 
     public TimerController(StatsPanel statsPanel) {
         this.timerView = statsPanel.getTimerView();
-        this.timerModel = new TimerModel(10);
+        this.timerModel = new TimerModel(300);
         this.controllerTimer = new Timer(true);
 
         timerModel.start(this::gameOver);

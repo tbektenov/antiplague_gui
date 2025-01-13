@@ -17,19 +17,12 @@ public class UpgradeController {
     private final UpgradePanel upgradePanel;
     private final StatsPanel statsPanel;
 
-    private UpgradeController(ShopPanel shopPanel, StatsPanel statsPanel) {
+    public UpgradeController(ShopPanel shopPanel, StatsPanel statsPanel) {
         this.pointsModel = Points.getInstance();
         this.upgradePanel = shopPanel.getUpgradePanel();
         this.statsPanel = statsPanel;
 
         initializeUpgrades();
-    }
-
-    public static UpgradeController getInstance(ShopPanel shopPanel, StatsPanel statsPanel) {
-        if (instance == null) {
-            instance = new UpgradeController(shopPanel, statsPanel);
-        }
-        return instance;
     }
 
     private void initializeUpgrades() {

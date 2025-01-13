@@ -1,0 +1,65 @@
+{
+  "Africa": {
+    "CAR": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "TRAIN": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "BOAT": ["Africa", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  },
+  "CentralAsia": {
+    "CAR": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "TRAIN": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  },
+  "EastAsia": {
+    "CAR": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "TRAIN": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "BOAT": ["Africa", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  },
+  "Europe": {
+    "CAR": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "TRAIN": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "BOAT": ["Africa", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  },
+  "MiddleEast": {
+    "CAR": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "TRAIN": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "BOAT": ["Africa", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  },
+  "NorthAmerica": {
+    "CAR": ["SouthAmerica"],
+    "TRAIN": ["SouthAmerica"],
+    "BOAT": ["Africa", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  },
+  "NorthAsia": {
+    "CAR": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "TRAIN": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "BOAT": ["Africa", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  },
+  "Oceania": {
+    "BOAT": ["Africa", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  },
+  "SouthAmerica": {
+    "CAR": ["NorthAmerica"],
+    "TRAIN": ["NorthAmerica"],
+    "BOAT": ["Africa", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  },
+  "SouthAsia": {
+    "CAR": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "TRAIN": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "BOAT": ["Africa", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  },
+  "SouthEastAsia": {
+    "CAR": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "TRAIN": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAsia", "SouthAsia", "SouthEastAsia"],
+    "BOAT": ["Africa", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"],
+    "PLANE": ["Africa", "CentralAsia", "EastAsia", "Europe", "MiddleEast", "NorthAmerica", "NorthAsia", "Oceania", "SouthAmerica", "SouthAsia", "SouthEastAsia"]
+  }
+}
