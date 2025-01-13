@@ -76,6 +76,17 @@ public abstract
         return Collections.unmodifiableMap(regionExtent);
     }
 
+    public static void resetRegions() {
+        regionExtent.clear();
+    }
+
+    public static void reinitializeRegions() {
+        regionExtent.values().forEach(region -> {
+            region.stopInfection();
+            region.startInfection();
+        });
+    }
+
     public synchronized int getGlobalPopulation() {
         int globalPopulation = regionExtent.values().stream().mapToInt(Region::getPopulation).sum();
         return globalPopulation;

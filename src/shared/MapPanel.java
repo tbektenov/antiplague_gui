@@ -25,7 +25,7 @@ public class MapPanel
     private final TransportController transportController;
 
     public MapPanel(StatsPanel statsPanel) {
-        this.regionController = RegionController.getInstance(statsPanel);
+        this.regionController = new RegionController(statsPanel);
         this.transportManager = new TransportManager(this);
         this.transportController = new TransportController(transportManager);
         setBackground(Color.LIGHT_GRAY);

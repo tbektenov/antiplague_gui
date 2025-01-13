@@ -12,13 +12,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class RegionController {
-    private static RegionController instance;
-    private final ExecutorService executorService;
 
+    private final ExecutorService executorService;
     private final StatsPanel statsPanel;
 
-    private RegionController(StatsPanel statsPanel) {
+    public RegionController(StatsPanel statsPanel) {
         this.statsPanel = statsPanel;
+        Region.resetRegions();
         initializeRegions();
         executorService = Executors.newFixedThreadPool(Region.getRegionExtent().size());
     }
@@ -60,8 +60,6 @@ public class RegionController {
                 new RegionPoint(0.85, 0.6), statsPanel::updateInfection);
     }
 
-
-
     public void startInfections() {
         Region.getRegionExtent().values().forEach(Region::startInfection);
     }
@@ -81,12 +79,5 @@ public class RegionController {
 
     public void decreaseCountryPopulation(Region region, int subtrahend) {
         region.decreasePopulation(subtrahend);
-    }
-
-    public static RegionController getInstance(StatsPanel statsPanel) {
-        if (instance == null) {
-            instance = new RegionController(statsPanel);
-        }
-        return instance;
     }
 }
