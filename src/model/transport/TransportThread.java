@@ -1,12 +1,16 @@
 package model.transport;
 
 import model.region.common.RegionPoint;
+import model.region.regions.Region;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class TransportThread
         implements Runnable {
+
+    private static final int iconWidth = 30;
+    private static final int iconHeight = 30;
 
     private final Transport transport;
     private final JPanel panel;
@@ -41,6 +45,37 @@ public class TransportThread
             synchronized (manager) {
                 manager.removeTransport(this);
             }
+
+            Region destinationRegion = transport.getDestinationRegion();
+            destinationRegion.getVirus().increaseInfection();
+        }
+    }
+
+    public void stopTransport() {
+        running = false;
+    }
+
+    public void drawTransport(Graphics g, int panelWidth, int panelHeight) {
+        Point position = getCurrentPosition(panelWidth, panelHeight);
+
+        Image icon = transport.getIcon();
+
+        try {
+            g.drawImage(
+                    icon,
+                    position.x - (iconWidth / 2),
+                    position.y - (iconHeight / 2),
+                    iconWidth, iconHeight,
+                    null);
+        } catch (Exception e) {
+            g.setColor(new Color(0xFF0095));
+            g.fillOval(position.x - 3, position.y - 3, 6, 6);
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error drawing icon: " + e,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -57,31 +92,5 @@ public class TransportThread
         int currentY = (int) (startY + (endY - startY) * transport.getProgress());
 
         return new Point(currentX, currentY);
-    }
-
-    public void drawTransport(Graphics g, int panelWidth, int panelHeight) {
-        Point position = getCurrentPosition(panelWidth, panelHeight);
-
-        int iconWidth = 30;
-        int iconHeight = 30;
-
-        Image icon = transport.getIcon();
-
-        try {
-            g.drawImage(icon, position.x - (iconWidth / 2), position.y - (iconHeight / 2), iconWidth, iconHeight, null);
-        } catch (Exception e){
-            g.setColor(new Color(0xFF0095));
-            g.fillOval(position.x - 3, position.y - 3, 6, 6);
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Error drawing icon: " + e,
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void stopTransport() {
-        running = false;
     }
 }
