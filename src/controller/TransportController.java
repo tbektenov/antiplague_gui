@@ -22,42 +22,59 @@ public class TransportController {
     }
 
     private void startTransportSpawning() {
-        scheduler.scheduleAtFixedRate(this::spawnRandomTransport, 0, 100, TimeUnit.MILLISECONDS);
+        scheduler.scheduleAtFixedRate(this::spawnTransportBasedOnRules, 0, 100, TimeUnit.MILLISECONDS);
     }
 
-    public Region[] getRandomRegions() {
+    public void spawnTransportBasedOnRules() {
+        Region[] validRegions = getValidRegionPair();
+        if (validRegions == null) return;
+
+        Region startRegion = validRegions[0];
+        Region endRegion = validRegions[1];
+
+        TransportType validType = getRandomValidTransportType(startRegion, endRegion);
+        if (validType != null) {
+            transportManager.spawnTransport(validType, startRegion.getRegionPoint(), endRegion.getRegionPoint());
+        }
+    }
+
+    private Region[] getValidRegionPair() {
         List<Region> regions = new ArrayList<>(Region.getRegionExtent().values());
-        if (regions.size() < 2) return null;
         Collections.shuffle(regions);
-        Region startRegion = regions.get(0);
-        Region endRegion = regions.get(1);
 
-        return new Region[]{startRegion, endRegion};
-    }
-
-    public void spawnRandomTransport() {
-        Region[] randomRegions = getRandomRegions();
-
-        if (randomRegions == null) return;
-
-        Region startRegion = randomRegions[0];
-        Region endRegion = randomRegions[1];
-
-        TransportType selectedType = getValidTransportType(startRegion, endRegion);
-        if (selectedType == null) return;
-
-        transportManager.spawnTransport(selectedType, startRegion.getRegionPoint(), endRegion.getRegionPoint());
-    }
-
-    private TransportType getValidTransportType(Region startRegion, Region endRegion) {
-        List<TransportType> types = new ArrayList<>(List.of(TransportType.values()));
-        Collections.shuffle(types);
-
-        for (TransportType type : types) {
-            if (startRegion.supportsTransport(type) && endRegion.acceptsTransport(type)) {
-                return type;
+        for (Region startRegion : regions) {
+            for (Region endRegion : regions) {
+                if (!startRegion.equals(endRegion) && hasValidTransport(startRegion, endRegion)) {
+                    return new Region[]{startRegion, endRegion};
+                }
             }
         }
+        return null;
+    }
+
+    private boolean hasValidTransport(Region startRegion, Region endRegion) {
+        for (TransportType type : TransportType.values()) {
+            if (startRegion.supportsTransport(type) && endRegion.acceptsTransport(type, startRegion.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private TransportType getRandomValidTransportType(Region startRegion, Region endRegion) {
+        List<TransportType> validTransportTypes = new ArrayList<>();
+
+        for (TransportType type : TransportType.values()) {
+            if (startRegion.supportsTransport(type) && endRegion.acceptsTransport(type, startRegion.getName())) {
+                validTransportTypes.add(type);
+            }
+        }
+
+        if (!validTransportTypes.isEmpty()) {
+            Collections.shuffle(validTransportTypes);
+            return validTransportTypes.getFirst();
+        }
+
         return null;
     }
 

@@ -14,7 +14,15 @@ public class EastAsia
         super(name, color, population, regionPoint, callback);
     }
 
-    public EastAsia(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback, Set<TransportType> acceptedTransportTypes, Set<TransportType> supportedTransportTypes) {
-        super(name, color, population, regionPoint, callback, acceptedTransportTypes, supportedTransportTypes);
+    public EastAsia(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback, Set<TransportType> supportedTransportTypes) {
+        super(name, color, population, regionPoint, callback, supportedTransportTypes);
+    }
+
+    @Override
+    protected void initializeTransportRules() {
+        addAcceptedTransport(TransportType.CAR, Set.of("Africa", "Central Asia", "East Asia", "Europe", "Middle East", "North Asia", "South Asia", "South East Asia"));
+        addAcceptedTransport(TransportType.TRAIN, Set.of("Africa", "Central Asia", "East Asia", "Europe", "Middle East", "North Asia", "South Asia", "South East Asia"));
+        addAcceptedTransport(TransportType.BOAT, Set.of("Africa", "East Asia", "Europe", "Middle East", "North America", "North Asia", "Oceania", "South America", "South Asia", "South East Asia"));
+        addAcceptedTransport(TransportType.PLANE, Set.of("Africa", "Central Asia", "East Asia", "Europe", "Middle East", "North America", "North Asia", "Oceania", "South America", "South Asia", "South East Asia"));
     }
 }

@@ -196,7 +196,7 @@ public class UpgradeController {
             Optional<Region> selectedRegion = showRegionSelectionDialog();
 
             selectedRegion.ifPresent(region -> {
-                region.getAcceptedTransportTypes().clear();
+                region.clearAcceptedTransport();
                 statsPanel.setSelectedRegion(region);
                 JOptionPane.showMessageDialog(null,
                         "All borders closed for " + region.getName(),

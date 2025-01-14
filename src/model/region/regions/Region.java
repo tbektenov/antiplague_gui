@@ -19,9 +19,8 @@ public abstract
     private final RegionPoint regionPoint;
 
     // transport
-    private Set<TransportType> acceptedTransportTypes;
     private Set<TransportType> supportedTransportTypes;
-    private Map<TransportType, Set<Class<? extends Region>>> transportRules = new HashMap<>();
+    private final Map<TransportType, Set<String>> acceptedTransport = new HashMap<>();
 
     public Region(String name,
                   Color color,
@@ -33,7 +32,7 @@ public abstract
         this.regionPoint = regionPoint;
         this.virus = new Virus( _ -> callback.accept(this));
 
-        this.acceptedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
+        initializeTransportRules();
         this.supportedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
 
         if (regionExtent.containsKey(color)) {
@@ -48,22 +47,14 @@ public abstract
                   int population,
                   RegionPoint regionPoint,
                   Consumer<Region> callback,
-                  Set<TransportType> acceptedTransportTypes,
                   Set<TransportType> supportedTransportTypes) {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
         this.virus = new Virus( _ -> callback.accept(this));
 
-        if (acceptedTransportTypes == null) this.acceptedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
-        else {
-            this.acceptedTransportTypes = new HashSet<>(acceptedTransportTypes);
-        }
-
-        if (supportedTransportTypes == null) this.supportedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
-        else {
-            this.supportedTransportTypes = new HashSet<>(supportedTransportTypes);
-        }
+        initializeTransportRules();
+        this.supportedTransportTypes = new HashSet<>(Objects.requireNonNullElseGet(supportedTransportTypes, () -> EnumSet.allOf(TransportType.class)));
 
         if (regionExtent.containsKey(color)) {
             throw new IllegalArgumentException("Region associated with this color already exists");
@@ -80,6 +71,8 @@ public abstract
         regionExtent.clear();
     }
 
+    protected abstract void initializeTransportRules();
+
     public synchronized int getGlobalPopulation() {
         int globalPopulation = regionExtent.values().stream().mapToInt(Region::getPopulation).sum();
         return globalPopulation;
@@ -93,24 +86,30 @@ public abstract
         return regionExtent.get(color);
     }
 
-    public Set<TransportType> getAcceptedTransportTypes() {
-        return acceptedTransportTypes;
+    public synchronized Map<TransportType, Set<String>> getAcceptedTransport() {
+        return Collections.unmodifiableMap(acceptedTransport);
     }
 
-    public void setAcceptedTransportTypes(Set<TransportType> acceptedTransportTypes) {
-        this.acceptedTransportTypes = acceptedTransportTypes;
+    public synchronized void clearAcceptedTransport() {
+        acceptedTransport.clear();
     }
 
-    public synchronized void addAcceptedTransportType(TransportType type) {
-        this.acceptedTransportTypes.add(type);
+    public synchronized void removeAcceptedTransportType(TransportType transportType) {
+        acceptedTransport.remove(transportType);
     }
 
-    public synchronized void removeAcceptedTransportType(TransportType type) {
-        if (this.acceptedTransportTypes.contains(type)) acceptedTransportTypes.remove(type);
+    public void addAcceptedTransport(TransportType type, Set<String> regions) {
+        Set<String> filteredRegions = new HashSet<>(regions);
+        filteredRegions.remove(name);
+        acceptedTransport.put(type, filteredRegions);
     }
 
-    public synchronized boolean acceptsTransport(TransportType transportType) {
-        return this.acceptedTransportTypes.contains(transportType);
+    public boolean acceptsTransport(TransportType type, String regionName) {
+        return acceptedTransport.getOrDefault(type, Set.of()).contains(regionName);
+    }
+
+    public void addSupportedTransport(TransportType type) {
+        supportedTransportTypes.add(type);
     }
 
     public Set<TransportType> getSupportedTransportTypes() {

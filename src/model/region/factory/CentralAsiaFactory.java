@@ -18,7 +18,7 @@ public class CentralAsiaFactory
     }
 
     @Override
-    public Region createRegion(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback, Set<TransportType> acceptedTransportTypes, Set<TransportType> supportedTransportTypes) {
-        return new CentralAsia(name, color, population, regionPoint, callback, acceptedTransportTypes, supportedTransportTypes);
+    public Region createRegion(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback, Set<TransportType> supportedTransportTypes) {
+        return new CentralAsia(name, color, population, regionPoint, callback, supportedTransportTypes);
     }
 }

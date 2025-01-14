@@ -13,5 +13,5 @@ public interface RegionFactory {
     Region createRegion(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback);
 
     Region createRegion(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback,
-                        Set<TransportType> acceptedTransportTypes, Set<TransportType> supportedTransportTypes);
+                        Set<TransportType> supportedTransportTypes);
 }

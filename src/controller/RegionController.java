@@ -32,7 +32,6 @@ public class RegionController {
 
         new CentralAsiaFactory().createRegion("Central Asia", new Color(244, 255, 0), 82_893_000,
                 new RegionPoint(0.67, 0.45), statsPanel::updateInfection,
-                Set.of(TransportType.PLANE, TransportType.CAR, TransportType.TRAIN),
                 Set.of(TransportType.PLANE, TransportType.CAR, TransportType.TRAIN));
 
         new EastAsiaFactory().createRegion("East Asia", new Color(255, 122, 213), 1_654_000_000,
