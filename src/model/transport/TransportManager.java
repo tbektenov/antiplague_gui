@@ -1,6 +1,7 @@
 package model.transport;
 
 import model.region.common.RegionPoint;
+import model.region.regions.Region;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class TransportManager {
         this.spawnRateMultiplier = spawnRateMultiplier;
     }
 
-    public void spawnTransport(TransportType type, RegionPoint start, RegionPoint end) {
+    public void spawnTransport(TransportType type, Region start, Region end) {
         Route route = new Route(start, end);
         Transport transport = new Transport(type, route);
         TransportThread thread = new TransportThread(transport, panel, this);

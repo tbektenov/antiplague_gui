@@ -60,11 +60,16 @@ public class TransportThread implements Runnable {
 
         Image icon = transport.getIcon();
 
-        if (icon != null) {
+        try {
             g.drawImage(icon, position.x - (iconWidth / 2), position.y - (iconHeight / 2), iconWidth, iconHeight, null);
-        } else {
+        } catch (Exception e){
             g.setColor(new Color(0xFF0095));
             g.fillOval(position.x - 3, position.y - 3, 6, 6);
+
+            JOptionPane.showMessageDialog(null,
+                    "Error drawing icon: " + e,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

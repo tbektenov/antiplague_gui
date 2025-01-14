@@ -36,7 +36,7 @@ public class TransportController {
 
         TransportType validType = getRandomValidTransportType(startRegion, endRegion);
         if (validType != null) {
-            transportManager.spawnTransport(validType, startRegion.getRegionPoint(), endRegion.getRegionPoint());
+            transportManager.spawnTransport(validType, startRegion, endRegion);
         }
     }
 
