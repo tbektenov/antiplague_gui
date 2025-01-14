@@ -17,6 +17,7 @@ public class PointsController {
         this.view = shopPanel.getPointsView();
         this.controllerTimer = new Timer(true);
 
+        model.reset();
         model.start();
         startControllerTimer();
     }

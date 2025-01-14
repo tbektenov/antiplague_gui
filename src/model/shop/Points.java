@@ -10,7 +10,7 @@ public class Points {
 
     private int amount;
     private boolean running = true;
-    private final Timer timer;
+    private Timer timer;
 
     private Points() {
         this.amount = 0;
@@ -36,6 +36,16 @@ public class Points {
         if ((amount - subtrahend) >= 0) {
             this.amount -= subtrahend;
         }
+    }
+
+    public synchronized void reset() {
+        this.amount = 0;
+        this.running = true;
+        if (timer != null) {
+            timer.cancel();
+        }
+        timer = new Timer(true);
+        start();
     }
 
     public void start() {

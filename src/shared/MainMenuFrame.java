@@ -20,6 +20,11 @@ public class MainMenuFrame
         JButton highScoresButton = new JButton("High Scores");
         JButton exitButton = new JButton("Exit");
 
+        Dimension buttonSize = new Dimension(200, 100);
+        newGameButton.setPreferredSize(buttonSize);
+        highScoresButton.setPreferredSize(buttonSize);
+        exitButton.setPreferredSize(buttonSize);
+
         mainPanel.add(newGameButton);
         mainPanel.add(highScoresButton);
         mainPanel.add(exitButton);
@@ -37,7 +42,7 @@ public class MainMenuFrame
 
         add(mainPanel);
 
-        setSize(400, 300);
+        setSize(1200, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);

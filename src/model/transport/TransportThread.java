@@ -5,16 +5,13 @@ import model.region.common.RegionPoint;
 import javax.swing.*;
 import java.awt.*;
 
-public class TransportThread
-        implements Runnable {
+public class TransportThread implements Runnable {
     private final Transport transport;
     private final JPanel panel;
     private final TransportManager manager;
-    private boolean running = true;
+    private volatile boolean running = true;
 
-    public TransportThread(Transport transport,
-                           JPanel panel,
-                           TransportManager manager) {
+    public TransportThread(Transport transport, JPanel panel, TransportManager manager) {
         this.transport = transport;
         this.panel = panel;
         this.manager = manager;
@@ -32,8 +29,12 @@ public class TransportThread
                 Thread.currentThread().interrupt();
             }
         }
-        running = false;
-        manager.removeTransport(this);
+
+        if (transport.hasReachedDestination()) {
+            synchronized (manager) {
+                manager.removeTransport(this);
+            }
+        }
     }
 
     public Point getCurrentPosition(int panelWidth, int panelHeight) {
@@ -65,15 +66,6 @@ public class TransportThread
             g.setColor(new Color(0xFF0095));
             g.fillOval(position.x - 3, position.y - 3, 6, 6);
         }
-    }
-
-    private Color getColorByType() {
-        return switch (transport.getTransportType()) {
-            case PLANE -> new Color(0x00949AFF);
-            case TRAIN -> new Color(0x6A4001);
-            case CAR -> new Color(0x8C0000);
-            case BOAT -> new Color(0x6C6C8E);
-        };
     }
 
     public void stopTransport() {

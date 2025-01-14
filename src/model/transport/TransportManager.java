@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 
 public class TransportManager {
     private final List<TransportThread> activeTransports = new ArrayList<>();
-    private final ExecutorService executor = Executors.newFixedThreadPool(10);
+    private final ExecutorService executor = Executors.newFixedThreadPool(100);
     private final JPanel panel;
 
     public TransportManager(JPanel panel) {
@@ -22,22 +22,31 @@ public class TransportManager {
         Transport transport = new Transport(type, route);
         TransportThread thread = new TransportThread(transport, panel, this);
 
-        activeTransports.add(thread);
+        synchronized (activeTransports) {
+            activeTransports.add(thread);
+        }
         executor.submit(thread);
     }
 
     public List<TransportThread> getActiveTransports() {
-        return activeTransports;
+        synchronized (activeTransports) {
+            return new ArrayList<>(activeTransports);
+        }
     }
 
     public synchronized void removeTransport(TransportThread transportThread) {
-        activeTransports.remove(transportThread);
+        synchronized (activeTransports) {
+            activeTransports.remove(transportThread);
+        }
+        panel.repaint();
     }
 
     public void stopAll() {
-        for (TransportThread thread : activeTransports) {
-            thread.stopTransport();
+        synchronized (activeTransports) {
+            for (TransportThread thread : activeTransports) {
+                thread.stopTransport();
+            }
         }
-        executor.shutdownNow();
+        executor.shutdown();
     }
 }

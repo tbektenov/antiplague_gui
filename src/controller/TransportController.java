@@ -22,28 +22,31 @@ public class TransportController {
     }
 
     private void startTransportSpawning() {
-        scheduler.scheduleAtFixedRate(this::spawnRandomTransport, 2, 5, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this::spawnRandomTransport, 0, 100, TimeUnit.MILLISECONDS);
     }
 
     public Region[] getRandomRegions() {
         List<Region> regions = new ArrayList<>(Region.getRegionExtent().values());
+        if (regions.size() < 2) return null;
         Collections.shuffle(regions);
         Region startRegion = regions.get(0);
         Region endRegion = regions.get(1);
 
-        return new Region[] { startRegion, endRegion };
+        return new Region[]{startRegion, endRegion};
     }
 
     public void spawnRandomTransport() {
         Region[] randomRegions = getRandomRegions();
+
+        if (randomRegions == null) return;
+
         Region startRegion = randomRegions[0];
         Region endRegion = randomRegions[1];
 
         TransportType selectedType = getValidTransportType(startRegion, endRegion);
+        if (selectedType == null) return;
 
-        if (selectedType != null) {
-            transportManager.spawnTransport(selectedType, startRegion.getRegionPoint(), endRegion.getRegionPoint());
-        }
+        transportManager.spawnTransport(selectedType, startRegion.getRegionPoint(), endRegion.getRegionPoint());
     }
 
     private TransportType getValidTransportType(Region startRegion, Region endRegion) {
