@@ -1,18 +1,22 @@
 package model.region.common;
 
+import model.difficulty.Difficulty;
+
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 public class Virus
-    implements Runnable{
+        implements Runnable {
 
     private float infectionLevel;
     private boolean running = true;
     private final Consumer<Float> infectionCallback;
+    private final double spreadRateMultiplier;
 
-    public Virus(Consumer<Float> infectionCallback) {
+    public Virus(Consumer<Float> infectionCallback, Difficulty difficulty) {
         this.infectionLevel = ThreadLocalRandom.current().nextFloat(0, 10);
         this.infectionCallback = infectionCallback;
+        this.spreadRateMultiplier = difficulty.getInfectionMultiplier();
     }
 
     public synchronized float getInfectionLevel() {
@@ -20,7 +24,7 @@ public class Virus
     }
 
     public synchronized void increaseInfection() {
-        float increase = ThreadLocalRandom.current().nextFloat(1, 3);
+        float increase = (float) (ThreadLocalRandom.current().nextFloat(1, 3) * spreadRateMultiplier);
         infectionLevel = Math.min(infectionLevel + increase, 100);
 
         infectionCallback.accept(infectionLevel);

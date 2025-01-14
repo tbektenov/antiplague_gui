@@ -1,12 +1,12 @@
 package shared;
 
+import model.difficulty.Difficulty;
 import view.HighScoreView;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MainMenuFrame
-        extends JFrame {
+public class MainMenuFrame extends JFrame {
 
     public MainMenuFrame() {
         super("AntiPlague Game - Main Menu");
@@ -29,16 +29,17 @@ public class MainMenuFrame
         mainPanel.add(highScoresButton);
         mainPanel.add(exitButton);
 
-        newGameButton.addActionListener( _ -> {
-            new GameFrame();
-            dispose();
+        newGameButton.addActionListener(_ -> {
+            Difficulty chosenDifficulty = showDifficultyDialog();
+            if (chosenDifficulty != null) {
+                new GameFrame(chosenDifficulty);
+                dispose();
+            }
         });
 
-        highScoresButton.addActionListener( _ -> {
-            new HighScoreView();
-        });
+        highScoresButton.addActionListener(_ -> new HighScoreView());
 
-        exitButton.addActionListener( _ -> System.exit(0));
+        exitButton.addActionListener(_ -> System.exit(0));
 
         add(mainPanel);
 
@@ -46,6 +47,27 @@ public class MainMenuFrame
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    private Difficulty showDifficultyDialog() {
+        String[] options = {"Easy", "Medium", "Hard"};
+        int choice = JOptionPane.showOptionDialog(
+                this,
+                "Select Difficulty",
+                "Difficulty Selection",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        switch (choice) {
+            case 0: return Difficulty.EASY;
+            case 1: return Difficulty.MEDIUM;
+            case 2: return Difficulty.HARD;
+            default: return null;
+        }
     }
 
     public static void main(String[] args) {

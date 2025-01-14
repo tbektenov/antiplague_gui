@@ -2,6 +2,7 @@ package shared;
 
 import controller.RegionController;
 import controller.TransportController;
+import model.difficulty.Difficulty;
 import model.region.regions.Region;
 import model.region.common.RegionPoint;
 import model.transport.TransportManager;
@@ -24,10 +25,11 @@ public class MapPanel
     private final TransportManager transportManager;
     private final TransportController transportController;
 
-    public MapPanel(StatsPanel statsPanel) {
-        this.regionController = new RegionController(statsPanel);
+    public MapPanel(StatsPanel statsPanel, Difficulty difficulty) {
+        this.regionController = new RegionController(statsPanel, difficulty);
         this.transportManager = new TransportManager(this);
-        this.transportController = new TransportController(transportManager);
+        this.transportController = new TransportController(transportManager, difficulty);
+
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -102,5 +104,9 @@ public class MapPanel
         regionController.stopInfections();
         transportManager.stopAll();
         transportController.stopTransportSpawning();
+    }
+
+    public TransportManager getTransportManager() {
+        return transportManager;
     }
 }

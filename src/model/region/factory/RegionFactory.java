@@ -1,5 +1,6 @@
 package model.region.factory;
 
+import model.difficulty.Difficulty;
 import model.region.common.RegionPoint;
 import model.region.regions.Region;
 import model.transport.TransportType;
@@ -10,8 +11,9 @@ import java.util.function.Consumer;
 
 public interface RegionFactory {
 
-    Region createRegion(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback);
+    Region createRegion(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback, Difficulty difficulty);
 
     Region createRegion(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback,
-                        Set<TransportType> supportedTransportTypes);
+                        Difficulty difficulty, Set<TransportType> supportedTransportTypes);
 }
+

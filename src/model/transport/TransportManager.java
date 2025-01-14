@@ -12,9 +12,15 @@ public class TransportManager {
     private final List<TransportThread> activeTransports = new ArrayList<>();
     private final ExecutorService executor = Executors.newFixedThreadPool(100);
     private final JPanel panel;
+    private float spawnRateMultiplier = 1.0f;
 
     public TransportManager(JPanel panel) {
         this.panel = panel;
+    }
+
+    public TransportManager(JPanel panel, float spawnRateMultiplier) {
+        this.panel = panel;
+        this.spawnRateMultiplier = spawnRateMultiplier;
     }
 
     public void spawnTransport(TransportType type, RegionPoint start, RegionPoint end) {
@@ -48,5 +54,12 @@ public class TransportManager {
             }
         }
         executor.shutdown();
+    }
+
+    public void setSpawnRateMultiplier(float multiplier) {
+        this.spawnRateMultiplier = multiplier;
+    }
+    public float getSpawnRateMultiplier() {
+        return spawnRateMultiplier;
     }
 }

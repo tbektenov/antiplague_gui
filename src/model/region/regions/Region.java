@@ -1,5 +1,6 @@
 package model.region.regions;
 
+import model.difficulty.Difficulty;
 import model.region.common.RegionPoint;
 import model.region.common.Virus;
 import model.transport.TransportType;
@@ -8,8 +9,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.function.Consumer;
 
-public abstract
-    class Region {
+public abstract class Region {
 
     private static final Map<Color, Region> regionExtent = new HashMap<>();
 
@@ -24,13 +24,14 @@ public abstract
                   Color color,
                   int population,
                   RegionPoint regionPoint,
-                  Consumer<Region> callback) {
+                  Consumer<Region> callback,
+                  Difficulty difficulty) {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus( _ -> callback.accept(this));
+        this.virus = new Virus(infectionLevel -> callback.accept(this), difficulty);
+        this.supportedTransportTypes = EnumSet.allOf(TransportType.class);
 
-        this.supportedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
         initializeTransportRules();
 
         if (regionExtent.containsKey(color)) {
@@ -45,11 +46,12 @@ public abstract
                   int population,
                   RegionPoint regionPoint,
                   Consumer<Region> callback,
+                  Difficulty difficulty,
                   Set<TransportType> supportedTransportTypes) {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus( _ -> callback.accept(this));
+        this.virus = new Virus(infectionLevel -> callback.accept(this), difficulty);
 
         this.supportedTransportTypes = new HashSet<>(Objects.requireNonNullElseGet(supportedTransportTypes, () -> EnumSet.allOf(TransportType.class)));
         initializeTransportRules();

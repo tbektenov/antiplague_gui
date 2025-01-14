@@ -1,5 +1,6 @@
 package controller;
 
+import model.difficulty.Difficulty;
 import model.region.regions.Region;
 import model.transport.TransportManager;
 import model.transport.TransportType;
@@ -15,17 +16,18 @@ public class TransportController {
     private final TransportManager transportManager;
     private final ScheduledExecutorService scheduler;
 
-    public TransportController(TransportManager transportManager) {
+    public TransportController(TransportManager transportManager, Difficulty difficulty) {
         this.transportManager = transportManager;
+        this.transportManager.setSpawnRateMultiplier(difficulty.getSpawnRateMultiplier());
         this.scheduler = Executors.newScheduledThreadPool(1);
-        startTransportSpawning();
+        startTransportSpawning((long) (1000 / difficulty.getSpawnRateMultiplier()));
     }
 
-    private void startTransportSpawning() {
-        scheduler.scheduleAtFixedRate(this::spawnTransportBasedOnRules, 0, 100, TimeUnit.MILLISECONDS);
+    private void startTransportSpawning(long interval) {
+        scheduler.scheduleAtFixedRate(this::spawnTransport, 0, interval, TimeUnit.MILLISECONDS);
     }
 
-    public void spawnTransportBasedOnRules() {
+    public void spawnTransport() {
         Region[] validRegions = getValidRegionPair();
         if (validRegions == null) return;
 

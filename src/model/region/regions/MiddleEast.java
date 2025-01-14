@@ -1,5 +1,6 @@
 package model.region.regions;
 
+import model.difficulty.Difficulty;
 import model.region.common.RegionPoint;
 import model.transport.TransportType;
 
@@ -10,12 +11,12 @@ import java.util.function.Consumer;
 public class MiddleEast
     extends Region {
 
-    public MiddleEast(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback) {
-        super(name, color, population, regionPoint, callback);
+    public MiddleEast(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback, Difficulty difficulty) {
+        super(name, color, population, regionPoint, callback, difficulty);
     }
 
-    public MiddleEast(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback, Set<TransportType> supportedTransportTypes) {
-        super(name, color, population, regionPoint, callback, supportedTransportTypes);
+    public MiddleEast(String name, Color color, int population, RegionPoint regionPoint, Consumer<Region> callback, Difficulty difficulty, Set<TransportType> supportedTransportTypes) {
+        super(name, color, population, regionPoint, callback, difficulty, supportedTransportTypes);
     }
 
     @Override

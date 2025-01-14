@@ -1,8 +1,11 @@
 package shared;
 
 import controller.PointsController;
+import controller.RegionController;
 import controller.TimerController;
+import controller.TransportController;
 import controller.UpgradeController;
+import model.difficulty.Difficulty;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,15 +18,17 @@ public class GameFrame extends JFrame {
     private TimerController timerController;
     private PointsController pointsController;
     private UpgradeController upgradeController;
+    private RegionController regionController;
+    private TransportController transportController;
     private KeyEventDispatcher keyEventDispatcher;
 
-    public GameFrame() {
+    public GameFrame(Difficulty difficulty) {
         super("AntiPlague Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         StatsPanel statsPanel = new StatsPanel();
-        MapPanel mapPanel = new MapPanel(statsPanel);
+        MapPanel mapPanel = new MapPanel(statsPanel, difficulty);
 
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(mapPanel, BorderLayout.CENTER);
@@ -34,6 +39,8 @@ public class GameFrame extends JFrame {
         timerController = new TimerController(statsPanel);
         pointsController = new PointsController(shopPanel);
         upgradeController = new UpgradeController(shopPanel, statsPanel);
+        regionController = new RegionController(statsPanel, difficulty);
+        transportController = new TransportController(mapPanel.getTransportManager(), difficulty);
 
         add(topPanel, BorderLayout.CENTER);
         add(shopPanel, BorderLayout.SOUTH);
@@ -45,7 +52,9 @@ public class GameFrame extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                cleanUpResources(mapPanel);
+                mapPanel.stopThreads();
+                timerController.stopTimer();
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(keyEventDispatcher);
                 System.exit(0);
             }
         });
@@ -53,7 +62,7 @@ public class GameFrame extends JFrame {
         keyEventDispatcher = e -> {
             if (e.getID() == KeyEvent.KEY_PRESSED) {
                 if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
-                    cleanUpResources(mapPanel);
+                    mapPanel.stopThreads();
                     dispose();
                     new MainMenuFrame();
                     return true;
@@ -67,11 +76,5 @@ public class GameFrame extends JFrame {
         setFocusable(true);
         requestFocusInWindow();
         setVisible(true);
-    }
-
-    private void cleanUpResources(MapPanel mapPanel) {
-        mapPanel.stopThreads();
-        timerController.stopTimer();
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(keyEventDispatcher);
     }
 }
