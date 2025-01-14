@@ -16,6 +16,9 @@ public class GameFrame
         extends JFrame {
 
     private TimerController timerController;
+    private PointsController pointsController;
+    private UpgradeController upgradeController;
+    private TransportController transportController;
     private KeyEventDispatcher keyEventDispatcher;
 
     public GameFrame(Difficulty difficulty) {
@@ -33,9 +36,9 @@ public class GameFrame
         ShopPanel shopPanel = new ShopPanel();
 
         timerController = new TimerController(statsPanel);
-        PointsController pointsController = new PointsController(shopPanel);
-        UpgradeController upgradeController = new UpgradeController(shopPanel, statsPanel);
-        TransportController transportController = new TransportController(mapPanel.getTransportManager(), difficulty);
+        pointsController = new PointsController(shopPanel);
+        upgradeController = new UpgradeController(shopPanel, statsPanel);
+        transportController = new TransportController(mapPanel.getTransportManager(), difficulty);
 
         add(topPanel, BorderLayout.CENTER);
         add(shopPanel, BorderLayout.SOUTH);
