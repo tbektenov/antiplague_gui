@@ -17,8 +17,6 @@ public abstract
     private int population;
     private final Virus virus;
     private final RegionPoint regionPoint;
-
-    // transport
     private Set<TransportType> supportedTransportTypes;
     private final Map<TransportType, Set<String>> acceptedTransport = new HashMap<>();
 
@@ -32,8 +30,8 @@ public abstract
         this.regionPoint = regionPoint;
         this.virus = new Virus( _ -> callback.accept(this));
 
-        initializeTransportRules();
         this.supportedTransportTypes = new HashSet<>(EnumSet.allOf(TransportType.class));
+        initializeTransportRules();
 
         if (regionExtent.containsKey(color)) {
             throw new IllegalArgumentException("Region associated with this color already exists");
@@ -53,8 +51,8 @@ public abstract
         this.regionPoint = regionPoint;
         this.virus = new Virus( _ -> callback.accept(this));
 
-        initializeTransportRules();
         this.supportedTransportTypes = new HashSet<>(Objects.requireNonNullElseGet(supportedTransportTypes, () -> EnumSet.allOf(TransportType.class)));
+        initializeTransportRules();
 
         if (regionExtent.containsKey(color)) {
             throw new IllegalArgumentException("Region associated with this color already exists");
@@ -74,8 +72,7 @@ public abstract
     protected abstract void initializeTransportRules();
 
     public synchronized int getGlobalPopulation() {
-        int globalPopulation = regionExtent.values().stream().mapToInt(Region::getPopulation).sum();
-        return globalPopulation;
+        return regionExtent.values().stream().mapToInt(Region::getPopulation).sum();
     }
 
     public static boolean containsColor(Color color) {
@@ -121,15 +118,15 @@ public abstract
     }
 
     public synchronized void addSupportedTransportType(TransportType type) {
-        this.supportedTransportTypes.add(type);
+        supportedTransportTypes.add(type);
     }
 
     public synchronized void removeSupportedTransportType(TransportType type) {
-        if (this.supportedTransportTypes.contains(type)) supportedTransportTypes.remove(type);
+        supportedTransportTypes.remove(type);
     }
 
     public boolean supportsTransport(TransportType transportType) {
-        return this.supportedTransportTypes.contains(transportType);
+        return supportedTransportTypes.contains(transportType);
     }
 
     public synchronized void decreasePopulation(int subtrahend) {
@@ -147,7 +144,7 @@ public abstract
     }
 
     public Virus getVirus() {
-        return this.virus;
+        return virus;
     }
 
     public float getInfectionLevel() {
@@ -155,8 +152,7 @@ public abstract
     }
 
     public void startInfection() {
-        Thread infectionThread = new Thread(virus);
-        infectionThread.start();
+        new Thread(virus).start();
     }
 
     public void stopInfection() {
@@ -164,11 +160,11 @@ public abstract
     }
 
     public RegionPoint getRegionPoint() {
-        return this.regionPoint;
+        return regionPoint;
     }
 
     @Override
     public String toString() {
-        return this.getName();
+        return name;
     }
 }
