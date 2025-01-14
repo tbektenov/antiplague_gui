@@ -34,7 +34,7 @@ public class MapPanel
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         loadWorldMap();
-        regionController.startInfections();
+        regionController.startGame();
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -61,7 +61,11 @@ public class MapPanel
         try {
             worldMap = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resources/World_map.png")));
         } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error loading world map: " + e,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

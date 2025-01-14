@@ -8,6 +8,9 @@ import model.transport.TransportType;
 import shared.StatsPanel;
 
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -63,6 +66,17 @@ public class RegionController {
 
         new SouthEastAsiaFactory().createRegion("South East Asia", new Color(200, 255, 0), 697_548_000,
                 new RegionPoint(.85f, .6f), statsPanel::updateInfection, difficulty);
+    }
+
+    public void startGame() {
+        Region patientZero = choosePatientZero();
+        System.out.println("Patient Zero: " + patientZero.getName());
+        patientZero.startInfection();
+    }
+
+    private Region choosePatientZero() {
+        List<Region> regions = new ArrayList<>(Region.getRegionExtent().values());
+        return regions.get(new Random().nextInt(regions.size()));
     }
 
     public void startInfections() {

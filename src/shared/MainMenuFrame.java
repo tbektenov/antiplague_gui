@@ -6,19 +6,20 @@ import view.HighScoreView;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainMenuFrame extends JFrame {
+public class MainMenuFrame
+        extends JFrame {
 
     public MainMenuFrame() {
         super("AntiPlague Game - Main Menu");
 
-        JPanel mainPanel = new JPanel();
+        JPanel mainPanel = new MainMenuBackgroundPanel();
         mainPanel.setLayout(new GridLayout(3, 1, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         mainPanel.setBackground(Color.LIGHT_GRAY);
 
         JLabel titleLabel = new JLabel("AntiPlague Game - Main Menu");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        titleLabel.setForeground(Color.BLACK);
+        titleLabel.setForeground(Color.WHITE);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         mainPanel.add(titleLabel);
 

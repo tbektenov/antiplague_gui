@@ -20,6 +20,8 @@ public abstract class Region {
     private Set<TransportType> supportedTransportTypes;
     private final Map<TransportType, Set<String>> acceptedTransport = new HashMap<>();
 
+    private boolean infectionRunning = false;
+
     public Region(String name,
                   Color color,
                   int population,
@@ -153,11 +155,19 @@ public abstract class Region {
         return virus.getInfectionLevel();
     }
 
-    public void startInfection() {
-        new Thread(virus).start();
+    public synchronized boolean isInfectionRunning() {
+        return infectionRunning;
     }
 
-    public void stopInfection() {
+    public synchronized void startInfection() {
+        if (!infectionRunning) {
+            infectionRunning = true;
+            new Thread(virus).start();
+        }
+    }
+
+    public synchronized void stopInfection() {
+        infectionRunning = false;
         virus.stop();
     }
 

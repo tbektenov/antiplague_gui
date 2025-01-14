@@ -52,6 +52,10 @@ public class TransportThread
                     .getVirus()
                         .increaseInfection(
                             getAddendBasedOnTransportType(transport.getTransportType()));
+
+            if (destinationRegion.getInfectionLevel() > 0 && !destinationRegion.isInfectionRunning()) {
+                destinationRegion.startInfection();
+            }
         }
     }
 
@@ -100,10 +104,10 @@ public class TransportThread
 
     private float getAddendBasedOnTransportType(TransportType transportType) {
         return switch(transportType) {
-            case PLANE -> ThreadLocalRandom.current().nextFloat(.03f, .06f);
-            case TRAIN -> ThreadLocalRandom.current().nextFloat(.01f, .04f);
-            case CAR -> ThreadLocalRandom.current().nextFloat(.01f, .03f);
-            case BOAT -> ThreadLocalRandom.current().nextFloat(.02f, .05f);
+            case PLANE -> ThreadLocalRandom.current().nextFloat(.06f);
+            case TRAIN -> ThreadLocalRandom.current().nextFloat(.04f);
+            case CAR -> ThreadLocalRandom.current().nextFloat(.03f);
+            case BOAT -> ThreadLocalRandom.current().nextFloat(.05f);
         };
     }
 }
