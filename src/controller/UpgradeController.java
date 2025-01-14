@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.util.Optional;
 
 public class UpgradeController {
-    private static UpgradeController instance;
     private final Points pointsModel;
     private final UpgradePanel upgradePanel;
     private final StatsPanel statsPanel;
