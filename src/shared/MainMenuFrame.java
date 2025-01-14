@@ -56,23 +56,20 @@ public class MainMenuFrame extends JFrame {
     }
 
     private Difficulty showDifficultyDialog() {
-        String[] options = {"Easy", "Medium", "Hard"};
-        int choice = JOptionPane.showOptionDialog(
+        JComboBox<Difficulty> comboBox = new JComboBox<>(Difficulty.values());
+
+        int choice = JOptionPane.showConfirmDialog(
                 this,
+                comboBox,
                 "Select Difficulty",
-                "Select Difficulty",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE
         );
 
-        switch (choice) {
-            case 0: return Difficulty.EASY;
-            case 1: return Difficulty.MEDIUM;
-            case 2: return Difficulty.HARD;
-            default: return null;
+        if (choice == JOptionPane.OK_OPTION) {
+            return (Difficulty) comboBox.getSelectedItem();
+        } else {
+            return null;
         }
     }
 
