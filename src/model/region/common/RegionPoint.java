@@ -1,19 +1,19 @@
 package model.region.common;
 
 public class RegionPoint {
-    private double x;
-    private double y;
+    private float x;
+    private float y;
 
-    public RegionPoint(double x, double y) {
+    public RegionPoint(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
-    public double getX() {
+    public float getX() {
         return x;
     }
 
-    public double getY() {
+    public float getY() {
         return y;
     }
 

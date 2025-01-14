@@ -1,6 +1,7 @@
 package model.transport;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
@@ -53,17 +54,24 @@ public class Transport {
     }
 
     private void loadIcon() {
-        String iconPath = switch (transportType) {
-            case PLANE -> "/resources/plane.png";
-            case TRAIN -> "/resources/train.png";
-            case CAR -> "/resources/car.png";
-            case BOAT -> "/resources/boat.png";
+        String iconPath;
+
+        switch (transportType) {
+            case PLANE -> iconPath = "/resources/plane.png";
+            case TRAIN -> iconPath ="/resources/train.png";
+            case CAR -> iconPath = "/resources/car.png";
+            case BOAT -> iconPath = "/resources/boat.png";
+            default -> iconPath = null;
         };
 
         try {
             this.icon = ImageIO.read(Objects.requireNonNull(getClass().getResource(iconPath)));
         } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Error loading icon: " + e,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 }

@@ -91,13 +91,14 @@ public class UpgradeController {
 
     private boolean spendPoints(int cost) {
         int currentPoints = pointsModel.getAmount();
+
         if ((currentPoints - cost) >= 0) {
             pointsModel.decreasePoints(cost);
             return true;
         } else {
             JOptionPane.showMessageDialog(null,
-                    "Not enough points to acquire upgrade!",
-                    "Insufficient Points",
+                    "Not enough points!",
+                    "Insufficient Balance",
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -105,6 +106,7 @@ public class UpgradeController {
 
     private Optional<Region> showRegionSelectionDialog() {
         Region[] regions = Region.getRegionExtent().values().toArray(new Region[0]);
+
         Region selectedRegion = (Region) JOptionPane.showInputDialog(
                 null,
                 "Select a region to apply effect:",
@@ -114,11 +116,13 @@ public class UpgradeController {
                 regions,
                 regions[0]
         );
+
         return Optional.ofNullable(selectedRegion);
     }
 
     private Optional<TransportType> showTransportTypeSelectionDialog() {
         TransportType[] transportTypes = TransportType.values();
+
         TransportType selectedType = (TransportType) JOptionPane.showInputDialog(
                 null,
                 "Select a transport type to close borders:",
@@ -128,6 +132,7 @@ public class UpgradeController {
                 transportTypes,
                 transportTypes[0]
         );
+
         return Optional.ofNullable(selectedType);
     }
 

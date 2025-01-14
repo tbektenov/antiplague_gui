@@ -25,13 +25,22 @@ public class Virus
 
     public synchronized void increaseInfection() {
         float increase = (float) (ThreadLocalRandom.current().nextFloat(1, 3) * spreadRateMultiplier);
-        infectionLevel = Math.min(infectionLevel + increase, 100);
+
+        if ((infectionLevel + increase) <= 100) {
+            infectionLevel += increase;
+        } else {
+            infectionLevel = 100;
+        }
 
         infectionCallback.accept(infectionLevel);
     }
 
     public synchronized void decreaseInfection(float subtrahend) {
-        infectionLevel = Math.max(infectionLevel - subtrahend, 0);
+        if ((infectionLevel - subtrahend) >= 0) {
+            infectionLevel -= subtrahend;
+        } else {
+            infectionLevel = 0;
+        }
     }
 
     @Override
