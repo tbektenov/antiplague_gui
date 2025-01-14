@@ -1,7 +1,6 @@
 package shared;
 
 import controller.PointsController;
-import controller.RegionController;
 import controller.TimerController;
 import controller.TransportController;
 import controller.UpgradeController;
@@ -13,7 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GameFrame extends JFrame {
+public class GameFrame
+        extends JFrame {
 
     private TimerController timerController;
     private KeyEventDispatcher keyEventDispatcher;
