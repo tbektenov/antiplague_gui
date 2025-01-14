@@ -14,12 +14,10 @@ public enum Difficulty {
     }
 
     public float getInfectionMultiplier() {
-        System.out.println(infectionMultiplier);
         return infectionMultiplier;
     }
 
     public float getSpawnRateMultiplier() {
-        System.out.println(spawnRateMultiplier);
         return spawnRateMultiplier;
     }
 }
