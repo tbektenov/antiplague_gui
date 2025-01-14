@@ -57,21 +57,21 @@ public class UpgradeController {
                 "Close All Borders",
                 "Closes all borders for selected region.",
                 300,
-                this::applyCloseAllBordersForCountry
+                this::closeAllBordersForCountry
         ));
 
         upgradePanel.addUpgrade(new Upgrade(
                 "Close Specific Transport Borders",
                 "Closes borders for a specific type of transport for selected region.",
                 150,
-                this::applyCloseSpecificTransportForCountry
+                this::banSpecificTransportForCountry
         ));
 
         upgradePanel.addUpgrade(new Upgrade(
                 "Reduce Infection by 50%",
                 "Drops infection by 50% in a selected region.",
                 500,
-                this::applyDropInfectionByHalf
+                this::dropInfectionByHalf
         ));
 
         upgradePanel.addUpgrade(new Upgrade(
@@ -195,22 +195,23 @@ public class UpgradeController {
         }
     }
 
-    private void applyCloseAllBordersForCountry() {
+    private void closeAllBordersForCountry() {
         if (spendPoints(300)) {
             Optional<Region> selectedRegion = showRegionSelectionDialog();
 
             selectedRegion.ifPresent(region -> {
                 region.clearAcceptedTransport();
                 statsPanel.setSelectedRegion(region);
+
                 JOptionPane.showMessageDialog(null,
-                        "All borders closed for " + region.getName(),
+                        region.getName() + "closed all borders",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
             });
         }
     }
 
-    private void applyCloseSpecificTransportForCountry() {
+    private void banSpecificTransportForCountry() {
         if (spendPoints(150)) {
             Optional<Region> selectedRegion = showRegionSelectionDialog();
             Optional<TransportType> selectedTransportType = showTransportTypeSelectionDialog();
@@ -218,21 +219,26 @@ public class UpgradeController {
             if (selectedRegion.isPresent() && selectedTransportType.isPresent()) {
                 selectedRegion.get().removeAcceptedTransportType(selectedTransportType.get());
                 statsPanel.setSelectedRegion(selectedRegion.get());
-                JOptionPane.showMessageDialog(null,
-                        selectedTransportType.get() + " borders closed for " + selectedRegion.get().getName(),
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        selectedRegion.get().getName() + " banned " + selectedTransportType.get(),
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
-    private void applyDropInfectionByHalf() {
+    private void dropInfectionByHalf() {
         if (spendPoints(500)) {
             Optional<Region> selectedRegion = showRegionSelectionDialog();
+
             selectedRegion.ifPresent(region -> {
                 region.getVirus().decreaseInfection(region.getVirus().getInfectionLevel() / 2);
                 statsPanel.setSelectedRegion(region);
-                JOptionPane.showMessageDialog(null,
+
+                JOptionPane.showMessageDialog(
+                        null,
                         region.getName() + "'s infection reduced by 50%.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -243,11 +249,14 @@ public class UpgradeController {
     private void applyStopInfectionSpread() {
         if (spendPoints(800)) {
             Optional<Region> selectedRegion = showRegionSelectionDialog();
+
             selectedRegion.ifPresent(region -> {
                 region.getVirus().stop();
                 region.getVirus().decreaseInfection(region.getVirus().getInfectionLevel());
                 statsPanel.setSelectedRegion(region);
-                JOptionPane.showMessageDialog(null,
+
+                JOptionPane.showMessageDialog(
+                        null,
                         region.getName() + "'s infection spread stopped and set to 0.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -259,13 +268,15 @@ public class UpgradeController {
         if (spendPoints(5000)) {
             Region.getRegionExtent().values()
                     .forEach(region -> region.getVirus()
-                            .decreaseInfection(region.getVirus().getInfectionLevel()));
+                            .setInfectionLevel(0f));
+
             refreshStatsPanel();
-            JOptionPane.showMessageDialog(null,
-                    "All viruses have been destroyed! You win!",
-                    "Victory",
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Virus has been destroyed!",
+                    "Upgrade Acquired",
                     JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
         }
     }
 

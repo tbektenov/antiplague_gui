@@ -2,6 +2,7 @@ package model.region.common;
 
 import model.difficulty.Difficulty;
 
+import javax.swing.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
@@ -17,10 +18,6 @@ public class Virus
         this.infectionLevel = ThreadLocalRandom.current().nextFloat(0, 10);
         this.infectionCallback = infectionCallback;
         this.spreadRateMultiplier = difficulty.getInfectionMultiplier();
-    }
-
-    public synchronized float getInfectionLevel() {
-        return infectionLevel;
     }
 
     public synchronized void increaseInfection() {
@@ -52,6 +49,14 @@ public class Virus
                 Thread.sleep((long) (infectionLevel + ThreadLocalRandom.current().nextInt(2000, 10_000)));
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Unexpected error occured: " + e,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+
                 break;
             }
         }
@@ -59,5 +64,13 @@ public class Virus
 
     public void stop() {
         running = false;
+    }
+
+    public synchronized float getInfectionLevel() {
+        return infectionLevel;
+    }
+
+    public synchronized void setInfectionLevel(float infectionLevel) {
+        this.infectionLevel = infectionLevel;
     }
 }

@@ -16,6 +16,12 @@ public class MainMenuFrame extends JFrame {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         mainPanel.setBackground(Color.LIGHT_GRAY);
 
+        JLabel titleLabel = new JLabel("AntiPlague Game - Main Menu");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(Color.BLACK);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        mainPanel.add(titleLabel);
+
         JButton newGameButton = new JButton("New Game");
         JButton highScoresButton = new JButton("High Scores");
         JButton exitButton = new JButton("Exit");
@@ -54,7 +60,7 @@ public class MainMenuFrame extends JFrame {
         int choice = JOptionPane.showOptionDialog(
                 this,
                 "Select Difficulty",
-                "Difficulty Selection",
+                "Select Difficulty",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,

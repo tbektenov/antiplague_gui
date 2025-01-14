@@ -1,6 +1,5 @@
 package model.transport;
 
-import model.region.common.RegionPoint;
 import model.region.regions.Region;
 
 import javax.swing.*;
@@ -10,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TransportManager {
+
     private final List<TransportThread> activeTransports = new ArrayList<>();
     private final ExecutorService executor = Executors.newFixedThreadPool(100);
     private final JPanel panel;

@@ -4,6 +4,7 @@ import model.region.common.RegionPoint;
 import model.region.regions.Region;
 
 public class Route {
+
     private final Region startRegion;
     private final Region endRegion;
     private final RegionPoint startPoint;

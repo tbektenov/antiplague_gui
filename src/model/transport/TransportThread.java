@@ -5,7 +5,9 @@ import model.region.common.RegionPoint;
 import javax.swing.*;
 import java.awt.*;
 
-public class TransportThread implements Runnable {
+public class TransportThread
+        implements Runnable {
+
     private final Transport transport;
     private final JPanel panel;
     private final TransportManager manager;
@@ -20,12 +22,17 @@ public class TransportThread implements Runnable {
     @Override
     public void run() {
         while (running && !transport.hasReachedDestination()) {
-            transport.move(0.01);
+            transport.move(.01f);
             panel.repaint();
 
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
+                JOptionPane.showMessageDialog(null,
+                        "Unexpected error has occurred while transport was traveling: " + e,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+
                 Thread.currentThread().interrupt();
             }
         }
@@ -66,7 +73,8 @@ public class TransportThread implements Runnable {
             g.setColor(new Color(0xFF0095));
             g.fillOval(position.x - 3, position.y - 3, 6, 6);
 
-            JOptionPane.showMessageDialog(null,
+            JOptionPane.showMessageDialog(
+                    null,
                     "Error drawing icon: " + e,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);

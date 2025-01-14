@@ -18,7 +18,6 @@ public class PointsController {
         this.controllerTimer = new Timer(true);
 
         model.reset();
-        model.start();
         startControllerTimer();
     }
 

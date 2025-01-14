@@ -1,5 +1,7 @@
 package model.transport;
 
+import model.region.regions.Region;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -7,50 +9,27 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Transport {
+
     private final TransportType transportType;
     private final Route route;
-    private double progress;
+    private float progress;
     private Image icon;
 
     public Transport(TransportType transportType, Route route) {
         this.transportType = transportType;
         this.route = route;
-        this.progress = 0.0;
+        this.progress = 0f;
         loadIcon();
     }
 
-    public Route getRoute() {
-        return route;
-    }
+    public void move(float delta) {
+        float adjustedDelta = delta * getSpeedMultiplier();
 
-    public double getProgress() {
-        return progress;
-    }
-
-    public TransportType getTransportType() {
-        return transportType;
-    }
-
-    public Image getIcon() {
-        return icon;
-    }
-
-    public void move(double delta) {
-        double adjustedDelta = delta * getSpeedMultiplier();
-        this.progress = Math.min(progress + adjustedDelta, 1.0);
-    }
-
-    public boolean hasReachedDestination() {
-        return progress == 1.0;
-    }
-
-    private double getSpeedMultiplier() {
-        return switch (transportType) {
-            case PLANE -> 1.0;
-            case TRAIN -> 0.7;
-            case CAR -> 0.4;
-            case BOAT -> 0.5;
-        };
+        if ((this.progress + adjustedDelta) <= 1f) {
+            this.progress += adjustedDelta;
+        } else {
+            this.progress = 1f;
+        }
     }
 
     private void loadIcon() {
@@ -67,11 +46,49 @@ public class Transport {
         try {
             this.icon = ImageIO.read(Objects.requireNonNull(getClass().getResource(iconPath)));
         } catch (IOException | NullPointerException e) {
-            JOptionPane.showMessageDialog(null,
+            JOptionPane.showMessageDialog(
+                    null,
                     "Error loading icon: " + e,
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
         }
+    }
+
+    public boolean hasReachedDestination() {
+        return progress == 1f;
+    }
+
+    private float getSpeedMultiplier() {
+        return switch (transportType) {
+            case PLANE -> 1f;
+            case TRAIN -> .7f;
+            case CAR -> .4f;
+            case BOAT -> .5f;
+        };
+    }
+
+    public Region getArrivalRegion() {
+        return this.route.getStartRegion();
+    }
+
+    public Region getDestinationRegion() {
+        return this.route.getEndRegion();
+    }
+
+    public Route getRoute() {
+        return this.route;
+    }
+
+    public double getProgress() {
+        return this.progress;
+    }
+
+    public TransportType getTransportType() {
+        return this.transportType;
+    }
+
+    public Image getIcon() {
+        return this.icon;
     }
 }

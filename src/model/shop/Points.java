@@ -56,7 +56,7 @@ public class Points {
                     increasePoints();
                 }
             }
-        }, 3000, 1000);
+        }, 3_000, 1_000);
     }
 
     public void stop() {
