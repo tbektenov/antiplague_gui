@@ -5,17 +5,18 @@ import model.region.regions.Region;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TransportThread
         implements Runnable {
 
-    private static final int iconWidth = 30;
-    private static final int iconHeight = 30;
+    private static final int ICON_WIDTH = 30;
+    private static final int ICON_HEIGHT = 30;
 
     private final Transport transport;
     private final JPanel panel;
     private final TransportManager manager;
-    private volatile boolean running = true;
+    private boolean running = true;
 
     public TransportThread(Transport transport, JPanel panel, TransportManager manager) {
         this.transport = transport;
@@ -47,11 +48,14 @@ public class TransportThread
             }
 
             Region destinationRegion = transport.getDestinationRegion();
-            destinationRegion.getVirus().increaseInfection();
+            destinationRegion
+                    .getVirus()
+                        .increaseInfection(
+                            getAddendBasedOnTransportType(transport.getTransportType()));
         }
     }
 
-    public void stopTransport() {
+    public synchronized void stopTransport() {
         running = false;
     }
 
@@ -63,9 +67,9 @@ public class TransportThread
         try {
             g.drawImage(
                     icon,
-                    position.x - (iconWidth / 2),
-                    position.y - (iconHeight / 2),
-                    iconWidth, iconHeight,
+                    position.x - (ICON_WIDTH / 2),
+                    position.y - (ICON_HEIGHT / 2),
+                    ICON_WIDTH, ICON_HEIGHT,
                     null);
         } catch (Exception e) {
             g.setColor(new Color(0xFF0095));
@@ -92,5 +96,14 @@ public class TransportThread
         int currentY = (int) (startY + (endY - startY) * transport.getProgress());
 
         return new Point(currentX, currentY);
+    }
+
+    private float getAddendBasedOnTransportType(TransportType transportType) {
+        return switch(transportType) {
+            case PLANE -> ThreadLocalRandom.current().nextFloat(.03f, .06f);
+            case TRAIN -> ThreadLocalRandom.current().nextFloat(.01f, .04f);
+            case CAR -> ThreadLocalRandom.current().nextFloat(.01f, .03f);
+            case BOAT -> ThreadLocalRandom.current().nextFloat(.02f, .05f);
+        };
     }
 }
