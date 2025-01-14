@@ -27,6 +27,8 @@ public class Virus
         float increase = (float) (ThreadLocalRandom.current().nextFloat(1, 3) * spreadRateMultiplier);
         infectionLevel = Math.min(infectionLevel + increase, 100);
 
+        System.out.println("Infection level updated: " + infectionLevel);
+
         infectionCallback.accept(infectionLevel);
     }
 

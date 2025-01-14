@@ -16,10 +16,6 @@ import java.awt.event.WindowEvent;
 public class GameFrame extends JFrame {
 
     private TimerController timerController;
-    private PointsController pointsController;
-    private UpgradeController upgradeController;
-    private RegionController regionController;
-    private TransportController transportController;
     private KeyEventDispatcher keyEventDispatcher;
 
     public GameFrame(Difficulty difficulty) {
@@ -37,10 +33,9 @@ public class GameFrame extends JFrame {
         ShopPanel shopPanel = new ShopPanel();
 
         timerController = new TimerController(statsPanel);
-        pointsController = new PointsController(shopPanel);
-        upgradeController = new UpgradeController(shopPanel, statsPanel);
-        regionController = new RegionController(statsPanel, difficulty);
-        transportController = new TransportController(mapPanel.getTransportManager(), difficulty);
+        PointsController pointsController = new PointsController(shopPanel);
+        UpgradeController upgradeController = new UpgradeController(shopPanel, statsPanel);
+        TransportController transportController = new TransportController(mapPanel.getTransportManager(), difficulty);
 
         add(topPanel, BorderLayout.CENTER);
         add(shopPanel, BorderLayout.SOUTH);

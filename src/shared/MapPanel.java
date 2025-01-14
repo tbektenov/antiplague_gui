@@ -109,4 +109,8 @@ public class MapPanel
     public TransportManager getTransportManager() {
         return transportManager;
     }
+
+    public RegionController getRegionController() {
+        return regionController;
+    }
 }
