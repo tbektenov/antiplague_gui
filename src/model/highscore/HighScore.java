@@ -1,5 +1,6 @@
 package model.highscore;
 
+import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,6 +36,12 @@ public class HighScore
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             writer.write(highScore.toString());
             writer.newLine();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error saving high score: " + e,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

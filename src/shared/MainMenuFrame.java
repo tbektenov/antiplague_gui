@@ -66,11 +66,8 @@ public class MainMenuFrame extends JFrame {
                 JOptionPane.QUESTION_MESSAGE
         );
 
-        if (choice == JOptionPane.OK_OPTION) {
-            return (Difficulty) comboBox.getSelectedItem();
-        } else {
-            return null;
-        }
+        if (choice == JOptionPane.OK_OPTION) return (Difficulty) comboBox.getSelectedItem();
+        else return null;
     }
 
     public static void main(String[] args) {

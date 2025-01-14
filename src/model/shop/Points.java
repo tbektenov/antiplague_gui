@@ -18,9 +18,7 @@ public class Points {
     }
 
     public static Points getInstance() {
-        if (instance == null) {
-            instance = new Points();
-        }
+        if (instance == null) instance = new Points();
         return instance;
     }
 
@@ -33,19 +31,16 @@ public class Points {
     }
 
     public synchronized void decreasePoints(int subtrahend) {
-        if ((amount - subtrahend) >= 0) {
-            this.amount -= subtrahend;
-        }
+        if ((amount - subtrahend) >= 0) this.amount -= subtrahend;
     }
 
     public synchronized void reset() {
         this.amount = 0;
         this.running = true;
-        if (timer != null) {
-            timer.cancel();
-        }
+
+        if (timer != null) timer.cancel();
+
         timer = new Timer(true);
-        start();
     }
 
     public void start() {

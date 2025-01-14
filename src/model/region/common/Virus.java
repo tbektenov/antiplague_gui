@@ -23,31 +23,24 @@ public class Virus
     public synchronized void increaseInfection() {
         float addend = (float) (ThreadLocalRandom.current().nextFloat(1, 3) * spreadRateMultiplier);
 
-        if ((infectionLevel + addend) <= 100f) {
-            infectionLevel += addend;
-        } else {
-            infectionLevel = 100f;
-        }
+        if ((infectionLevel + addend) <= 100f) infectionLevel += addend;
+        else infectionLevel = 100f;
 
         infectionCallback.accept(infectionLevel);
     }
 
     public synchronized void increaseInfection(float addend) {
-        if ((infectionLevel + addend) <= 100f) {
-            infectionLevel += addend;
-        } else {
-            infectionLevel = 100f;
-        }
+        if ((infectionLevel + addend) <= 100f) infectionLevel += addend;
+        else infectionLevel = 100f;
+
 
         infectionCallback.accept(infectionLevel);
     }
 
     public synchronized void decreaseInfection(float subtrahend) {
-        if ((infectionLevel - subtrahend) >= 0f) {
-            infectionLevel -= subtrahend;
-        } else {
-            infectionLevel = 0;
-        }
+        if ((infectionLevel - subtrahend) >= 0f) infectionLevel -= subtrahend;
+        else infectionLevel = 0;
+
     }
 
     @Override
