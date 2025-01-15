@@ -7,6 +7,7 @@ import model.transport.TransportType;
 
 import java.awt.*;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 public abstract class Region {
@@ -20,19 +21,26 @@ public abstract class Region {
     private Set<TransportType> supportedTransportTypes;
     private final Map<TransportType, Set<String>> acceptedTransport = new HashMap<>();
 
+    private int infectedPopulation;
+    private int curedPopulation;
+
     public Region(String name,
                   Color color,
                   int population,
                   RegionPoint regionPoint,
                   Consumer<Region> callback,
-                  Difficulty difficulty) {
+                  Difficulty difficulty,
+                  Set<TransportType> supportedTransportTypes) {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus(infectionLevel -> callback.accept(this), difficulty);
-        this.supportedTransportTypes = EnumSet.allOf(TransportType.class);
+        this.virus = new Virus(infectionLevel -> callback.accept(this), difficulty, this);
 
+
+        this.supportedTransportTypes = new HashSet<>(Objects.requireNonNullElseGet(supportedTransportTypes, () -> EnumSet.allOf(TransportType.class)));
         initializeTransportRules();
+
+        this.infectedPopulation = calculateInfectedPopulation();
 
         if (regionExtent.containsKey(color)) {
             throw new IllegalArgumentException("Region associated with this color already exists");
@@ -46,21 +54,8 @@ public abstract class Region {
                   int population,
                   RegionPoint regionPoint,
                   Consumer<Region> callback,
-                  Difficulty difficulty,
-                  Set<TransportType> supportedTransportTypes) {
-        this.name = name;
-        this.population = population;
-        this.regionPoint = regionPoint;
-        this.virus = new Virus(infectionLevel -> callback.accept(this), difficulty);
-
-        this.supportedTransportTypes = new HashSet<>(Objects.requireNonNullElseGet(supportedTransportTypes, () -> EnumSet.allOf(TransportType.class)));
-        initializeTransportRules();
-
-        if (regionExtent.containsKey(color)) {
-            throw new IllegalArgumentException("Region associated with this color already exists");
-        }
-
-        regionExtent.put(color, this);
+                  Difficulty difficulty) {
+        this(name, color, population, regionPoint, callback, difficulty, null);
     }
 
     public static Map<Color, Region> getRegionExtent() {
@@ -73,8 +68,8 @@ public abstract class Region {
 
     protected abstract void initializeTransportRules();
 
-    public synchronized int getGlobalPopulation() {
-        return regionExtent.values().stream().mapToInt(Region::getPopulation).sum();
+    public static synchronized long getGlobalPopulation() {
+        return regionExtent.values().stream().mapToLong(Region::getPopulation).sum();
     }
 
     public static boolean containsColor(Color color) {
@@ -131,10 +126,36 @@ public abstract class Region {
         return supportedTransportTypes.contains(transportType);
     }
 
-    public synchronized void decreasePopulation(int subtrahend) {
-        if (subtrahend > 0) {
+    public synchronized void decreasePopulation() {
+        int subtrahend = calculateSubtrahend();
+
+        if (this.population - subtrahend >= 0) {
             this.population -= subtrahend;
+        } else {
+            this.population = 0;
         }
+    }
+
+    public int calculateSubtrahend() {
+        int infectedPopulation = calculateInfectedPopulation();
+        int subtrahend = (int) (infectedPopulation * ThreadLocalRandom.current().nextFloat(.003f));
+        return subtrahend;
+    }
+
+    private int calculateInfectedPopulation() {
+        return (int) (this.population * this.virus.getInfectionLevel());
+    }
+
+    public synchronized void updateInfectedPopulation() {
+        this.infectedPopulation = calculateInfectedPopulation();
+    }
+
+    public int getInfectedPopulation() {
+        return this.infectedPopulation;
+    }
+
+    public int getCuredPopulation() {
+        return (int) (this.population * this.virus.getInfectionLevel());
     }
 
     public String getName() {
@@ -150,7 +171,7 @@ public abstract class Region {
     }
 
     public float getInfectionLevel() {
-        return virus.getInfectionLevel();
+        return 100 * virus.getInfectionLevel();
     }
 
     public void startInfection() {

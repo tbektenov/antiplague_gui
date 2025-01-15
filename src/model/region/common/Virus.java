@@ -1,6 +1,7 @@
 package model.region.common;
 
 import model.difficulty.Difficulty;
+import model.region.regions.Region;
 
 import javax.swing.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -9,44 +10,48 @@ import java.util.function.Consumer;
 public class Virus
         implements Runnable {
 
+    private final Region region;
+
     private float infectionLevel;
     private boolean running = true;
     private final Consumer<Float> infectionCallback;
     private final double spreadRateMultiplier;
 
-    public Virus(Consumer<Float> infectionCallback, Difficulty difficulty) {
-        this.infectionLevel = ThreadLocalRandom.current().nextFloat(0, 10);
+    public Virus(Consumer<Float> infectionCallback, Difficulty difficulty, Region region) {
+        this.infectionLevel = ThreadLocalRandom.current().nextFloat(.1f);
         this.infectionCallback = infectionCallback;
         this.spreadRateMultiplier = difficulty.getInfectionMultiplier();
+        this.region = region;
     }
 
     public synchronized void increaseInfection() {
-        float addend = (float) (ThreadLocalRandom.current().nextFloat(1, 3) * spreadRateMultiplier);
+        float addend = (float) (ThreadLocalRandom.current().nextFloat(.03f) * spreadRateMultiplier);
 
-        if ((infectionLevel + addend) <= 100f) infectionLevel += addend;
-        else infectionLevel = 100f;
+        if ((infectionLevel + addend) <= 1f) infectionLevel += addend;
+        else infectionLevel = 1f;
 
         infectionCallback.accept(infectionLevel);
     }
 
     public synchronized void increaseInfection(float addend) {
-        if ((infectionLevel + addend) <= 100f) infectionLevel += addend;
-        else infectionLevel = 100f;
+        if ((infectionLevel + addend) <= 1f) infectionLevel += addend;
+        else infectionLevel = 1f;
 
 
         infectionCallback.accept(infectionLevel);
     }
 
     public synchronized void decreaseInfection(float subtrahend) {
-        if ((infectionLevel - subtrahend) >= 0f) infectionLevel -= subtrahend;
-        else infectionLevel = 0;
-
+        if ((infectionLevel - subtrahend) >= .0f) infectionLevel -= subtrahend;
+        else infectionLevel = .0f;
     }
 
     @Override
     public void run() {
         while (running) {
             increaseInfection();
+            region.updateInfectedPopulation();
+            region.decreasePopulation();
 
             try {
                 Thread.sleep((long) (infectionLevel + ThreadLocalRandom.current().nextInt(2000, 10_000)));

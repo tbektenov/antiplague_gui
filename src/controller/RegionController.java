@@ -81,8 +81,4 @@ public class RegionController {
     public Region getRegionByColor(Color color) {
         return Region.getRegionByColor(color);
     }
-
-    public void decreaseRegionPopulation(Region region, int subtrahend) {
-        region.decreasePopulation(subtrahend);
-    }
 }

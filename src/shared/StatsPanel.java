@@ -69,11 +69,13 @@ public class StatsPanel
 
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         String formattedPopulation = numberFormat.format(selectedRegion.getPopulation());
+        String formattedInfectedPopulation = numberFormat.format(selectedRegion.getInfectedPopulation());
 
         statsLabel.setText(String.format("<html>Region: %s" +
                         "<br>Population: %s " +
-                        "<br>Infection spread: %.2f%% </html>",
-                selectedRegion.getName(), formattedPopulation, selectedRegion.getInfectionLevel()));
+                        "<br>Infection spread: %.2f%%" +
+                        "<br>Infected population: %s</html>",
+                selectedRegion.getName(), formattedPopulation, selectedRegion.getInfectionLevel(), formattedInfectedPopulation));
 
         revalidate();
         repaint();
