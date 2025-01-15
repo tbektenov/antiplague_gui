@@ -2,8 +2,8 @@ package controller;
 
 import model.highscore.HighScore;
 import model.timer.TimerModel;
-import shared.StatsPanel;
 import shared.MainMenuFrame;
+import shared.StatsPanel;
 import view.TimerView;
 
 import javax.swing.*;
