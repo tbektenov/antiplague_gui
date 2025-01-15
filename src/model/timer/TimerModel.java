@@ -1,36 +1,43 @@
 package model.timer;
 
-import java.util.Timer;
-import java.util.TimerTask;
+public class TimerModel
+        implements Runnable {
 
-public class TimerModel {
-    private final Timer timer;
-    private int seconds;
+    private boolean running = true;
 
-    public TimerModel(int seconds) {
-        this.seconds = seconds;
-        this.timer = new Timer(true);
+    private int timePassed;
+    private final Runnable onRun;
+    private final Runnable onFinish;
+
+    public TimerModel(Runnable onRun, Runnable onFinish) {
+        this.timePassed = 0;
+        this.onRun = onRun;
+        this.onFinish = onFinish;
     }
 
-    public void start(Runnable onFinish) {
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (seconds > 0) {
-                    seconds--;
-                } else {
-                    stop();
-                    onFinish.run();
-                }
+    public synchronized int getTimePassed() {
+        return this.timePassed;
+    }
+
+    @Override
+    public void run() {
+        while (timePassed < 10) {
+            synchronized (this) {
+                timePassed++;
             }
-        }, 0, 1000);
+            onRun.run();
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Thread interrupted", e);
+            }
+        }
+
+        onFinish.run();
     }
 
     public void stop() {
-        timer.cancel();
-    }
-
-    public int getTimeRemaining() {
-        return seconds;
+        running = false;
     }
 }

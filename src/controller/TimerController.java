@@ -9,34 +9,24 @@ import view.TimerView;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class TimerController {
     private final TimerModel timerModel;
     private final TimerView timerView;
-    private final Timer controllerTimer;
 
     public TimerController(StatsPanel statsPanel) {
         this.timerView = statsPanel.getTimerView();
-        this.timerModel = new TimerModel(300);
-        this.controllerTimer = new Timer(true);
+        this.timerModel = new TimerModel(this::updateTimerView, this::gameOver);
 
-        timerModel.start(this::gameOver);
-        startControllerTimer();
+        startTimer();
     }
 
-    private void startControllerTimer() {
-        controllerTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                updateTimerView();
-            }
-        }, 0, 1000);
+    private void startTimer() {
+        new Thread(timerModel).start();
     }
 
     private void updateTimerView() {
-        int timeRemaining = timerModel.getTimeRemaining();
+        int timeRemaining = timerModel.getTimePassed();
         int minutes = timeRemaining / 60;
         int seconds = timeRemaining % 60;
 
@@ -44,7 +34,6 @@ public class TimerController {
     }
 
     private void gameOver() {
-        controllerTimer.cancel();
         SwingUtilities.invokeLater(() -> {
             Random random = new Random();
             int randomScore = random.nextInt(1000) + 1;
@@ -87,6 +76,5 @@ public class TimerController {
 
     public void stopTimer() {
         timerModel.stop();
-        controllerTimer.cancel();
     }
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 public class TransportManager {
 
     private final List<TransportThread> activeTransports = new ArrayList<>();
-    private final ExecutorService executor = Executors.newFixedThreadPool(20);
+    private final ExecutorService executor = Executors.newCachedThreadPool();
     private final JPanel panel;
     private float spawnRateMultiplier = 1.0f;
 
@@ -60,6 +60,7 @@ public class TransportManager {
     public void setSpawnRateMultiplier(float multiplier) {
         this.spawnRateMultiplier = multiplier;
     }
+
     public float getSpawnRateMultiplier() {
         return spawnRateMultiplier;
     }
