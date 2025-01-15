@@ -6,22 +6,24 @@ import view.HighScoreView;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainMenuFrame
-        extends JFrame {
+public class MainMenuFrame extends JFrame {
 
     public MainMenuFrame() {
         super("AntiPlague Game - Main Menu");
 
         JPanel mainPanel = new MainMenuBackgroundPanel();
-        mainPanel.setLayout(new GridLayout(3, 1, 10, 10));
+        mainPanel.setLayout(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        mainPanel.setBackground(Color.LIGHT_GRAY);
 
-        JLabel titleLabel = new JLabel("AntiPlague Game - Main Menu");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabel titleLabel = new JLabel("AntiPlague Game");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 60));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(titleLabel);
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(3, 1, 0, 5));
+        buttonPanel.setOpaque(false);
 
         JButton newGameButton = new JButton("New Game");
         JButton highScoresButton = new JButton("High Scores");
@@ -32,9 +34,11 @@ public class MainMenuFrame
         highScoresButton.setPreferredSize(buttonSize);
         exitButton.setPreferredSize(buttonSize);
 
-        mainPanel.add(newGameButton);
-        mainPanel.add(highScoresButton);
-        mainPanel.add(exitButton);
+        buttonPanel.add(wrapButton(newGameButton));
+        buttonPanel.add(wrapButton(highScoresButton));
+        buttonPanel.add(wrapButton(exitButton));
+
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
 
         newGameButton.addActionListener(_ -> {
             Difficulty chosenDifficulty = showDifficultyDialog();
@@ -69,6 +73,13 @@ public class MainMenuFrame
 
         if (choice == JOptionPane.OK_OPTION) return (Difficulty) comboBox.getSelectedItem();
         else return null;
+    }
+
+    private JPanel wrapButton(JButton button) {
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setOpaque(false);
+        panel.add(button);
+        return panel;
     }
 
     public static void main(String[] args) {
