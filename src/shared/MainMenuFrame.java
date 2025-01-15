@@ -6,7 +6,8 @@ import view.HighScoreView;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainMenuFrame extends JFrame {
+public class MainMenuFrame
+        extends JFrame {
 
     public MainMenuFrame() {
         super("AntiPlague Game - Main Menu");
