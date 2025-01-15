@@ -18,7 +18,6 @@ public class PointsController {
         this.controllerTimer = new Timer(true);
 
         model.reset();
-        model.start();
         startControllerTimer();
     }
 
@@ -28,7 +27,7 @@ public class PointsController {
             public void run() {
                 updatePointsView();
             }
-        }, 3000, 1000);
+        }, 1000, 1000);
     }
 
     public void updatePointsView() {

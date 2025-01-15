@@ -1,12 +1,12 @@
 package model.region.common;
 
 import model.region.regions.Region;
+import model.shop.Points;
 
 import javax.swing.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Cure
-    implements Runnable{
+public class Cure implements Runnable {
 
     private final Region region;
     private float cureEfficiency;
@@ -23,25 +23,40 @@ public class Cure
     }
 
     public synchronized void increaseCureEfficiency(float addend) {
-        if ((this.cureEfficiency + addend) <= 1f) this.cureEfficiency += addend;
-        else this.cureEfficiency = 1f;
+        this.cureEfficiency = Math.min(this.cureEfficiency + addend, 1f);
     }
 
     private float generateCureEfficiency() {
-        return ThreadLocalRandom.current().nextFloat(.03f);
+        return ThreadLocalRandom.current().nextFloat(.03f, .05f);
+    }
+
+    public synchronized void curePopulation() {
+        int infectedPopulation = region.getInfectedPopulation();
+        if (infectedPopulation > 0) {
+            int chanceOfCure = ThreadLocalRandom.current().nextInt(2);
+            int populationCured = (int) (infectedPopulation * cureEfficiency * chanceOfCure);
+
+            region.increaseCuredPopulation(populationCured);
+            region.decreaseInfectedPopulation(populationCured);
+
+            Points.getInstance().increasePointsByCured(populationCured);
+        }
     }
 
     @Override
     public void run() {
         while (running) {
+            curePopulation();
+
             try {
-                Thread.sleep(50);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 JOptionPane.showMessageDialog(
                         null,
                         "Thread was interrupted: " + e,
                         "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         }
     }

@@ -24,6 +24,14 @@ public class Virus
         this.region = region;
     }
 
+    public synchronized void increaseInfection(float addend) {
+        if ((infectionLevel + addend) <= 1f) infectionLevel += addend;
+        else infectionLevel = 1f;
+
+
+        infectionCallback.accept(infectionLevel);
+    }
+
     public synchronized void increaseInfection() {
         float addend = (float) (ThreadLocalRandom.current().nextFloat(.03f) * spreadRateMultiplier);
 
@@ -31,14 +39,24 @@ public class Virus
         else infectionLevel = 1f;
 
         infectionCallback.accept(infectionLevel);
+
+        int newlyInfected = calculateInfectedIncrease();
+        region.increaseInfectedPopulation(newlyInfected);
     }
 
-    public synchronized void increaseInfection(float addend) {
-        if ((infectionLevel + addend) <= 1f) infectionLevel += addend;
-        else infectionLevel = 1f;
+    public synchronized void killPopulation() {
+        int infectedPopulation = region.getInfectedPopulation();
+        if (infectedPopulation > 0) {
+            int deaths = ThreadLocalRandom.current().nextInt(0, (int) (infectedPopulation * 0.01)); // 1% chance
+            region.decreaseInfectedPopulation(deaths);
+            region.decreasePopulation(deaths);
+        }
+    }
 
-
-        infectionCallback.accept(infectionLevel);
+    private int calculateInfectedIncrease() {
+        int healthyPopulation = region.getMerePopulation() - region.getInfectedPopulation() - region.getCuredPopulation();
+        int newInfections = (int) (healthyPopulation * infectionLevel * 0.01);
+        return Math.min(newInfections, healthyPopulation);
     }
 
     public synchronized void decreaseInfection(float subtrahend) {
@@ -50,11 +68,11 @@ public class Virus
     public void run() {
         while (running) {
             increaseInfection();
+            killPopulation();
             region.updateInfectedPopulation();
-            region.decreasePopulation();
 
             try {
-                Thread.sleep((long) (infectionLevel + ThreadLocalRandom.current().nextInt(2000, 10_000)));
+                Thread.sleep((long) (infectionLevel + ThreadLocalRandom.current().nextInt(2000, 5000)));
             } catch (InterruptedException e) {
                 JOptionPane.showMessageDialog(
                         null,
@@ -62,7 +80,6 @@ public class Virus
                         "Error",
                         JOptionPane.ERROR_MESSAGE
                 );
-
                 break;
             }
         }

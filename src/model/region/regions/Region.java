@@ -16,7 +16,7 @@ public abstract class Region {
     private static final Map<Color, Region> regionExtent = new HashMap<>();
 
     private final String name;
-    private int population;
+    private int merePopulation;
     private final RegionPoint regionPoint;
     private Set<TransportType> supportedTransportTypes;
     private final Map<TransportType, Set<String>> acceptedTransport = new HashMap<>();
@@ -29,13 +29,13 @@ public abstract class Region {
 
     public Region(String name,
                   Color color,
-                  int population,
+                  int merePopulation,
                   RegionPoint regionPoint,
                   Consumer<Region> callback,
                   Difficulty difficulty,
                   Set<TransportType> supportedTransportTypes) {
         this.name = name;
-        this.population = population;
+        this.merePopulation = merePopulation;
         this.regionPoint = regionPoint;
 
         this.virus = new Virus(infectionLevel -> callback.accept(this), difficulty, this);
@@ -45,6 +45,7 @@ public abstract class Region {
         initializeTransportRules();
 
         this.infectedPopulation = calculateInfectedPopulation();
+        this.curedPopulation = 0;
 
         if (regionExtent.containsKey(color)) {
             throw new IllegalArgumentException("Region associated with this color already exists");
@@ -55,11 +56,11 @@ public abstract class Region {
 
     public Region(String name,
                   Color color,
-                  int population,
+                  int merePopulation,
                   RegionPoint regionPoint,
                   Consumer<Region> callback,
                   Difficulty difficulty) {
-        this(name, color, population, regionPoint, callback, difficulty, null);
+        this(name, color, merePopulation, regionPoint, callback, difficulty, null);
     }
 
     public static Map<Color, Region> getRegionExtent() {
@@ -73,7 +74,7 @@ public abstract class Region {
     protected abstract void initializeTransportRules();
 
     public static synchronized long getGlobalPopulation() {
-        return regionExtent.values().stream().mapToLong(Region::getPopulation).sum();
+        return regionExtent.values().stream().mapToLong(Region::getMerePopulation).sum();
     }
 
     public static boolean containsColor(Color color) {
@@ -133,10 +134,10 @@ public abstract class Region {
     public synchronized void decreasePopulation() {
         int subtrahend = calculateSubtrahend();
 
-        if (this.population - subtrahend >= 0) {
-            this.population -= subtrahend;
+        if (this.merePopulation - subtrahend >= 0) {
+            this.merePopulation -= subtrahend;
         } else {
-            this.population = 0;
+            this.merePopulation = 0;
         }
     }
 
@@ -146,15 +147,15 @@ public abstract class Region {
         return subtrahend;
     }
 
-    private int calculateInfectedPopulation() {
-        return (int) (this.population * this.virus.getInfectionLevel());
+    private synchronized int calculateInfectedPopulation() {
+        return (int) (this.merePopulation * this.virus.getInfectionLevel());
     }
 
     public synchronized void updateInfectedPopulation() {
         this.infectedPopulation = calculateInfectedPopulation();
     }
 
-    public int getInfectedPopulation() {
+    public synchronized int getInfectedPopulation() {
         return this.infectedPopulation;
     }
 
@@ -162,16 +163,44 @@ public abstract class Region {
         return 100 * this.cure.getCureEfficiency();
     }
 
-    public int getCuredPopulation() {
-        return (int) (this.population * this.virus.getInfectionLevel());
+    public synchronized void increaseInfectedPopulation(int addend) {
+        int maxInfectable = merePopulation - (infectedPopulation + curedPopulation);
+        this.infectedPopulation += Math.min(addend, maxInfectable);
+    }
+
+    public synchronized void increaseCuredPopulation(int addend) {
+        int maxCurable = infectedPopulation;
+        this.curedPopulation += Math.min(addend, maxCurable);
+    }
+
+    public synchronized void decreasePopulation(int subtrahend) {
+        this.merePopulation = Math.max(this.merePopulation - subtrahend, 0);
+    }
+
+    public synchronized void decreaseInfectedPopulation(int subtrahend) {
+        this.infectedPopulation = Math.max(this.infectedPopulation - subtrahend, 0);
+    }
+
+
+    public void cureInfected() {
+        int infectedPopulation = getInfectedPopulation();
+        int chanceOfCure = ThreadLocalRandom.current().nextInt(2);
+        int populationCured = ((int)(infectedPopulation * cure.getCureEfficiency()) * chanceOfCure);
+
+        this.curedPopulation += populationCured;
+        decreaseInfectedPopulation(populationCured);
+    }
+
+    public synchronized int getCuredPopulation() {
+        return this.curedPopulation;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getPopulation() {
-        return population;
+    public int getMerePopulation() {
+        return merePopulation;
     }
 
     public Virus getVirus() {

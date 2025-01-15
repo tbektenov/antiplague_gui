@@ -1,20 +1,14 @@
 package model.shop;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ThreadLocalRandom;
-
 public class Points {
 
     private static Points instance;
 
     private int amount;
     private boolean running = true;
-    private Timer timer;
 
     private Points() {
         this.amount = 0;
-        this.timer = new Timer(true);
     }
 
     public static Points getInstance() {
@@ -26,8 +20,8 @@ public class Points {
         return this.amount;
     }
 
-    public synchronized void increasePoints() {
-        this.amount += ThreadLocalRandom.current().nextInt(1, 15);
+    public synchronized void increasePointsByCured(int curedCount) {
+        this.amount += curedCount;
     }
 
     public synchronized void decreasePoints(int subtrahend) {
@@ -37,21 +31,6 @@ public class Points {
     public synchronized void reset() {
         this.amount = 0;
         this.running = true;
-
-        if (timer != null) timer.cancel();
-
-        timer = new Timer(true);
-    }
-
-    public void start() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (running) {
-                    increasePoints();
-                }
-            }
-        }, 3_000, 1_000);
     }
 
     public void stop() {

@@ -68,19 +68,22 @@ public class StatsPanel
         }
 
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        String formattedPopulation = numberFormat.format(selectedRegion.getPopulation());
+        String formattedPopulation = numberFormat.format(selectedRegion.getMerePopulation());
         String formattedInfectedPopulation = numberFormat.format(selectedRegion.getInfectedPopulation());
+        String formattedCuredPopulation = numberFormat.format(selectedRegion.getCuredPopulation());
 
         statsLabel.setText(String.format("<html>Region: %s" +
                         "<br>Population: %s " +
                         "<br>Infection spread: %.2f%%" +
                         "<br>Cure efficiency: %.2f%%" +
-                        "<br>Infected population: %s</html>",
+                        "<br>Infected population: %s" +
+                        "<br>Cured population: %s</html>",
                 selectedRegion.getName(),
                 formattedPopulation,
                 selectedRegion.getInfectionLevel(),
                 selectedRegion.getCureEfficiency(),
-                formattedInfectedPopulation));
+                formattedInfectedPopulation,
+                formattedCuredPopulation));
 
         revalidate();
         repaint();

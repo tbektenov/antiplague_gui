@@ -21,7 +21,7 @@ public class TimerModel
 
     @Override
     public void run() {
-        while (timePassed < 10) {
+        while (timePassed < 300) {
             synchronized (this) {
                 timePassed++;
             }
