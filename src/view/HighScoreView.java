@@ -16,16 +16,13 @@ public class HighScoreView extends JFrame {
     public HighScoreView() {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         List<HighScore> highScores = loadHighScoresFromFile("./src/data/highscores.txt");
-
         sortHighScores(highScores);
 
         for (HighScore highScore : highScores) {
             listModel.addElement(highScore.toString());
         }
 
-        if (listModel.isEmpty()) {
-            listModel.addElement("No high scores available.");
-        }
+        if (listModel.isEmpty()) listModel.addElement("No high scores available.");
 
         JList<String> highScoresList = new JList<>(listModel);
         highScoresList.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -44,6 +41,7 @@ public class HighScoreView extends JFrame {
 
     private List<HighScore> loadHighScoresFromFile(String fileName) {
         List<HighScore> highScores = new ArrayList<>();
+
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -55,8 +53,13 @@ public class HighScoreView extends JFrame {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading high scores file: " + e.getMessage());
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error reading high scores: " + e,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
+
         return highScores;
     }
 
