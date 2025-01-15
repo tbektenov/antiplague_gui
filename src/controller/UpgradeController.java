@@ -40,10 +40,10 @@ public class UpgradeController {
         ));
 
         upgradePanel.addUpgrade(new Upgrade(
-                "Eradicate Infection in Country",
-                "Sets infection level of a selected region to 0.",
+                "Improve cure",
+                "Increases cure's efficiency of selected region by 5%.",
                 200,
-                this::dropRegionalInfectionToZero
+                this::increaseCureEfficiencyByFive
         ));
 
         upgradePanel.addUpgrade(new Upgrade(
@@ -166,15 +166,15 @@ public class UpgradeController {
         }
     }
 
-    private void dropRegionalInfectionToZero() {
+    private void increaseCureEfficiencyByFive() {
         if (spendPoints(200)) {
             Optional<Region> selectedRegion = showRegionSelectionDialog();
 
             selectedRegion.ifPresent(region -> {
-                region.getVirus().decreaseInfection(region.getVirus().getInfectionLevel());
+                region.getCure().increaseCureEfficiency(.05f);
                 statsPanel.setSelectedRegion(region);
                 JOptionPane.showMessageDialog(null,
-                        "Infection level in " + region.getName() + " reduced to 0!",
+                        "Cure efficiency in " + region.getName() + " was increased!",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
             });

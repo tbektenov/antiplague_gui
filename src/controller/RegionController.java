@@ -66,12 +66,12 @@ public class RegionController {
     }
 
     public void startInfections() {
-        Region.getRegionExtent().values().forEach(Region::startInfection);
+        Region.getRegionExtent().values().forEach(Region::start);
     }
 
     public void stopInfections() {
         executorService.shutdownNow();
-        Region.getRegionExtent().values().forEach(Region::stopInfection);
+        Region.getRegionExtent().values().forEach(Region::stop);
     }
 
     public boolean containsColor(Color color) {

@@ -10,12 +10,12 @@ import java.util.function.Consumer;
 public class Virus
         implements Runnable {
 
-    private final Region region;
+    private boolean running = true;
 
     private float infectionLevel;
-    private boolean running = true;
     private final Consumer<Float> infectionCallback;
     private final double spreadRateMultiplier;
+    private final Region region;
 
     public Virus(Consumer<Float> infectionCallback, Difficulty difficulty, Region region) {
         this.infectionLevel = ThreadLocalRandom.current().nextFloat(.1f);
@@ -56,11 +56,9 @@ public class Virus
             try {
                 Thread.sleep((long) (infectionLevel + ThreadLocalRandom.current().nextInt(2000, 10_000)));
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-
                 JOptionPane.showMessageDialog(
                         null,
-                        "Unexpected error occured: " + e,
+                        "Thread was interrupted: " + e,
                         "Error",
                         JOptionPane.ERROR_MESSAGE
                 );

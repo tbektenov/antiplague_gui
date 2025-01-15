@@ -1,6 +1,7 @@
 package model.region.regions;
 
 import model.difficulty.Difficulty;
+import model.region.common.Cure;
 import model.region.common.RegionPoint;
 import model.region.common.Virus;
 import model.transport.TransportType;
@@ -16,10 +17,12 @@ public abstract class Region {
 
     private final String name;
     private int population;
-    private final Virus virus;
     private final RegionPoint regionPoint;
     private Set<TransportType> supportedTransportTypes;
     private final Map<TransportType, Set<String>> acceptedTransport = new HashMap<>();
+
+    private final Virus virus;
+    private final Cure cure;
 
     private int infectedPopulation;
     private int curedPopulation;
@@ -34,8 +37,9 @@ public abstract class Region {
         this.name = name;
         this.population = population;
         this.regionPoint = regionPoint;
-        this.virus = new Virus(infectionLevel -> callback.accept(this), difficulty, this);
 
+        this.virus = new Virus(infectionLevel -> callback.accept(this), difficulty, this);
+        this.cure = new Cure(this);
 
         this.supportedTransportTypes = new HashSet<>(Objects.requireNonNullElseGet(supportedTransportTypes, () -> EnumSet.allOf(TransportType.class)));
         initializeTransportRules();
@@ -154,6 +158,10 @@ public abstract class Region {
         return this.infectedPopulation;
     }
 
+    public float getCureEfficiency() {
+        return 100 * this.cure.getCureEfficiency();
+    }
+
     public int getCuredPopulation() {
         return (int) (this.population * this.virus.getInfectionLevel());
     }
@@ -170,16 +178,22 @@ public abstract class Region {
         return virus;
     }
 
+    public Cure getCure() {
+        return cure;
+    }
+
     public float getInfectionLevel() {
         return 100 * virus.getInfectionLevel();
     }
 
-    public void startInfection() {
+    public void start() {
         new Thread(virus).start();
+        new Thread(cure).start();
     }
 
-    public void stopInfection() {
+    public void stop() {
         virus.stop();
+        cure.stop();
     }
 
     public RegionPoint getRegionPoint() {

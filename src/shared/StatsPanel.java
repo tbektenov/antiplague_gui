@@ -74,8 +74,13 @@ public class StatsPanel
         statsLabel.setText(String.format("<html>Region: %s" +
                         "<br>Population: %s " +
                         "<br>Infection spread: %.2f%%" +
+                        "<br>Cure efficiency: %.2f%%" +
                         "<br>Infected population: %s</html>",
-                selectedRegion.getName(), formattedPopulation, selectedRegion.getInfectionLevel(), formattedInfectedPopulation));
+                selectedRegion.getName(),
+                formattedPopulation,
+                selectedRegion.getInfectionLevel(),
+                selectedRegion.getCureEfficiency(),
+                formattedInfectedPopulation));
 
         revalidate();
         repaint();
