@@ -30,6 +30,7 @@ public class CloseSpecificTransportBordersUpgrade
                         selectedRegion.get().getName() + " banned " + selectedTransportType.get() + " transport.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
+                incrementUpgradeCounter();
             }
         }
     }

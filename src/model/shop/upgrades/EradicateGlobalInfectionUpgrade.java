@@ -20,6 +20,7 @@ public class EradicateGlobalInfectionUpgrade
                     "Global infection level reduced to 0!",
                     "Upgrade Acquired",
                     JOptionPane.INFORMATION_MESSAGE);
+            incrementUpgradeCounter();
         }
     }
 }

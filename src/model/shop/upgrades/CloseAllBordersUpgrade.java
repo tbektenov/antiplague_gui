@@ -28,6 +28,7 @@ public class CloseAllBordersUpgrade
                         region.getName() + " closed all borders.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
+                incrementUpgradeCounter();
             }
         });
     }

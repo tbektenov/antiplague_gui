@@ -28,6 +28,7 @@ public class DropInfectionByHalfUpgrade
                         region.getName() + "'s infection reduced by 50%.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
+                incrementUpgradeCounter();
             }
         });
     }

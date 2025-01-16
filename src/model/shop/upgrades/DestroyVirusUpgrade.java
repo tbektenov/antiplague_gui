@@ -23,6 +23,7 @@ public class DestroyVirusUpgrade
                     "Virus has been destroyed!",
                     "Upgrade Acquired",
                     JOptionPane.INFORMATION_MESSAGE);
+            incrementUpgradeCounter();
         }
     }
 }

@@ -8,6 +8,7 @@ public abstract
     class Upgrade {
 
     private final static Set<Upgrade> upgradeExtent = new HashSet<>();
+    private static int totalUpgradesAcquired = 0;
 
     private final String name;
     private final String description;
@@ -22,6 +23,20 @@ public abstract
         upgradeExtent.add(this);
     }
 
+    public static Set<Upgrade> getUpgradeExtent() {
+        return Collections.unmodifiableSet(upgradeExtent);
+    }
+
+    protected static void incrementUpgradeCounter() {
+        totalUpgradesAcquired++;
+    }
+
+    public static int getTotalUpgradesAcquired() {
+        return totalUpgradesAcquired;
+    }
+
+    public abstract void apply();
+
     public String getName() {
         return name;
     }
@@ -34,13 +49,7 @@ public abstract
         return cost;
     }
 
-    public abstract void apply();
-
     public boolean isAvailable() {
         return this.isAvailable;
-    }
-
-    public static Set<Upgrade> getUpgradeExtent() {
-        return Collections.unmodifiableSet(upgradeExtent);
     }
 }

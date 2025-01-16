@@ -18,7 +18,7 @@ public class UpgradeView extends JPanel {
         descriptionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
         JButton actionButton = new JButton(upgrade.getCost() + " points");
-        actionButton.setEnabled(upgrade.isAvailable());
+        actionButton.setEnabled(true);
         actionButton.addActionListener(_ -> upgrade.apply());
 
         add(nameLabel, BorderLayout.NORTH);

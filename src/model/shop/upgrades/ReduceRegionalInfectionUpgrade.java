@@ -31,6 +31,7 @@ public class ReduceRegionalInfectionUpgrade
                         region.getName() + "'s infection reduced by " + subtrahend + "%.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
+                incrementUpgradeCounter();
             }
         });
     }

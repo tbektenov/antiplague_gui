@@ -29,6 +29,7 @@ public class StopInfectionSpreadUpgrade
                         region.getName() + "'s infection stopped and set to 0.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
+                incrementUpgradeCounter();
             }
         });
     }

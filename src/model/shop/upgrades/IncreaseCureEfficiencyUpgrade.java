@@ -30,6 +30,7 @@ public class IncreaseCureEfficiencyUpgrade
                         "Cure efficiency in " + region.getName() + " was increased by 5%.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
+                incrementUpgradeCounter();
             }
         });
     }

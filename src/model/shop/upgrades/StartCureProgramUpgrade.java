@@ -29,6 +29,7 @@ public class StartCureProgramUpgrade
                         region.getName() + " has started the cure program.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
+                incrementUpgradeCounter();
             }
         });
     }
