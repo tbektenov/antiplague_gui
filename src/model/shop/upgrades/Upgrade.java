@@ -1,22 +1,23 @@
-package model.shop;
+package model.shop.upgrades;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Upgrade {
+public abstract
+    class Upgrade {
+
     private final static Set<Upgrade> upgradeExtent = new HashSet<>();
 
     private final String name;
     private final String description;
     private final int cost;
-    private final Runnable effect;
+    private boolean isAvailable = true;
 
-    public Upgrade(String name, String description, int cost, Runnable effect) {
+    public Upgrade(String name, String description, int cost) {
         this.name = name;
         this.description = description;
         this.cost = cost;
-        this.effect = effect;
 
         upgradeExtent.add(this);
     }
@@ -33,8 +34,10 @@ public class Upgrade {
         return cost;
     }
 
-    public void apply() {
-        effect.run();
+    public abstract void apply();
+
+    public boolean isAvailable() {
+        return this.isAvailable;
     }
 
     public static Set<Upgrade> getUpgradeExtent() {

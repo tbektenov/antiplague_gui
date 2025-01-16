@@ -1,12 +1,11 @@
 package view;
 
-import model.shop.Upgrade;
+import model.shop.upgrades.Upgrade;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class UpgradeView extends JPanel {
-
     public UpgradeView(Upgrade upgrade) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
@@ -19,6 +18,7 @@ public class UpgradeView extends JPanel {
         descriptionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
         JButton actionButton = new JButton(upgrade.getCost() + " points");
+        actionButton.setEnabled(upgrade.isAvailable());
         actionButton.addActionListener(_ -> upgrade.apply());
 
         add(nameLabel, BorderLayout.NORTH);
