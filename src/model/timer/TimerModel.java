@@ -1,5 +1,7 @@
 package model.timer;
 
+import model.region.regions.Region;
+
 public class TimerModel
         implements Runnable {
 
@@ -21,7 +23,7 @@ public class TimerModel
 
     @Override
     public void run() {
-        while (timePassed < 300) {
+        while (Region.isGameRunning()) {
             synchronized (this) {
                 timePassed++;
             }

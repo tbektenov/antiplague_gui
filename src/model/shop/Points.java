@@ -8,7 +8,6 @@ public class Points {
     private boolean running = true;
 
     private Points() {
-        this.amount = 0;
     }
 
     public static Points getInstance() {
@@ -29,7 +28,7 @@ public class Points {
     }
 
     public synchronized void reset() {
-        this.amount = 0;
+        this.amount = 100;
         this.running = true;
     }
 

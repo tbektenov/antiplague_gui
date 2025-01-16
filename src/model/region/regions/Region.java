@@ -85,6 +85,24 @@ public abstract class Region {
         return regionExtent.get(color);
     }
 
+    public synchronized static boolean isGameRunning() {
+        int totalPopulation = 0;
+        int totalInfected = 0;
+        int totalCured = 0;
+
+        for (Region region : regionExtent.values()) {
+            totalPopulation += region.merePopulation;
+            totalInfected += region.infectedPopulation;
+            totalCured += region.curedPopulation;
+        }
+
+        if (totalInfected == totalPopulation || totalCured == totalPopulation) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public synchronized Map<TransportType, Set<String>> getAcceptedTransport() {
         return Collections.unmodifiableMap(acceptedTransport);
     }

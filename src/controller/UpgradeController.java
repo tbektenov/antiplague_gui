@@ -26,10 +26,10 @@ public class UpgradeController {
 
     private void initializeUpgrades() {
         upgradePanel.addUpgrade(new Upgrade(
-                "Global Infection Control",
-                "Reduces global infection by 10%.",
+                "Develop cure",
+                "Selected region initializes cure development.",
                 100,
-                () -> reduceGlobalInfectionBy(10f)
+                this::startDevelopingCure
         ));
 
         upgradePanel.addUpgrade(new Upgrade(
@@ -82,8 +82,8 @@ public class UpgradeController {
         ));
 
         upgradePanel.addUpgrade(new Upgrade(
-                "Destroy Virus",
-                "Eliminates all viruses and ends the game.",
+                "Create Antidote",
+                "Erases virus from this world.",
                 5000,
                 this::applyDestroyVirus
         ));
@@ -136,17 +136,19 @@ public class UpgradeController {
         return Optional.ofNullable(selectedType);
     }
 
-    private void reduceGlobalInfectionBy(float subtrahend) {
+    private void startDevelopingCure() {
         if (spendPoints(100)) {
-            Region.getRegionExtent().values()
-                    .forEach(region -> region.getVirus()
-                            .decreaseInfection(subtrahend));
+            Optional<Region> selectedRegion = showRegionSelectionDialog();
 
-            refreshStatsPanel();
-            JOptionPane.showMessageDialog(null,
-                    "Global infection reduced by " + subtrahend + "%",
-                    "Upgrade Acquired",
-                    JOptionPane.INFORMATION_MESSAGE);
+            selectedRegion.ifPresent(region -> {
+                region.getCure().startDevelopingCure();
+
+                statsPanel.setSelectedRegion(region);
+                JOptionPane.showMessageDialog(null,
+                        region.getName() + "has started developing cure",
+                        "Upgrade Acquired",
+                        JOptionPane.INFORMATION_MESSAGE);
+            });
         }
     }
 
@@ -267,8 +269,14 @@ public class UpgradeController {
     private void applyDestroyVirus() {
         if (spendPoints(5000)) {
             Region.getRegionExtent().values()
-                    .forEach(region -> region.getVirus()
-                            .setInfectionLevel(0f));
+                    .forEach(region -> {
+                        region.getVirus()
+                                .setInfectionLevel(0f);
+                        region.getVirus().stop();
+
+                        region.getCure()
+                                .setCureEfficiency(1f);
+                    });
 
             refreshStatsPanel();
 

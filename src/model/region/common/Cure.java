@@ -14,12 +14,20 @@ public class Cure implements Runnable {
     private boolean running = true;
 
     public Cure(Region region) {
-        this.cureEfficiency = generateCureEfficiency();
+        this.cureEfficiency = 0;
         this.region = region;
+    }
+
+    public void startDevelopingCure() {
+        this.cureEfficiency = generateCureEfficiency();
     }
 
     public synchronized float getCureEfficiency() {
         return this.cureEfficiency;
+    }
+
+    public synchronized void setCureEfficiency(float cureEfficiency) {
+        this.cureEfficiency = cureEfficiency;
     }
 
     public synchronized void increaseCureEfficiency(float addend) {

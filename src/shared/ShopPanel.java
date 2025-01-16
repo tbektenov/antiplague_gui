@@ -16,9 +16,9 @@ public class ShopPanel extends JPanel {
         setBackground(Color.WHITE);
         setLayout(new BorderLayout());
 
-        pointsView = new PointsView();
-        upgradePanel = new UpgradePanel();
         pointsModel = Points.getInstance();
+        pointsView = new PointsView(pointsModel.getAmount());
+        upgradePanel = new UpgradePanel();
 
         add(pointsView, BorderLayout.NORTH);
         add(upgradePanel, BorderLayout.CENTER);

@@ -43,9 +43,7 @@ public class TransportThread
         }
 
         if (transport.hasReachedDestination()) {
-            synchronized (manager) {
-                manager.removeTransport(this);
-            }
+            manager.removeTransport(this);
 
             Region destinationRegion = transport.getDestinationRegion();
             destinationRegion
@@ -100,10 +98,10 @@ public class TransportThread
 
     private float getAddendBasedOnTransportType(TransportType transportType) {
         return switch(transportType) {
-            case PLANE -> ThreadLocalRandom.current().nextFloat(.06f);
-            case TRAIN -> ThreadLocalRandom.current().nextFloat( .04f);
-            case CAR -> ThreadLocalRandom.current().nextFloat( .03f);
-            case BOAT -> ThreadLocalRandom.current().nextFloat( .05f);
+            case PLANE -> ThreadLocalRandom.current().nextFloat(.007f);
+            case TRAIN -> ThreadLocalRandom.current().nextFloat( .005f);
+            case CAR -> ThreadLocalRandom.current().nextFloat( .004f);
+            case BOAT -> ThreadLocalRandom.current().nextFloat( .006f);
         };
     }
 }
