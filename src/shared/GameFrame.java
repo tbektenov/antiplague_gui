@@ -8,6 +8,7 @@ import model.difficulty.Difficulty;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -57,19 +58,20 @@ public class GameFrame
             }
         });
 
-        keyEventDispatcher = e -> {
-            if (e.getID() == KeyEvent.KEY_PRESSED) {
-                if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
-                    mapPanel.stopThreads();
-                    dispose();
-                    new MainMenuFrame();
-                    return true;
-                }
-            }
-            return false;
-        };
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK);
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = this.getRootPane().getActionMap();
 
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher);
+        inputMap.put(keyStroke, "quitToMainMenu");
+        actionMap.put("quitToMainMenu", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                mapPanel.stopThreads();
+                dispose();
+                SwingUtilities.invokeLater(MainMenuFrame::new);
+            }
+        });
 
         setFocusable(true);
         requestFocusInWindow();
