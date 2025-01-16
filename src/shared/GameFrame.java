@@ -35,7 +35,7 @@ public class GameFrame
 
         ShopPanel shopPanel = new ShopPanel();
 
-        timerController = new TimerController(statsPanel);
+        timerController = new TimerController(statsPanel, difficulty);
         pointsController = new PointsController(shopPanel);
         upgradeController = new UpgradeController(shopPanel, statsPanel);
         transportController = new TransportController(mapPanel.getTransportManager(), difficulty);

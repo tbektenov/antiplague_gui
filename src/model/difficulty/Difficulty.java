@@ -20,4 +20,8 @@ public enum Difficulty {
     public float getSpawnRateMultiplier() {
         return spawnRateMultiplier;
     }
+
+    public float calculateScoreMultiplier() {
+        return (infectionMultiplier + spawnRateMultiplier) / 2;
+    }
 }

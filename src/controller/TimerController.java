@@ -1,5 +1,6 @@
 package controller;
 
+import model.difficulty.Difficulty;
 import model.highscore.HighScore;
 import model.timer.TimerModel;
 import shared.MainMenuFrame;
@@ -8,15 +9,16 @@ import view.TimerView;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.Random;
 
 public class TimerController {
     private final TimerModel timerModel;
     private final TimerView timerView;
+    private final Difficulty difficulty;
 
-    public TimerController(StatsPanel statsPanel) {
+    public TimerController(StatsPanel statsPanel, Difficulty difficulty) {
         this.timerView = statsPanel.getTimerView();
         this.timerModel = new TimerModel(this::updateTimerView, this::gameOver);
+        this.difficulty = difficulty;
 
         startTimer();
     }
@@ -35,16 +37,16 @@ public class TimerController {
 
     private void gameOver() {
         SwingUtilities.invokeLater(() -> {
-            Random random = new Random();
-            int randomScore = random.nextInt(1000) + 1;
+            int newScore = HighScore.calculateScore(difficulty, timerModel.getTimePassed());
 
             String playerName = JOptionPane.showInputDialog(null,
-                    "Game Over! Your score: " + randomScore + "\nEnter your name:",
+                    "Game Over! Your score: " + newScore + "\nEnter your name:",
                     "Game Over",
                     JOptionPane.QUESTION_MESSAGE);
 
             if (playerName != null && !playerName.trim().isEmpty()) {
-                HighScore highScore = new HighScore(playerName, randomScore);
+                HighScore highScore = new HighScore(playerName, newScore);
+
                 try {
                     HighScore.saveHighScoreToFile(highScore, "./src/data/highscores.txt");
                     JOptionPane.showMessageDialog(null,
@@ -58,6 +60,7 @@ public class TimerController {
                             JOptionPane.ERROR_MESSAGE);
                     e.printStackTrace();
                 }
+
             }
 
             SwingUtilities.invokeLater(() -> {

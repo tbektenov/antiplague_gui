@@ -19,8 +19,8 @@ public class Points {
         return this.amount;
     }
 
-    public synchronized void increasePointsByCured(int curedCount) {
-        this.amount += curedCount;
+    public synchronized void increasePoints(int addend) {
+        this.amount += addend;
     }
 
     public synchronized void decreasePoints(int subtrahend) {

@@ -47,7 +47,7 @@ public class Cure implements Runnable {
             region.increaseCuredPopulation(populationCured);
             region.decreaseInfectedPopulation(populationCured);
 
-            Points.getInstance().increasePointsByCured(populationCured);
+            Points.getInstance().increasePoints(populationCured);
         }
     }
 

@@ -18,7 +18,9 @@ public class CloseAllBordersUpgrade
 
     @Override
     public void apply() {
-        Optional<Region> selectedRegion = UpgradeUtils.showAllRegionSelectionDialog();
+        Optional<Region> selectedRegion = UpgradeUtils.showFilteredRegionSelectionDialog(
+                region -> !region.getAcceptedTransport().isEmpty()
+        );
 
         selectedRegion.ifPresent(region -> {
             if (UpgradeUtils.spendPoints(getCost())) {

@@ -1,5 +1,9 @@
 package model.highscore;
 
+import model.difficulty.Difficulty;
+import model.region.regions.Region;
+import model.shop.upgrades.Upgrade;
+
 import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -8,12 +12,20 @@ import java.io.Serializable;
 
 public class HighScore
         implements Serializable {
+
     private String playerName;
     private int score;
 
     public HighScore(String playerName, int score) {
         this.playerName = playerName;
         this.score = score;
+    }
+
+    public static int calculateScore(Difficulty difficulty, int timePassed) {
+        double timeFactor = (1.0 / (1 + timePassed)) + 1;
+        return (int) (Upgrade.getTotalUpgradesAcquired()
+                * difficulty.calculateScoreMultiplier()
+                * timeFactor);
     }
 
     public String getPlayerName() {

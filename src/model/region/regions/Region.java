@@ -71,20 +71,6 @@ public abstract class Region {
         regionExtent.clear();
     }
 
-    protected abstract void initializeTransportRules();
-
-    public static synchronized long getGlobalPopulation() {
-        return regionExtent.values().stream().mapToLong(Region::getMerePopulation).sum();
-    }
-
-    public static boolean containsColor(Color color) {
-        return regionExtent.containsKey(color);
-    }
-
-    public static Region getRegionByColor(Color color) {
-        return regionExtent.get(color);
-    }
-
     public synchronized static boolean isGameRunning() {
         int totalPopulation = 0;
         int totalInfected = 0;
@@ -101,6 +87,24 @@ public abstract class Region {
         } else {
             return true;
         }
+    }
+
+    public static boolean containsColor(Color color) {
+        return regionExtent.containsKey(color);
+    }
+
+    public static Region getRegionByColor(Color color) {
+        return regionExtent.get(color);
+    }
+
+    public static int getGlobalCuredPopulation() {
+        return regionExtent.values().stream().mapToInt(Region::getCuredPopulation).sum();
+    }
+
+    protected abstract void initializeTransportRules();
+
+    public static synchronized long getGlobalPopulation() {
+        return regionExtent.values().stream().mapToLong(Region::getMerePopulation).sum();
     }
 
     public synchronized Map<TransportType, Set<String>> getAcceptedTransport() {
@@ -125,8 +129,12 @@ public abstract class Region {
         return acceptedTransport.getOrDefault(type, Set.of()).contains(regionName);
     }
 
-    public void addSupportedTransport(TransportType type) {
+    public synchronized void addSupportedTransportType(TransportType type) {
         supportedTransportTypes.add(type);
+    }
+
+    public synchronized void removeSupportedTransportType(TransportType type) {
+        supportedTransportTypes.remove(type);
     }
 
     public Set<TransportType> getSupportedTransportTypes() {
@@ -137,32 +145,8 @@ public abstract class Region {
         this.supportedTransportTypes = supportedTransportTypes;
     }
 
-    public synchronized void addSupportedTransportType(TransportType type) {
-        supportedTransportTypes.add(type);
-    }
-
-    public synchronized void removeSupportedTransportType(TransportType type) {
-        supportedTransportTypes.remove(type);
-    }
-
     public boolean supportsTransport(TransportType transportType) {
         return supportedTransportTypes.contains(transportType);
-    }
-
-    public synchronized void decreasePopulation() {
-        int subtrahend = calculateSubtrahend();
-
-        if (this.merePopulation - subtrahend >= 0) {
-            this.merePopulation -= subtrahend;
-        } else {
-            this.merePopulation = 0;
-        }
-    }
-
-    public int calculateSubtrahend() {
-        int infectedPopulation = calculateInfectedPopulation();
-        int subtrahend = (int) (infectedPopulation * ThreadLocalRandom.current().nextFloat(.003f));
-        return subtrahend;
     }
 
     private synchronized int calculateInfectedPopulation() {
@@ -197,16 +181,6 @@ public abstract class Region {
 
     public synchronized void decreaseInfectedPopulation(int subtrahend) {
         this.infectedPopulation = Math.max(this.infectedPopulation - subtrahend, 0);
-    }
-
-
-    public void cureInfected() {
-        int infectedPopulation = getInfectedPopulation();
-        int chanceOfCure = ThreadLocalRandom.current().nextInt(2);
-        int populationCured = ((int)(infectedPopulation * cure.getCureEfficiency()) * chanceOfCure);
-
-        this.curedPopulation += populationCured;
-        decreaseInfectedPopulation(populationCured);
     }
 
     public synchronized int getCuredPopulation() {
