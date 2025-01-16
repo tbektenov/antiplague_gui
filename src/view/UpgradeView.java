@@ -1,6 +1,6 @@
 package view;
 
-import model.shop.Upgrade;
+import model.shop.upgrades.Upgrade;
 
 import javax.swing.*;
 import java.awt.*;

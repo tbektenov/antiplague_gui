@@ -1,4 +1,4 @@
-package model.shop;
+package model.shop.upgrades;
 
 import java.util.Collections;
 import java.util.HashSet;

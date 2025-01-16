@@ -27,7 +27,7 @@ public class PointsController {
             public void run() {
                 updatePointsView();
             }
-        }, 1000, 1000);
+        }, 0, 1000);
     }
 
     public void updatePointsView() {

@@ -2,7 +2,7 @@ package controller;
 
 import model.region.regions.Region;
 import model.shop.Points;
-import model.shop.Upgrade;
+import model.shop.upgrades.Upgrade;
 import model.transport.TransportType;
 import shared.ShopPanel;
 import shared.StatsPanel;
@@ -10,6 +10,7 @@ import view.UpgradePanel;
 
 import javax.swing.*;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class UpgradeController {
     private final Points pointsModel;
@@ -104,7 +105,7 @@ public class UpgradeController {
         }
     }
 
-    private Optional<Region> showRegionSelectionDialog() {
+    private Optional<Region> showAllRegionSelectionDialog() {
         Region[] regions = Region.getRegionExtent().values().toArray(new Region[0]);
 
         Region selectedRegion = (Region) JOptionPane.showInputDialog(
@@ -116,6 +117,34 @@ public class UpgradeController {
                 regions,
                 regions[0]
         );
+
+        return Optional.ofNullable(selectedRegion);
+    }
+
+    private Optional<Region> showFilteredRegionSelectionDialog(Predicate<Region> predicate) {
+        Region[] regions = Region.getRegionExtent().values().stream()
+                .filter(predicate)
+                .toArray(Region[]::new);
+
+        Region selectedRegion;
+        if (regions.length == 0) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "No regions available",
+                    "Attention!",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return Optional.empty();
+        } else {
+            selectedRegion = (Region) JOptionPane.showInputDialog(
+                    null,
+                    "Select a region to apply effect:",
+                    "Region Selection",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    regions,
+                    regions[0]
+            );
+        }
 
         return Optional.ofNullable(selectedRegion);
     }
@@ -137,26 +166,29 @@ public class UpgradeController {
     }
 
     private void startDevelopingCure() {
-        if (spendPoints(100)) {
-            Optional<Region> selectedRegion = showRegionSelectionDialog();
+        Optional<Region> selectedRegion = showFilteredRegionSelectionDialog(
+                region -> region.getCureEfficiency() == 0
+        );
 
-            selectedRegion.ifPresent(region -> {
+        selectedRegion.ifPresent(region -> {
+            if (spendPoints(100)) {
                 region.getCure().startDevelopingCure();
 
                 statsPanel.setSelectedRegion(region);
                 JOptionPane.showMessageDialog(null,
-                        region.getName() + "has started developing cure",
+                        region.getName() + " has started developing cure",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
-            });
-        }
+            }
+        });
     }
 
-    private void reduceRegionalInfectionBy(float subtrahend) {
-        if (spendPoints(150)) {
-            Optional<Region> selectedRegion = showRegionSelectionDialog();
 
-            selectedRegion.ifPresent(region -> {
+    private void reduceRegionalInfectionBy(float subtrahend) {
+        Optional<Region> selectedRegion = showAllRegionSelectionDialog();
+
+        selectedRegion.ifPresent(region -> {
+            if (spendPoints(150)) {
                 region.getVirus().decreaseInfection(subtrahend);
 
                 statsPanel.setSelectedRegion(region);
@@ -164,24 +196,28 @@ public class UpgradeController {
                         region.getName() + "'s infection reduced by " + subtrahend + "%",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
-            });
-        }
+            }
+        });
     }
 
-    private void increaseCureEfficiencyByFive() {
-        if (spendPoints(200)) {
-            Optional<Region> selectedRegion = showRegionSelectionDialog();
 
-            selectedRegion.ifPresent(region -> {
-                region.getCure().increaseCureEfficiency(.05f);
+    private void increaseCureEfficiencyByFive() {
+        Optional<Region> selectedRegion = showFilteredRegionSelectionDialog(
+                region -> region.getCureEfficiency() != 0
+        );
+
+        selectedRegion.ifPresent(region -> {
+            if (spendPoints(200)) {
+                region.getCure().increaseCureEfficiency(0.05f);
                 statsPanel.setSelectedRegion(region);
                 JOptionPane.showMessageDialog(null,
                         "Cure efficiency in " + region.getName() + " was increased!",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
-            });
-        }
+            }
+        });
     }
+
 
     private void setGlobalInfectionToZero() {
         if (spendPoints(1000)) {
@@ -198,10 +234,10 @@ public class UpgradeController {
     }
 
     private void closeAllBordersForCountry() {
-        if (spendPoints(300)) {
-            Optional<Region> selectedRegion = showRegionSelectionDialog();
+        Optional<Region> selectedRegion = showAllRegionSelectionDialog();
 
-            selectedRegion.ifPresent(region -> {
+        selectedRegion.ifPresent(region -> {
+            if (spendPoints(300)) {
                 region.clearAcceptedTransport();
                 statsPanel.setSelectedRegion(region);
 
@@ -209,16 +245,16 @@ public class UpgradeController {
                         region.getName() + "closed all borders",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
-            });
-        }
+            }
+        });
     }
 
     private void banSpecificTransportForCountry() {
-        if (spendPoints(150)) {
-            Optional<Region> selectedRegion = showRegionSelectionDialog();
-            Optional<TransportType> selectedTransportType = showTransportTypeSelectionDialog();
+        Optional<Region> selectedRegion = showAllRegionSelectionDialog();
+        Optional<TransportType> selectedTransportType = showTransportTypeSelectionDialog();
 
-            if (selectedRegion.isPresent() && selectedTransportType.isPresent()) {
+        if (selectedRegion.isPresent() && selectedTransportType.isPresent()) {
+            if (spendPoints(150)) {
                 selectedRegion.get().removeAcceptedTransportType(selectedTransportType.get());
                 statsPanel.setSelectedRegion(selectedRegion.get());
 
@@ -231,26 +267,27 @@ public class UpgradeController {
         }
     }
 
+
     private void dropInfectionByHalf() {
-        if (spendPoints(500)) {
-            Optional<Region> selectedRegion = showRegionSelectionDialog();
+            Optional<Region> selectedRegion = showAllRegionSelectionDialog();
 
             selectedRegion.ifPresent(region -> {
-                region.getVirus().decreaseInfection(region.getVirus().getInfectionLevel() / 2);
-                statsPanel.setSelectedRegion(region);
+                if (spendPoints(500)) {
+                    region.getVirus().decreaseInfection(region.getVirus().getInfectionLevel() / 2);
+                    statsPanel.setSelectedRegion(region);
 
-                JOptionPane.showMessageDialog(
-                        null,
-                        region.getName() + "'s infection reduced by 50%.",
-                        "Upgrade Acquired",
-                        JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            null,
+                            region.getName() + "'s infection reduced by 50%.",
+                            "Upgrade Acquired",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
             });
-        }
     }
 
     private void applyStopInfectionSpread() {
         if (spendPoints(800)) {
-            Optional<Region> selectedRegion = showRegionSelectionDialog();
+            Optional<Region> selectedRegion = showAllRegionSelectionDialog();
 
             selectedRegion.ifPresent(region -> {
                 region.getVirus().stop();
