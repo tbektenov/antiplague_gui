@@ -2,7 +2,7 @@ package controller;
 
 import model.region.regions.Region;
 import model.shop.Points;
-import model.shop.upgrades.Upgrade;
+import model.shop.Upgrade;
 import model.transport.TransportType;
 import shared.ShopPanel;
 import shared.StatsPanel;
