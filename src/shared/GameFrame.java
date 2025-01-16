@@ -73,8 +73,6 @@ public class GameFrame
             }
         });
 
-        setFocusable(true);
-        requestFocusInWindow();
         setVisible(true);
     }
 }
