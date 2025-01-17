@@ -49,7 +49,5 @@ public class UpgradePanel
     public void addUpgrade(Upgrade upgrade) {
         UpgradeView upgradeView = new UpgradeView(upgrade);
         add(upgradeView);
-        revalidate();
-        repaint();
     }
 }

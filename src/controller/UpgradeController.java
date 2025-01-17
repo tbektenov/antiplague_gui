@@ -27,5 +27,4 @@ public class UpgradeController {
         upgradePanel.addUpgrade(new StopInfectionSpreadUpgrade(statsPanel));
         upgradePanel.addUpgrade(new DestroyVirusUpgrade());
     }
-
 }

@@ -24,12 +24,8 @@ public class Virus
         this.region = region;
     }
 
-    public synchronized void increaseInfection(float addend) {
-        if ((infectionLevel + addend) <= 1f) infectionLevel += addend;
-        else infectionLevel = 1f;
-
-
-        infectionCallback.accept(infectionLevel);
+    public synchronized void increaseInfection(long addend) {
+        region.increaseInfectedPopulation(addend);
     }
 
     public synchronized void increaseInfection() {
@@ -60,7 +56,7 @@ public class Virus
 
         if (alreadyInfectedPopulation <= 0) return 1;
 
-        long newInfections = (long) Math.ceil((alreadyInfectedPopulation * infectionLevel * 3));
+        long newInfections = (long) Math.ceil((alreadyInfectedPopulation * infectionLevel * 2));
         return newInfections;
     }
 

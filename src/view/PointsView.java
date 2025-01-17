@@ -54,7 +54,5 @@ public class PointsView
         String formattedPoints = numberFormat.format(points);
 
         pointsLabel.setText("Points: " + formattedPoints);
-        revalidate();
-        repaint();
     }
 }

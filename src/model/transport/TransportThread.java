@@ -96,12 +96,12 @@ public class TransportThread
         return new Point(currentX, currentY);
     }
 
-    private float getAddendBasedOnTransportType(TransportType transportType) {
+    private long getAddendBasedOnTransportType(TransportType transportType) {
         return switch(transportType) {
-            case PLANE -> ThreadLocalRandom.current().nextFloat(.007f);
-            case TRAIN -> ThreadLocalRandom.current().nextFloat( .005f);
-            case CAR -> ThreadLocalRandom.current().nextFloat( .004f);
-            case BOAT -> ThreadLocalRandom.current().nextFloat( .006f);
+            case PLANE -> ThreadLocalRandom.current().nextLong(300);
+            case TRAIN -> ThreadLocalRandom.current().nextLong( 200);
+            case CAR -> ThreadLocalRandom.current().nextLong(6);
+            case BOAT -> ThreadLocalRandom.current().nextLong( 120);
         };
     }
 }

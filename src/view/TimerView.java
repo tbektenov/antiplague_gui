@@ -20,7 +20,5 @@ public class TimerView
 
     public void updateTimer(int minutes, int seconds) {
         timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
-        revalidate();
-        repaint();
     }
 }
