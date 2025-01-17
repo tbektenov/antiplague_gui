@@ -1,4 +1,4 @@
-package shared;
+package shared.menu;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -13,6 +13,8 @@ class MainMenuBackgroundPanel
 
     public MainMenuBackgroundPanel() {
         loadBackground();
+        setLayout(new BorderLayout(10, 10));
+        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     }
 
     @Override

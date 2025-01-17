@@ -3,7 +3,7 @@ package controller;
 import model.difficulty.Difficulty;
 import model.highscore.HighScore;
 import model.timer.TimerModel;
-import shared.MainMenuFrame;
+import shared.menu.MainMenuFrame;
 import shared.StatsPanel;
 import view.TimerView;
 

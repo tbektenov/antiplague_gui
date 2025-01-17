@@ -1,4 +1,4 @@
-import shared.MainMenuFrame;
+import shared.menu.MainMenuFrame;
 
 import javax.swing.*;
 

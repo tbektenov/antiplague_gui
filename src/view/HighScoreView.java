@@ -15,10 +15,19 @@ public class HighScoreView
         extends JFrame {
 
     public HighScoreView() {
-        DefaultListModel<String> listModel = new DefaultListModel<>();
+        setTitle("High Scores");
+        setSize(400, 300);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setVisible(true);
+
+        JPanel panel = createMainPanel();
+        add(panel, BorderLayout.CENTER);
+
         List<HighScore> highScores = loadHighScoresFromFile("./src/data/highscores.txt");
         sortHighScores(highScores);
 
+        DefaultListModel<String> listModel = new DefaultListModel<>();
         for (HighScore highScore : highScores) {
             listModel.addElement(highScore.toString());
         }
@@ -31,13 +40,12 @@ public class HighScoreView
         highScoresList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         JScrollPane scrollPane = new JScrollPane(highScoresList);
-        add(scrollPane);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        setTitle("High Scores");
-        setSize(400, 300);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setVisible(true);
+        panel.setLayout(new BorderLayout());
+        panel.add(scrollPane, BorderLayout.CENTER);
     }
 
     private List<HighScore> loadHighScoresFromFile(String fileName) {
@@ -62,6 +70,16 @@ public class HighScoreView
         }
 
         return highScores;
+    }
+
+    private JPanel createMainPanel() {
+        JPanel panel = new JPanel();
+
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setVisible(true);
+        panel.setOpaque(true);
+
+        return panel;
     }
 
     private void sortHighScores(List<HighScore> highScores) {

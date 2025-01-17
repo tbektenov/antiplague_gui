@@ -5,13 +5,12 @@ import controller.TimerController;
 import controller.TransportController;
 import controller.UpgradeController;
 import model.difficulty.Difficulty;
+import shared.menu.MainMenuFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class GameFrame
         extends JFrame {
@@ -20,12 +19,15 @@ public class GameFrame
     private PointsController pointsController;
     private UpgradeController upgradeController;
     private TransportController transportController;
-    private KeyEventDispatcher keyEventDispatcher;
 
     public GameFrame(Difficulty difficulty) {
         super("AntiPlague Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setSize(1200, 800);
+        setLocationRelativeTo(null);
+        setResizable(true);
+        setVisible(true);
 
         StatsPanel statsPanel = new StatsPanel();
         MapPanel mapPanel = new MapPanel(statsPanel, difficulty);
@@ -44,20 +46,6 @@ public class GameFrame
         add(topPanel, BorderLayout.CENTER);
         add(shopPanel, BorderLayout.SOUTH);
 
-        setSize(1200, 800);
-        setLocationRelativeTo(null);
-        setResizable(true);
-
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                mapPanel.stopThreads();
-                timerController.stopTimer();
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(keyEventDispatcher);
-                System.exit(0);
-            }
-        });
-
         KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK);
         InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = this.getRootPane().getActionMap();
@@ -66,13 +54,10 @@ public class GameFrame
         actionMap.put("quitToMainMenu", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 mapPanel.stopThreads();
                 dispose();
-                SwingUtilities.invokeLater(MainMenuFrame::new);
+                new MainMenuFrame();
             }
         });
-
-        setVisible(true);
     }
 }
