@@ -7,15 +7,15 @@ import javax.swing.*;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class UtilizeTestingMedicineUpgrade
+public class ExperimentalMedicineUpgrade
         extends Upgrade {
 
     private final StatsPanel statsPanel;
 
-    public UtilizeTestingMedicineUpgrade(StatsPanel statsPanel) {
+    public ExperimentalMedicineUpgrade(StatsPanel statsPanel) {
         super(
                 "Utilize experimental medicine.",
-                "Experimental medicine leads to decrease of both: infection speed and cure efficiency.",
+                "Experimental medicine decreases both: infection speed and cure efficiency.",
                 800);
 
         this.statsPanel = statsPanel;
@@ -31,7 +31,7 @@ public class UtilizeTestingMedicineUpgrade
                 region.getCure().decreaseCureEfficiency(ThreadLocalRandom.current().nextFloat(.06f));
                 statsPanel.setSelectedRegion(region);
                 JOptionPane.showMessageDialog(null,
-                        region.getName() + "'s infection stopped and set to 0.",
+                        region.getName() + " has utilized experimental medicine.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
                 incrementUpgradeCounter();

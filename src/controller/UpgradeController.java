@@ -27,7 +27,7 @@ public class UpgradeController {
         upgradePanel.addUpgrade(new CloseAllBordersUpgrade(statsPanel));
         upgradePanel.addUpgrade(new CloseSpecificTransportBordersUpgrade(statsPanel));
         upgradePanel.addUpgrade(new PromoteVaccineUpgrade(statsPanel));
-        upgradePanel.addUpgrade(new UtilizeTestingMedicineUpgrade(statsPanel));
+        upgradePanel.addUpgrade(new ExperimentalMedicineUpgrade(statsPanel));
         upgradePanel.addUpgrade(new DestroyVirusUpgrade(timerController));
     }
 }

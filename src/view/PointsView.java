@@ -49,7 +49,7 @@ public class PointsView
         add(pointsLabel, BorderLayout.CENTER);
     }
 
-    public void updatePoints(int points) {
+    public synchronized void updatePoints(int points) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         String formattedPoints = numberFormat.format(points);
 

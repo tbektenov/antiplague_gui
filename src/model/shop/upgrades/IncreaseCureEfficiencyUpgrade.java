@@ -21,7 +21,7 @@ public class IncreaseCureEfficiencyUpgrade
     @Override
     public void apply() {
         Optional<Region> selectedRegion = UpgradeUtils.showFilteredRegionSelectionDialog(
-                region -> region.getCureEfficiency() != 0
+                region -> (region.getCureEfficiency() != 0 && region.getCureEfficiency() != 100)
         );
 
         selectedRegion.ifPresent(region -> {

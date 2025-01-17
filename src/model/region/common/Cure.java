@@ -36,8 +36,8 @@ public class Cure
     }
 
     public synchronized void decreaseCureEfficiency(float subtrahend) {
-        if ((cureEfficiency - subtrahend) >= .0f) cureEfficiency -= subtrahend;
-        else cureEfficiency = .0f;
+        if ((cureEfficiency - subtrahend) >= .01f) cureEfficiency -= subtrahend;
+        else cureEfficiency = .01f;
     }
 
     private float generateCureEfficiency() {
