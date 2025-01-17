@@ -7,13 +7,15 @@ import view.UpgradePanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class ShopPanel extends JPanel {
+public class ShopPanel
+        extends JPanel {
+
     private final PointsView pointsView;
     private final UpgradePanel upgradePanel;
     private final Points pointsModel;
 
     public ShopPanel() {
-        setBackground(Color.WHITE);
+        setOpaque(false);
         setLayout(new BorderLayout());
 
         pointsModel = Points.getInstance();

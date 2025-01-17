@@ -3,8 +3,8 @@ package shared;
 import controller.RegionController;
 import controller.TransportController;
 import model.difficulty.Difficulty;
-import model.region.regions.Region;
 import model.region.common.RegionPoint;
+import model.region.regions.Region;
 import model.transport.TransportManager;
 
 import javax.imageio.ImageIO;
@@ -12,15 +12,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Objects;
 
 public class MapPanel
         extends JPanel {
 
-    private BufferedImage worldMap;
+    private Image worldMap;
     private final RegionController regionController;
     private final TransportManager transportManager;
     private final TransportController transportController;
@@ -59,7 +58,7 @@ public class MapPanel
 
     private void loadWorldMap() {
         try {
-            worldMap = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resources/World_map.png")));
+            worldMap = ImageIO.read(new File(("./src/resources/World_map.png")));
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }

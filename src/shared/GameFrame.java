@@ -15,10 +15,10 @@ import java.awt.event.KeyEvent;
 public class GameFrame
         extends JFrame {
 
-    private TimerController timerController;
-    private PointsController pointsController;
-    private UpgradeController upgradeController;
-    private TransportController transportController;
+    private final TimerController timerController;
+    private final PointsController pointsController;
+    private final UpgradeController upgradeController;
+    private final TransportController transportController;
 
     public GameFrame(Difficulty difficulty) {
         super("AntiPlague Game");

@@ -7,11 +7,14 @@ import view.HighScoreView;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class MainMenuFrame
         extends JFrame {
+
+    private BufferedImage buttonImage = null;
 
     public MainMenuFrame() {
         super("AntiPlague Game - Main Menu");
@@ -69,25 +72,29 @@ public class MainMenuFrame
         else return null;
     }
 
+    private void loadButtonImage() {
+        if (buttonImage == null) {
+            try {
+                buttonImage = ImageIO.read(new File("./src/resources/Button_ui.png"));
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Error loading button image: " + e,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
     private JButton createButton(String text) {
         JButton button = new JButton(text);
+        loadButtonImage();
 
-        Image image = null;
-
-        try {
-            image = ImageIO.read(new File("./src/resources/Button_ui.png"));
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Error loading button image: " + e,
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-
-        button.setForeground(Color.WHITE);
         button.setPreferredSize(new Dimension(300, 100));
+        button.setFont(new Font("Arial", Font.BOLD, 24));
+        button.setForeground(Color.WHITE);
         button.setFocusable(false);
-        button.setUI(new MainMenuButtonUI(image));
+        button.setUI(new MainMenuButtonUI(buttonImage));
         return button;
     }
 

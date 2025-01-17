@@ -3,13 +3,14 @@ package shared.menu;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class MainMenuButtonUI
     extends BasicButtonUI {
 
-    private Image image;
+    private BufferedImage image;
 
-    public MainMenuButtonUI(Image image) {
+    public MainMenuButtonUI(BufferedImage image) {
         this.image = image;
     }
 
@@ -20,5 +21,4 @@ public class MainMenuButtonUI
         }
         super.paint(g, c);
     }
-
 }

@@ -3,8 +3,8 @@ package shared.menu;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 class MainMenuBackgroundPanel
         extends JPanel {
@@ -25,7 +25,7 @@ class MainMenuBackgroundPanel
 
     private void loadBackground() {
         try {
-            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resources/Main_menu_bg.png")));
+            backgroundImage = ImageIO.read(new File(("./src/resources/Main_menu_bg.png")));
         } catch (IOException | NullPointerException e) {
             JOptionPane.showMessageDialog(
                     null,
