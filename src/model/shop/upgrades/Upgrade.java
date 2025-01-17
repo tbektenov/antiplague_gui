@@ -12,7 +12,7 @@ public abstract
 
     private final String name;
     private final String description;
-    private final int cost;
+    private int cost;
     private boolean isAvailable = true;
 
     public Upgrade(String name, String description, int cost) {
@@ -51,5 +51,9 @@ public abstract
 
     public boolean isAvailable() {
         return this.isAvailable;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 }

@@ -14,7 +14,7 @@ public class ReduceRegionalInfectionUpgrade
     public ReduceRegionalInfectionUpgrade(StatsPanel statsPanel, float subtrahend) {
         super("Reduce Regional Infection Speed",
                 "Reduces infection speed by " + subtrahend + "% in a selected region.",
-                150);
+                1_500);
         this.statsPanel = statsPanel;
         this.subtrahend = subtrahend;
     }

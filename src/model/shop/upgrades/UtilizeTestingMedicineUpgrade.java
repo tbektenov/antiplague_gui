@@ -5,14 +5,19 @@ import shared.StatsPanel;
 
 import javax.swing.*;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class StopInfectionSpreadUpgrade
+public class UtilizeTestingMedicineUpgrade
         extends Upgrade {
 
     private final StatsPanel statsPanel;
 
-    public StopInfectionSpreadUpgrade(StatsPanel statsPanel) {
-        super("Stop Infection Spread", "Stops infection spread and sets infection to 0 in a selected region.", 800);
+    public UtilizeTestingMedicineUpgrade(StatsPanel statsPanel) {
+        super(
+                "Utilize experimental medicine.",
+                "Experimental medicine leads to decrease of both: infection speed and cure efficiency.",
+                800);
+
         this.statsPanel = statsPanel;
     }
 
@@ -22,8 +27,8 @@ public class StopInfectionSpreadUpgrade
 
         selectedRegion.ifPresent(region -> {
             if (UpgradeUtils.spendPoints(getCost())) {
-                region.getVirus().stop();
-                region.getVirus().decreaseInfection(region.getVirus().getInfectionLevel());
+                region.getVirus().decreaseInfection(ThreadLocalRandom.current().nextFloat(.11f));
+                region.getCure().decreaseCureEfficiency(ThreadLocalRandom.current().nextFloat(.06f));
                 statsPanel.setSelectedRegion(region);
                 JOptionPane.showMessageDialog(null,
                         region.getName() + "'s infection stopped and set to 0.",

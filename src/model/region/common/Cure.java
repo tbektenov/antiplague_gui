@@ -35,6 +35,11 @@ public class Cure
         this.cureEfficiency = Math.min(this.cureEfficiency + addend, 1f);
     }
 
+    public synchronized void decreaseCureEfficiency(float subtrahend) {
+        if ((cureEfficiency - subtrahend) >= .0f) cureEfficiency -= subtrahend;
+        else cureEfficiency = .0f;
+    }
+
     private float generateCureEfficiency() {
         return ThreadLocalRandom.current().nextFloat(.03f, .05f);
     }

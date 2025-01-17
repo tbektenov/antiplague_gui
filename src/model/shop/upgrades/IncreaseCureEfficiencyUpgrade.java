@@ -10,10 +10,12 @@ public class IncreaseCureEfficiencyUpgrade
         extends Upgrade {
 
     private final StatsPanel statsPanel;
+    private final float addend;
 
-    public IncreaseCureEfficiencyUpgrade(StatsPanel statsPanel) {
+    public IncreaseCureEfficiencyUpgrade(StatsPanel statsPanel, float addend) {
         super("Improve Cure", "Increases cure's efficiency by 5% in a selected region.", 200);
         this.statsPanel = statsPanel;
+        this.addend = addend;
     }
 
     @Override
@@ -24,10 +26,10 @@ public class IncreaseCureEfficiencyUpgrade
 
         selectedRegion.ifPresent(region -> {
             if (UpgradeUtils.spendPoints(getCost())) {
-                region.getCure().increaseCureEfficiency(.05f);
+                region.getCure().increaseCureEfficiency(addend);
                 statsPanel.setSelectedRegion(region);
                 JOptionPane.showMessageDialog(null,
-                        "Cure efficiency in " + region.getName() + " was increased by 5%.",
+                        "Cure efficiency in " + region.getName() + " was increased by " + addend + "%.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
                 incrementUpgradeCounter();

@@ -5,6 +5,7 @@ public class Points {
     private static Points instance;
 
     private int amount;
+    private double multiplier = 1;
 
     private Points() {
     }
@@ -18,8 +19,12 @@ public class Points {
         return this.amount;
     }
 
+    public synchronized void setMultiplier(double multiplier) {
+        this.multiplier = multiplier;
+    }
+
     public synchronized void increasePoints(int addend) {
-        this.amount += addend;
+        this.amount += (addend * multiplier);
     }
 
     public synchronized void decreasePoints(int subtrahend) {

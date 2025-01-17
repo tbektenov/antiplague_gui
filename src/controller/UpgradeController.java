@@ -21,13 +21,13 @@ public class UpgradeController {
 
     private void initializeUpgrades() {
         upgradePanel.addUpgrade(new StartCureProgramUpgrade(statsPanel));
-        upgradePanel.addUpgrade(new ReduceRegionalInfectionUpgrade(statsPanel, 15f));
-        upgradePanel.addUpgrade(new IncreaseCureEfficiencyUpgrade(statsPanel));
-        upgradePanel.addUpgrade(new EradicateGlobalInfectionUpgrade());
+        upgradePanel.addUpgrade(new ReduceRegionalInfectionUpgrade(statsPanel, 3f));
+        upgradePanel.addUpgrade(new IncreaseCureEfficiencyUpgrade(statsPanel, .05f));
+        upgradePanel.addUpgrade(new IncreaseFundingUpgrade());
         upgradePanel.addUpgrade(new CloseAllBordersUpgrade(statsPanel));
         upgradePanel.addUpgrade(new CloseSpecificTransportBordersUpgrade(statsPanel));
         upgradePanel.addUpgrade(new PromoteVaccineUpgrade(statsPanel));
-        upgradePanel.addUpgrade(new StopInfectionSpreadUpgrade(statsPanel));
+        upgradePanel.addUpgrade(new UtilizeTestingMedicineUpgrade(statsPanel));
         upgradePanel.addUpgrade(new DestroyVirusUpgrade(timerController));
     }
 }
