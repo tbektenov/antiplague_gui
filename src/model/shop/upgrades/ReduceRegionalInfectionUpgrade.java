@@ -12,8 +12,8 @@ public class ReduceRegionalInfectionUpgrade
     private final float subtrahend;
 
     public ReduceRegionalInfectionUpgrade(StatsPanel statsPanel, float subtrahend) {
-        super("Reduce Regional Infection",
-                "Reduces infection by " + subtrahend + "% in a selected region.",
+        super("Reduce Regional Infection Speed",
+                "Reduces infection speed by " + subtrahend + "% in a selected region.",
                 150);
         this.statsPanel = statsPanel;
         this.subtrahend = subtrahend;

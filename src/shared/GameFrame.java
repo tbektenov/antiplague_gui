@@ -40,7 +40,7 @@ public class GameFrame
 
         timerController = new TimerController(statsPanel, difficulty);
         pointsController = new PointsController(shopPanel);
-        upgradeController = new UpgradeController(shopPanel, statsPanel);
+        upgradeController = new UpgradeController(shopPanel, statsPanel, timerController);
         transportController = new TransportController(mapPanel.getTransportManager(), difficulty);
 
         add(topPanel, BorderLayout.CENTER);

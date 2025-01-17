@@ -6,26 +6,28 @@ import shared.StatsPanel;
 import javax.swing.*;
 import java.util.Optional;
 
-public class DropInfectionByHalfUpgrade
+public class PromoteVaccineUpgrade
         extends Upgrade {
 
     private final StatsPanel statsPanel;
 
-    public DropInfectionByHalfUpgrade(StatsPanel statsPanel) {
-        super("Reduce Infection by 50%", "Drops infection by 50% in a selected region.", 500);
+    public PromoteVaccineUpgrade(StatsPanel statsPanel) {
+        super("Promote Vaccine", "Increases cure's efficiency drastically.", 5_000);
         this.statsPanel = statsPanel;
     }
 
     @Override
     public void apply() {
-        Optional<Region> selectedRegion = UpgradeUtils.showAllRegionSelectionDialog();
+        Optional<Region> selectedRegion = UpgradeUtils.showFilteredRegionSelectionDialog(
+                region -> region.getCureEfficiency() != 0
+        );
 
         selectedRegion.ifPresent(region -> {
             if (UpgradeUtils.spendPoints(getCost())) {
-                region.getVirus().decreaseInfection(region.getVirus().getInfectionLevel() / 2);
+                region.getCure().increaseCureEfficiency(.5f);
                 statsPanel.setSelectedRegion(region);
                 JOptionPane.showMessageDialog(null,
-                        region.getName() + "'s infection reduced by 50%.",
+                        region.getName() + " has allocated a huge budget to study the virus and has promoted cure's efficiency.",
                         "Upgrade Acquired",
                         JOptionPane.INFORMATION_MESSAGE);
                 incrementUpgradeCounter();

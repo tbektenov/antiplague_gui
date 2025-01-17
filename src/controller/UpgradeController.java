@@ -9,10 +9,12 @@ public class UpgradeController {
 
     private final UpgradePanel upgradePanel;
     private final StatsPanel statsPanel;
+    private final TimerController timerController;
 
-    public UpgradeController(ShopPanel shopPanel, StatsPanel statsPanel) {
+    public UpgradeController(ShopPanel shopPanel, StatsPanel statsPanel, TimerController timerController) {
         this.upgradePanel = shopPanel.getUpgradePanel();
         this.statsPanel = statsPanel;
+        this.timerController = timerController;
 
         initializeUpgrades();
     }
@@ -24,8 +26,8 @@ public class UpgradeController {
         upgradePanel.addUpgrade(new EradicateGlobalInfectionUpgrade());
         upgradePanel.addUpgrade(new CloseAllBordersUpgrade(statsPanel));
         upgradePanel.addUpgrade(new CloseSpecificTransportBordersUpgrade(statsPanel));
-        upgradePanel.addUpgrade(new DropInfectionByHalfUpgrade(statsPanel));
+        upgradePanel.addUpgrade(new PromoteVaccineUpgrade(statsPanel));
         upgradePanel.addUpgrade(new StopInfectionSpreadUpgrade(statsPanel));
-        upgradePanel.addUpgrade(new DestroyVirusUpgrade());
+        upgradePanel.addUpgrade(new DestroyVirusUpgrade(timerController));
     }
 }

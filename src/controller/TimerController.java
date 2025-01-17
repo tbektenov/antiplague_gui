@@ -36,7 +36,7 @@ public class TimerController {
         SwingUtilities.invokeLater(() -> timerView.updateTimer(minutes, seconds));
     }
 
-    private void gameOver() {
+    public void gameOver() {
         SwingUtilities.invokeLater(() -> {
             int newScore = HighScore.calculateScore(difficulty, timerModel.getTimePassed());
 

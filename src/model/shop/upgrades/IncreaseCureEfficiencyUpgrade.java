@@ -24,7 +24,7 @@ public class IncreaseCureEfficiencyUpgrade
 
         selectedRegion.ifPresent(region -> {
             if (UpgradeUtils.spendPoints(getCost())) {
-                region.getCure().increaseCureEfficiency(0.05f);
+                region.getCure().increaseCureEfficiency(.05f);
                 statsPanel.setSelectedRegion(region);
                 JOptionPane.showMessageDialog(null,
                         "Cure efficiency in " + region.getName() + " was increased by 5%.",

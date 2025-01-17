@@ -22,7 +22,7 @@ public class UpgradeView
         JButton actionButton = new JButton(upgrade.getCost() + " points");
         actionButton.setFocusPainted(false);
         actionButton.addActionListener(_ -> upgrade.apply());
-        actionButton.setToolTipText(upgrade.getName());
+        actionButton.setToolTipText(upgrade.getDescription());
 
         add(nameLabel, BorderLayout.NORTH);
         add(descriptionLabel, BorderLayout.CENTER);
