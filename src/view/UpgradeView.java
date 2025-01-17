@@ -5,7 +5,9 @@ import model.shop.upgrades.Upgrade;
 import javax.swing.*;
 import java.awt.*;
 
-public class UpgradeView extends JPanel {
+public class UpgradeView
+        extends JPanel {
+
     public UpgradeView(Upgrade upgrade) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));

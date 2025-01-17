@@ -1,6 +1,7 @@
 package model.region.common;
 
 public class RegionPoint {
+
     private float x;
     private float y;
 

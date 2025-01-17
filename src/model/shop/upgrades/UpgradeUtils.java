@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class UpgradeUtils {
+
     private static final Points pointsModel = Points.getInstance();
 
     public static boolean spendPoints(int cost) {

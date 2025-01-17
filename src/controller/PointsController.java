@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PointsController {
+
     private final Points model;
     private final PointsView view;
     private final Timer controllerTimer;

@@ -6,6 +6,7 @@ import shared.StatsPanel;
 import view.UpgradePanel;
 
 public class UpgradeController {
+
     private final UpgradePanel upgradePanel;
     private final StatsPanel statsPanel;
 

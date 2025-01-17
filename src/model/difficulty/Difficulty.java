@@ -1,6 +1,7 @@
 package model.difficulty;
 
 public enum Difficulty {
+
     EASY(0.5f, 0.75f),
     MEDIUM(1f, 1f),
     HARD(1.5f, 1.25f);

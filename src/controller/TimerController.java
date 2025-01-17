@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class TimerController {
+
     private final TimerModel timerModel;
     private final TimerView timerView;
     private final Difficulty difficulty;
