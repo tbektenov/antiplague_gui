@@ -6,7 +6,8 @@ import model.shop.Points;
 import javax.swing.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Cure implements Runnable {
+public class Cure
+        implements Runnable {
 
     private final Region region;
     private float cureEfficiency;

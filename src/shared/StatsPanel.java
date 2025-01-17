@@ -22,11 +22,11 @@ public class StatsPanel
     private Region selectedRegion;
 
     public StatsPanel() {
-        setBackground(Color.WHITE);
+        setBackground(Color.BLACK);
         setLayout(new BorderLayout());
 
         header = new JLabel("Statistics", SwingConstants.CENTER);
-        header.setForeground(Color.BLACK);
+        header.setForeground(Color.WHITE);
         header.setFont(new Font("Arial", Font.BOLD, 32));
         header.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         add(header, BorderLayout.NORTH);
@@ -34,7 +34,7 @@ public class StatsPanel
         contentPanel = createContentPanel();
 
         statsLabel = new JLabel("Choose region", SwingConstants.CENTER);
-        statsLabel.setForeground(Color.BLACK);
+        statsLabel.setForeground(Color.WHITE);
         statsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         contentPanel.add(statsLabel);
         contentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -103,7 +103,7 @@ public class StatsPanel
 
             private void loadBackground() {
                 try {
-                    image = ImageIO.read(new File("./src/resources/Game_ui.png"));
+                    image = ImageIO.read(new File("./src/resources/Stats_ui.png"));
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(
                             null,

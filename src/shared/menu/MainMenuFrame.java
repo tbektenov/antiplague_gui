@@ -21,6 +21,7 @@ public class MainMenuFrame
         setSize(1200, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
 
         JPanel mainPanel = new MainMenuBackgroundPanel();
 
@@ -54,7 +55,6 @@ public class MainMenuFrame
         exitButton.addActionListener(_ -> System.exit(0));
 
         add(mainPanel);
-        setVisible(true);
     }
 
     private Difficulty showDifficultyDialog() {
