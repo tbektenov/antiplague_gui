@@ -40,10 +40,10 @@ public class Cure
     }
 
     public synchronized void curePopulation() {
-        int infectedPopulation = region.getInfectedPopulation();
+        long infectedPopulation = region.getInfectedPopulation();
         if (infectedPopulation > 0) {
             int chanceOfCure = ThreadLocalRandom.current().nextInt(2);
-            int populationCured = (int) (infectedPopulation * cureEfficiency * chanceOfCure);
+            int populationCured = (int) Math.ceil(infectedPopulation * cureEfficiency * chanceOfCure);
 
             region.increaseCuredPopulation(populationCured);
             region.decreaseInfectedPopulation(populationCured);

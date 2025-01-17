@@ -8,15 +8,15 @@ import model.transport.TransportType;
 
 import java.awt.*;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
-public abstract class Region {
+public abstract
+    class Region {
 
     private static final Map<Color, Region> regionExtent = new HashMap<>();
 
     private final String name;
-    private int merePopulation;
+    private long merePopulation;
     private final RegionPoint regionPoint;
     private Set<TransportType> supportedTransportTypes;
     private final Map<TransportType, Set<String>> acceptedTransport = new HashMap<>();
@@ -24,8 +24,8 @@ public abstract class Region {
     private final Virus virus;
     private final Cure cure;
 
-    private int infectedPopulation;
-    private int curedPopulation;
+    private long infectedPopulation;
+    private long curedPopulation;
 
     public Region(String name,
                   Color color,
@@ -44,7 +44,7 @@ public abstract class Region {
         this.supportedTransportTypes = new HashSet<>(Objects.requireNonNullElseGet(supportedTransportTypes, () -> EnumSet.allOf(TransportType.class)));
         initializeTransportRules();
 
-        this.infectedPopulation = calculateInfectedPopulation();
+        this.infectedPopulation = 0;
         this.curedPopulation = 0;
 
         if (regionExtent.containsKey(color)) {
@@ -97,8 +97,8 @@ public abstract class Region {
         return regionExtent.get(color);
     }
 
-    public static int getGlobalCuredPopulation() {
-        return regionExtent.values().stream().mapToInt(Region::getCuredPopulation).sum();
+    public static long getGlobalCuredPopulation() {
+        return regionExtent.values().stream().mapToLong(Region::getCuredPopulation).sum();
     }
 
     protected abstract void initializeTransportRules();
@@ -149,15 +149,7 @@ public abstract class Region {
         return supportedTransportTypes.contains(transportType);
     }
 
-    private synchronized int calculateInfectedPopulation() {
-        return (int) (this.merePopulation * this.virus.getInfectionLevel());
-    }
-
-    public synchronized void updateInfectedPopulation() {
-        this.infectedPopulation = calculateInfectedPopulation();
-    }
-
-    public synchronized int getInfectedPopulation() {
+    public synchronized long getInfectedPopulation() {
         return this.infectedPopulation;
     }
 
@@ -165,13 +157,14 @@ public abstract class Region {
         return 100 * this.cure.getCureEfficiency();
     }
 
-    public synchronized void increaseInfectedPopulation(int addend) {
-        int maxInfectable = merePopulation - (infectedPopulation + curedPopulation);
+    public synchronized void increaseInfectedPopulation(long addend) {
+        long maxInfectable = merePopulation - (infectedPopulation + curedPopulation);
         this.infectedPopulation += Math.min(addend, maxInfectable);
+        assert infectedPopulation <= merePopulation;
     }
 
     public synchronized void increaseCuredPopulation(int addend) {
-        int maxCurable = infectedPopulation;
+        long maxCurable = infectedPopulation;
         this.curedPopulation += Math.min(addend, maxCurable);
     }
 
@@ -183,7 +176,7 @@ public abstract class Region {
         this.infectedPopulation = Math.max(this.infectedPopulation - subtrahend, 0);
     }
 
-    public synchronized int getCuredPopulation() {
+    public synchronized long getCuredPopulation() {
         return this.curedPopulation;
     }
 
@@ -191,7 +184,7 @@ public abstract class Region {
         return name;
     }
 
-    public int getMerePopulation() {
+    public long getMerePopulation() {
         return merePopulation;
     }
 

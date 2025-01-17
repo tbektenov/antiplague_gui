@@ -8,7 +8,7 @@ public class DestroyVirusUpgrade
         extends Upgrade {
 
     public DestroyVirusUpgrade() {
-        super("Create Antidote", "Erases the virus from the world.", 5000);
+        super("Create Antidote", "Erases the virus from the world.", 50000);
     }
 
     @Override

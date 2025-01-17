@@ -33,30 +33,35 @@ public class Virus
     }
 
     public synchronized void increaseInfection() {
-        float addend = (float) (ThreadLocalRandom.current().nextFloat(.03f) * spreadRateMultiplier);
+        float addend = (float) (ThreadLocalRandom.current().nextFloat(.3f) * spreadRateMultiplier);
 
         if ((infectionLevel + addend) <= 1f) infectionLevel += addend;
         else infectionLevel = 1f;
 
         infectionCallback.accept(infectionLevel);
 
-        int newlyInfected = calculateInfectedIncrease();
+        long newlyInfected = calculateInfectedIncrease();
         region.increaseInfectedPopulation(newlyInfected);
     }
 
     public synchronized void killPopulation() {
-        int infectedPopulation = region.getInfectedPopulation();
-        if (infectedPopulation > 0) {
-            int deaths = ThreadLocalRandom.current().nextInt(0, (int) (infectedPopulation * 0.01)); // 1% chance
+        long infectedPopulation = region.getInfectedPopulation();
+        int bound = (int) (infectedPopulation * 0.01);
+
+        if (bound > 0) {
+            int deaths = ThreadLocalRandom.current().nextInt(0, bound);
             region.decreaseInfectedPopulation(deaths);
             region.decreasePopulation(deaths);
         }
     }
 
-    private int calculateInfectedIncrease() {
-        int healthyPopulation = region.getMerePopulation() - region.getInfectedPopulation() - region.getCuredPopulation();
-        int newInfections = (int) (healthyPopulation * infectionLevel * 0.01);
-        return Math.min(newInfections, healthyPopulation);
+    private long calculateInfectedIncrease() {
+        long alreadyInfectedPopulation = region.getInfectedPopulation();
+
+        if (alreadyInfectedPopulation <= 0) return 1;
+
+        long newInfections = (long) Math.ceil((alreadyInfectedPopulation * infectionLevel * 3));
+        return newInfections;
     }
 
     public synchronized void decreaseInfection(float subtrahend) {
@@ -69,7 +74,6 @@ public class Virus
         while (running) {
             increaseInfection();
             killPopulation();
-            region.updateInfectedPopulation();
 
             try {
                 Thread.sleep((long) (infectionLevel + ThreadLocalRandom.current().nextInt(2000, 5000)));
