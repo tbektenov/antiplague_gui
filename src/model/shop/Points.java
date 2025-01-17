@@ -5,7 +5,6 @@ public class Points {
     private static Points instance;
 
     private int amount;
-    private boolean running = true;
 
     private Points() {
     }
@@ -29,10 +28,5 @@ public class Points {
 
     public synchronized void reset() {
         this.amount = 100;
-        this.running = true;
-    }
-
-    public void stop() {
-        running = false;
     }
 }

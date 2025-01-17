@@ -15,7 +15,7 @@ public class Cure
     private boolean running = true;
 
     public Cure(Region region) {
-        this.cureEfficiency = 0;
+        this.cureEfficiency = 0f;
         this.region = region;
     }
 
@@ -48,7 +48,10 @@ public class Cure
             region.increaseCuredPopulation(populationCured);
             region.decreaseInfectedPopulation(populationCured);
 
-            Points.getInstance().increasePoints(populationCured);
+            if (cureEfficiency > 0f)
+                Points.getInstance().increasePoints(
+                    ThreadLocalRandom.current().nextInt(11)
+                );
         }
     }
 
