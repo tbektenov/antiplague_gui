@@ -50,7 +50,11 @@ public class MapPanel
                         statsPanel.setSelectedRegion(null);
                     }
                 } catch (AWTException ex) {
-                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Unexpected error occurred: " + e,
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

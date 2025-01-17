@@ -38,7 +38,6 @@ public class StatsPanel
         statsLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         contentPanel.add(statsLabel);
         contentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
         add(contentPanel, BorderLayout.CENTER);
 
         timerView = new TimerView();
@@ -84,7 +83,7 @@ public class StatsPanel
                             "<br>Cured population: %s</html>",
                     selectedRegion.getName(),
                     formattedPopulation,
-                    selectedRegion.getInfectionLevel(),
+                    selectedRegion.getInfectionSpeed(),
                     selectedRegion.getCureEfficiency(),
                     formattedInfectedPopulation,
                     formattedCuredPopulation));

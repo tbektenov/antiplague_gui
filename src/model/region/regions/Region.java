@@ -196,8 +196,8 @@ public abstract
         return cure;
     }
 
-    public float getInfectionLevel() {
-        return 100 * virus.getInfectionLevel();
+    public float getInfectionSpeed() {
+        return 100 * virus.getInfectionSpeed();
     }
 
     public void start() {

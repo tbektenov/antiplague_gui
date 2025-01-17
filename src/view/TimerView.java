@@ -15,7 +15,7 @@ public class TimerView
         timerLabel = new JLabel("00:00", SwingConstants.CENTER);
         timerLabel.setForeground(Color.WHITE);
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        add(timerLabel, BorderLayout.CENTER);
+        add(timerLabel);
     }
 
     public void updateTimer(int minutes, int seconds) {

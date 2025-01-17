@@ -22,19 +22,14 @@ public class HighScoreView
         setVisible(true);
 
         JPanel panel = createMainPanel();
-        add(panel, BorderLayout.CENTER);
+        add(panel);
 
         List<HighScore> highScores = loadHighScoresFromFile("./src/data/highscores.txt");
         sortHighScores(highScores);
 
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (HighScore highScore : highScores) {
-            listModel.addElement(highScore.toString());
-        }
-
-        if (listModel.isEmpty()) listModel.addElement("No high scores available.");
-
-        JList<String> highScoresList = new JList<>(listModel);
+        JList<String> highScoresList = new JList<>(highScores.stream()
+                .map(HighScore::toString)
+                .toArray(String[]::new));
         highScoresList.setFont(new Font("Arial", Font.PLAIN, 18));
         highScoresList.setBackground(Color.WHITE);
         highScoresList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -45,7 +40,7 @@ public class HighScoreView
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         panel.setLayout(new BorderLayout());
-        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(scrollPane);
     }
 
     private List<HighScore> loadHighScoresFromFile(String fileName) {

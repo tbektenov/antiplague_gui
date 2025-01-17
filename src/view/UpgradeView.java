@@ -26,7 +26,7 @@ public class UpgradeView
 
         add(nameLabel, BorderLayout.NORTH);
         add(descriptionLabel, BorderLayout.CENTER);
-        add(actionButton, BorderLayout.PAGE_END);
+        add(actionButton, BorderLayout.SOUTH);
 
         setPreferredSize(new Dimension(150, 100));
     }

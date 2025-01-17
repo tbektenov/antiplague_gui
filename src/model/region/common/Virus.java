@@ -12,13 +12,13 @@ public class Virus
 
     private boolean running = true;
 
-    private float infectionLevel;
+    private float infectionSpeed;
     private final Consumer<Float> infectionCallback;
     private final double spreadRateMultiplier;
     private final Region region;
 
     public Virus(Consumer<Float> infectionCallback, Difficulty difficulty, Region region) {
-        this.infectionLevel = ThreadLocalRandom.current().nextFloat(.1f);
+        this.infectionSpeed = ThreadLocalRandom.current().nextFloat(.1f);
         this.infectionCallback = infectionCallback;
         this.spreadRateMultiplier = difficulty.getInfectionMultiplier();
         this.region = region;
@@ -31,10 +31,10 @@ public class Virus
     public synchronized void increaseInfection() {
         float addend = (float) (ThreadLocalRandom.current().nextFloat(.3f) * spreadRateMultiplier);
 
-        if ((infectionLevel + addend) <= 1f) infectionLevel += addend;
-        else infectionLevel = 1f;
+        if ((infectionSpeed + addend) <= 1f) infectionSpeed += addend;
+        else infectionSpeed = 1f;
 
-        infectionCallback.accept(infectionLevel);
+        infectionCallback.accept(infectionSpeed);
 
         long newlyInfected = calculateInfectedIncrease();
         region.increaseInfectedPopulation(newlyInfected);
@@ -56,13 +56,13 @@ public class Virus
 
         if (alreadyInfectedPopulation <= 0) return 1;
 
-        long newInfections = (long) Math.ceil((alreadyInfectedPopulation * infectionLevel * 2));
+        long newInfections = (long) Math.ceil((alreadyInfectedPopulation * infectionSpeed * 2));
         return newInfections;
     }
 
     public synchronized void decreaseInfection(float subtrahend) {
-        if ((infectionLevel - subtrahend) >= .0f) infectionLevel -= subtrahend;
-        else infectionLevel = .0f;
+        if ((infectionSpeed - subtrahend) >= .0f) infectionSpeed -= subtrahend;
+        else infectionSpeed = .0f;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class Virus
             killPopulation();
 
             try {
-                Thread.sleep((long) (infectionLevel + ThreadLocalRandom.current().nextInt(2000, 5000)));
+                Thread.sleep((ThreadLocalRandom.current().nextInt(2000, 5000)));
             } catch (InterruptedException e) {
                 JOptionPane.showMessageDialog(
                         null,
@@ -89,11 +89,11 @@ public class Virus
         running = false;
     }
 
-    public synchronized float getInfectionLevel() {
-        return infectionLevel;
+    public synchronized float getInfectionSpeed() {
+        return infectionSpeed;
     }
 
-    public synchronized void setInfectionLevel(float infectionLevel) {
-        this.infectionLevel = infectionLevel;
+    public synchronized void setInfectionSpeed(float infectionSpeed) {
+        this.infectionSpeed = infectionSpeed;
     }
 }
