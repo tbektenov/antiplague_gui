@@ -59,7 +59,6 @@ public class TimerController {
                             "Failed to save high score!",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
                 }
 
             }
