@@ -57,10 +57,16 @@ public class MapPanel
     }
 
     private void loadWorldMap() {
-        try {
-            worldMap = ImageIO.read(new File(("./src/resources/World_map.png")));
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
+        if (worldMap == null) {
+            try {
+                worldMap = ImageIO.read(new File(("./src/resources/World_map.png")));
+            } catch (IOException | NullPointerException e) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Error loading background: " + e,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
