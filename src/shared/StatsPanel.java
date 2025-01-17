@@ -35,7 +35,7 @@ public class StatsPanel
 
         statsLabel = new JLabel("Choose region", SwingConstants.CENTER);
         statsLabel.setForeground(Color.WHITE);
-        statsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        statsLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         contentPanel.add(statsLabel);
         contentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 

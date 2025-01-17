@@ -50,7 +50,7 @@ public class Cure
 
             if (cureEfficiency > 0f)
                 Points.getInstance().increasePoints(
-                    ThreadLocalRandom.current().nextInt(11)
+                    ThreadLocalRandom.current().nextInt(51)
                 );
         }
     }
