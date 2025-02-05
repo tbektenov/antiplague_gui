@@ -72,9 +72,9 @@ public abstract
     }
 
     public synchronized static boolean isGameRunning() {
-        int totalPopulation = 0;
-        int totalInfected = 0;
-        int totalCured = 0;
+        double totalPopulation = 0;
+        double totalInfected = 0;
+        double totalCured = 0;
 
         for (Region region : regionExtent.values()) {
             totalPopulation += region.merePopulation;

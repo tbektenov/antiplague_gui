@@ -1,7 +1,6 @@
 package model.highscore;
 
 import model.difficulty.Difficulty;
-import model.region.regions.Region;
 import model.shop.upgrades.Upgrade;
 
 import javax.swing.*;

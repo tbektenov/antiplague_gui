@@ -13,7 +13,7 @@ class MainMenuBackgroundPanel
 
     public MainMenuBackgroundPanel() {
         loadBackground();
-        setLayout(new BorderLayout(10, 10));
+        setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     }
 
